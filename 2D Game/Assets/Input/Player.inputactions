@@ -125,7 +125,7 @@
                     "path": "<Keyboard>/shift",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard & Mouse",
+                    "groups": "Keyboard & Mouse;Controller",
                     "action": "Glide",
                     "isComposite": false,
                     "isPartOfComposite": false
