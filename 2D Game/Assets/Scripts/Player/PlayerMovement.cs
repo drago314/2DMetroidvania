@@ -9,18 +9,24 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpForce;
     [SerializeField] private float fallMultiplier;
     [SerializeField] private float lowJumpMultiplier;
+    [SerializeField] private float wallJumpSideForce;
+    [SerializeField] private float wallJumpUpForce;
+    [SerializeField] private float wallJumpTime;
     [SerializeField] private LayerMask groundLayer;
     private BoxCollider2D boxCollider;
     private Rigidbody2D body;
     private Animator anim;
     private float defaultGravity;
     private Vector2 leftJoystick;
+    private bool hasControl;
     private bool jumpPressed;
     private bool jumpInputUsed;
     private bool isGrounded;
     private bool onLeftWall;
     private bool onRightWall;
     private int jumpCounter;
+    private bool grabbingWall;
+    private float wallJumpTimer;
 
     private void Awake()
     {
@@ -36,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
     {
         CheckGrounded();
         CheckOnWall();
+        CheckControl();
         CheckJump();
 
         //Flipping Character Model
@@ -44,8 +51,12 @@ public class PlayerMovement : MonoBehaviour
         else if (leftJoystick.x < -0.01f)
             transform.localScale = new Vector2(-1, 1);
 
-        Move();
-        Jump();
+        if (hasControl)
+        {
+            Move();
+            Jump();
+            WallMovement();
+        }
     }
 
     private void Move()
@@ -87,6 +98,41 @@ public class PlayerMovement : MonoBehaviour
         jumpCounter += 1;
     }
 
+    private void WallMovement()
+    {
+        grabbingWall = (onLeftWall && leftJoystick.x < 0) || (onRightWall && leftJoystick.x > 0);
+        if (grabbingWall)
+        {
+            body.gravityScale = 0;
+            body.velocity = Vector2.zero;
+            if (!jumpInputUsed)
+            {
+                wallJumpTimer = wallJumpTime;
+                body.velocity = new Vector2(Mathf.Sign(leftJoystick.x) * -1 * wallJumpSideForce, wallJumpUpForce);
+                body.gravityScale = defaultGravity;
+                grabbingWall = false;
+                jumpInputUsed = true;
+            }
+        }
+        else
+        {
+            body.gravityScale = defaultGravity;
+        }
+    }
+
+    private void CheckControl()
+    {
+        if (wallJumpTimer > 0)
+        {
+            hasControl = false;
+            wallJumpTimer -= Time.deltaTime;
+        }
+        else
+        {
+            hasControl = true;
+        }
+    }
+
     private void CheckOnWall()
     {
         RaycastHit2D raycastHitRight = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.right, 0.1f, groundLayer);
@@ -120,7 +166,7 @@ public class PlayerMovement : MonoBehaviour
     //displays text for debugging
     private void OnGUI()
     {
-        //GUI.Label(new Rect(1200, 10, 100, 100), "Can controldash: " + body.velocity);
+        GUI.Label(new Rect(1100, 10, 100, 100), "Jump Input Used: " + jumpInputUsed);
         //GUI.Label(new Rect(1200, 50, 100, 100), "is doing thing: " + isControlDashing);
     }
 }
