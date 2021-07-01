@@ -26,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     private bool onRightWall;
     private int jumpCounter;
     private bool grabbingWall;
+    private bool wasGrabbingWall;
     private float wallJumpTimer;
 
     private void Awake()
@@ -103,6 +104,7 @@ public class PlayerMovement : MonoBehaviour
         grabbingWall = (onLeftWall && leftJoystick.x < 0) || (onRightWall && leftJoystick.x > 0);
         if (grabbingWall)
         {
+            wasGrabbingWall = true;
             body.gravityScale = 0;
             body.velocity = Vector2.zero;
             if (!jumpInputUsed)
@@ -111,12 +113,14 @@ public class PlayerMovement : MonoBehaviour
                 body.velocity = new Vector2(Mathf.Sign(leftJoystick.x) * -1 * wallJumpSideForce, wallJumpUpForce);
                 body.gravityScale = defaultGravity;
                 grabbingWall = false;
+                wasGrabbingWall = false;
                 jumpInputUsed = true;
             }
         }
-        else
+        else if (wasGrabbingWall)
         {
             body.gravityScale = defaultGravity;
+            wasGrabbingWall = false;
         }
     }
 
@@ -139,7 +143,6 @@ public class PlayerMovement : MonoBehaviour
         RaycastHit2D raycastHitLeft = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.left, 0.1f, groundLayer);
         onLeftWall = raycastHitLeft.collider != null;
         onRightWall = raycastHitRight.collider != null;
-        //isSliding = !isGrounded && ((onLeftWall && horizontalInput < 0) || (onRightWall && horizontalInput > 0));
     }
 
     private void CheckGrounded()
