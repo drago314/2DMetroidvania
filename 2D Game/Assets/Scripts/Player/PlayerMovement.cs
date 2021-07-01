@@ -12,6 +12,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float wallJumpSideForce;
     [SerializeField] private float wallJumpUpForce;
     [SerializeField] private float wallJumpTime;
+    [SerializeField] private float glideGravity;
+    [SerializeField] private float glideFallSpeed;
+    [SerializeField] private ParachuteToggle parachute;
     [SerializeField] private LayerMask groundLayer;
     private BoxCollider2D boxCollider;
     private Rigidbody2D body;
@@ -26,7 +29,10 @@ public class PlayerMovement : MonoBehaviour
     private bool onRightWall;
     private int jumpCounter;
     private bool grabbingWall;
+    private bool wasGrabbingWall;
     private float wallJumpTimer;
+    private bool glidePressed;
+    private bool wasGliding;
 
     private void Awake()
     {
@@ -56,6 +62,7 @@ public class PlayerMovement : MonoBehaviour
             Move();
             Jump();
             WallMovement();
+            Glide();
         }
     }
 
@@ -73,9 +80,10 @@ public class PlayerMovement : MonoBehaviour
             body.velocity = new Vector2(body.velocity.x, jumpForce);
             //anim.SetTrigger("Jump");
             jumpInputUsed = true;
+            parachute.Close();
         }
         //Making holding jump jump higher, may need rewrite since I think it effects every time you fall.
-        if (body.velocity.y < 0)   
+        if (body.velocity.y < 0)
         {
             body.velocity += Vector2.up * Physics2D.gravity * (fallMultiplier - 1) * Time.deltaTime;
         }
@@ -103,6 +111,7 @@ public class PlayerMovement : MonoBehaviour
         grabbingWall = (onLeftWall && leftJoystick.x < 0) || (onRightWall && leftJoystick.x > 0);
         if (grabbingWall)
         {
+            wasGrabbingWall = true;
             body.gravityScale = 0;
             body.velocity = Vector2.zero;
             if (!jumpInputUsed)
@@ -111,12 +120,31 @@ public class PlayerMovement : MonoBehaviour
                 body.velocity = new Vector2(Mathf.Sign(leftJoystick.x) * -1 * wallJumpSideForce, wallJumpUpForce);
                 body.gravityScale = defaultGravity;
                 grabbingWall = false;
+                wasGrabbingWall = false;
                 jumpInputUsed = true;
             }
         }
-        else
+        else if (wasGrabbingWall)
         {
             body.gravityScale = defaultGravity;
+            wasGrabbingWall = false;
+        }
+    }
+
+    private void Glide()
+    {
+        if (glidePressed && body.velocity.y <= 0)
+        {
+            body.gravityScale = glideGravity;
+            wasGliding = true;
+            body.velocity = new Vector2(body.velocity.x, -1 * glideFallSpeed);
+            parachute.Open();
+        }
+        else if (wasGliding)
+        {
+            body.gravityScale = defaultGravity;
+            wasGliding = false;
+            parachute.Close();
         }
     }
 
@@ -150,7 +178,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnMove(InputValue value)
     {
-        Debug.Log("sorta working");
         leftJoystick = value.Get<Vector2>();
     }
 
@@ -163,10 +190,16 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void OnGlide(InputValue value)
+    {
+        glidePressed = value.isPressed;
+    }
+
     //displays text for debugging
     private void OnGUI()
     {
         GUI.Label(new Rect(1100, 10, 100, 100), "Jump Input Used: " + jumpInputUsed);
         //GUI.Label(new Rect(1200, 50, 100, 100), "is doing thing: " + isControlDashing);
     }
+
 }
