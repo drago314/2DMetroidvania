@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpForce;
     [SerializeField] private float fallMultiplier;
     [SerializeField] private float lowJumpMultiplier;
+    [SerializeField] private float climbSpeed;
     [SerializeField] private float wallJumpSideForce;
     [SerializeField] private float wallJumpUpForce;
     [SerializeField] private float wallJumpTime;
@@ -101,17 +102,41 @@ public class PlayerMovement : MonoBehaviour
 
     private void WallMovement()
     {
-        grabbingWall = (onLeftWall && leftJoystick.x < 0) || (onRightWall && leftJoystick.x > 0);
+        grabbingWall = (onLeftWall && leftJoystick.x <= 0) || (onRightWall && leftJoystick.x >= 0);
         if (grabbingWall)
         {
             wasGrabbingWall = true;
             body.gravityScale = 0;
-            body.velocity = Vector2.zero;
+
+            if(leftJoystick.y > 0)
+            {
+                Debug.Log("Here");
+                body.velocity = new Vector2(body.velocity.x, climbSpeed);
+            }
+            else if(leftJoystick.y < 0)
+            {
+                body.velocity = new Vector2(body.velocity.x, climbSpeed * -1);
+            }
+            else
+            {
+                body.velocity = Vector2.zero;
+            }
+
             if (!jumpInputUsed)
             {
                 wallJumpTimer = wallJumpTime;
-                body.velocity = new Vector2(Mathf.Sign(leftJoystick.x) * -1 * wallJumpSideForce, wallJumpUpForce);
+                body.velocity = Vector2.zero;
                 body.gravityScale = defaultGravity;
+                int jumpDirection;
+                if (onLeftWall)
+                {
+                    jumpDirection = 1;
+                }
+                else
+                {
+                    jumpDirection = -1;
+                }
+                body.velocity = new Vector2(jumpDirection * wallJumpSideForce, wallJumpUpForce);
                 grabbingWall = false;
                 wasGrabbingWall = false;
                 jumpInputUsed = true;
@@ -153,7 +178,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnMove(InputValue value)
     {
-        Debug.Log("sorta working");
         leftJoystick = value.Get<Vector2>();
     }
 

@@ -272,6 +272,7 @@ MonoBehaviour:
   jumpForce: 5
   fallMultiplier: 2.5
   lowJumpMultiplier: 4
+  climbSpeed: 3
   wallJumpSideForce: 5
   wallJumpUpForce: 5
   wallJumpTime: 0.2
