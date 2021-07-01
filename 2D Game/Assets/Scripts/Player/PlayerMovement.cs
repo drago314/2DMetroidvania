@@ -69,7 +69,7 @@ public class PlayerMovement : MonoBehaviour
     private void Jump()
     {
         //Regular Jump
-        if (jumpCounter < 2 && !jumpInputUsed)
+        if (jumpCounter < 2 && !jumpInputUsed && !grabbingWall)
         {
             Invoke("AddJump", 0.1f);
             body.velocity = new Vector2(body.velocity.x, jumpForce);
@@ -84,14 +84,6 @@ public class PlayerMovement : MonoBehaviour
         else if (body.velocity.y > 0 && !jumpPressed)
         {
             body.velocity += Vector2.up * Physics2D.gravity * (lowJumpMultiplier - 1) * Time.deltaTime;
-        }
-    }
-
-    private void CheckJump()
-    {
-        if (isGrounded)
-        {
-            jumpCounter = 0;
         }
     }
 
@@ -110,7 +102,6 @@ public class PlayerMovement : MonoBehaviour
 
             if(leftJoystick.y > 0)
             {
-                Debug.Log("Here");
                 body.velocity = new Vector2(body.velocity.x, climbSpeed);
             }
             else if(leftJoystick.y < 0)
@@ -159,6 +150,18 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             hasControl = true;
+        }
+    }
+
+    private void CheckJump()
+    {
+        if (isGrounded)
+        {
+            jumpCounter = 0;
+        }
+        else if (wasGrabbingWall)
+        {
+            jumpCounter = 1;
         }
     }
 
