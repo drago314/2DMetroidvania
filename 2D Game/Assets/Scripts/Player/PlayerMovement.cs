@@ -133,12 +133,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void Glide()
     {
-        if (glidePressed && body.velocity.y <= 0)
+        if (glidePressed && !isGrounded && !onLeftWall && !onRightWall)
         {
-            body.gravityScale = glideGravity;
             wasGliding = true;
-            body.velocity = new Vector2(body.velocity.x, -1 * glideFallSpeed);
             parachute.Open();
+            body.velocity = new Vector2(body.velocity.x, -1 * glideFallSpeed);
+            body.gravityScale = glideGravity;
         }
         else if (wasGliding)
         {
