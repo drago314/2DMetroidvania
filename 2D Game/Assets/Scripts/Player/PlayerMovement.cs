@@ -200,6 +200,7 @@ public class PlayerMovement : MonoBehaviour
         else if (wasControlDashing)
         {
             wasControlDashing = false;
+            canControlDash = false; 
             body.gravityScale = defaultGravity;
         }
     }
