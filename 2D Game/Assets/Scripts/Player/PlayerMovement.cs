@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float controlDashTime;
     [SerializeField] private float controlDashSideSpeed;
     [SerializeField] private float controlDashUpSpeed;
+    [SerializeField] private float controlDashSmoothing;
     [SerializeField] private ParachuteToggle parachute;
     [SerializeField] private LayerMask groundLayer;
 
@@ -49,6 +50,7 @@ public class PlayerMovement : MonoBehaviour
     private bool wasControlDashing;
     private bool canControlDash;
     private float controlDashTimer;
+    private float lastRadian;
 
     private void Awake()
     {
@@ -187,7 +189,27 @@ public class PlayerMovement : MonoBehaviour
         {
             if (wasControlDashing && controlDashTimer > 0)
             {
-                body.velocity = new Vector2(leftJoystick.x * controlDashSideSpeed, leftJoystick.y * controlDashUpSpeed);
+                float hypotenuse = Mathf.Sqrt(Mathf.Pow(leftJoystick.x, 2) + Mathf.Pow(leftJoystick.y, 2));
+                if (hypotenuse == 0)
+                {
+                    //this code happens when there is no joystick input
+                    //change for better slowdown or no slowdown or smth
+                    body.velocity = Vector2.zero;
+                }
+                else
+                {
+                    float currentRadianPrime = Mathf.Atan2(Mathf.Abs(leftJoystick.y), Mathf.Abs(leftJoystick.x));
+                    float currentRadian = CheckRadian(leftJoystick.x, leftJoystick.y, currentRadianPrime);
+                    float movementRadian = Mathf.MoveTowardsAngle(lastRadian * 180 / Mathf.PI, currentRadian * 180 / Mathf.PI, controlDashSmoothing);
+                    Debug.Log(currentRadian * 180 / Mathf.PI - movementRadian);
+                    movementRadian *= Mathf.PI / 180;
+                    //sin of 0 = 0, cos of 0 = 1
+                    float xForce = Mathf.Cos(movementRadian) * hypotenuse;
+                    float yForce = Mathf.Sin(movementRadian) * hypotenuse;
+
+                    body.velocity = new Vector2(xForce * controlDashSideSpeed, yForce * controlDashUpSpeed);
+                    lastRadian = movementRadian;
+                }
             }
             else if (!wasControlDashing)
             {
@@ -195,6 +217,8 @@ public class PlayerMovement : MonoBehaviour
                 controlDashTimer = controlDashTime;
                 wasControlDashing = true;
                 body.velocity = new Vector2(leftJoystick.x * controlDashSideSpeed, leftJoystick.y * controlDashUpSpeed);
+                float currentRadianPrime = Mathf.Atan2(Mathf.Abs(leftJoystick.y), Mathf.Abs(leftJoystick.x));
+                lastRadian = CheckRadian(leftJoystick.x, leftJoystick.y, currentRadianPrime);
             }
         }
         else if (wasControlDashing)
@@ -204,6 +228,44 @@ public class PlayerMovement : MonoBehaviour
             body.gravityScale = defaultGravity;
             controlDashTimer = 0;
         }
+    }
+
+    private float CheckRadian(float x, float y, float joystickRadianPrime)
+    {
+        //don't yell at me my trig is dum and bad and idk the good way to do it
+        //I KNOW THIS WORKS FROM TESTING, AT LEAST WITH THE KEYBOARD!!!!!
+        if (leftJoystick.y < 0 && leftJoystick.x < 0)
+            return joystickRadianPrime + Mathf.PI;
+        else if (leftJoystick.y < 0 && leftJoystick.x != 0)
+            return 2 * Mathf.PI - joystickRadianPrime;
+        else if (leftJoystick.x < 0 && leftJoystick.y != 0)
+            return Mathf.PI - joystickRadianPrime;
+        else if (leftJoystick.x > 0 && leftJoystick.y > 0)
+            return joystickRadianPrime;
+        else if (leftJoystick.y == 0 && leftJoystick.x > 0)
+            return 0;
+        else if (leftJoystick.y == 0 && leftJoystick.x < 0)
+            return Mathf.PI;
+        else if (leftJoystick.y > 0)
+            return Mathf.PI / 2f;
+        else if (leftJoystick.y < 0)
+            return 3 * Mathf.PI / 2f;
+        else
+            return 0;
+    }
+
+    private float FindPrime(float radian)
+    {
+        if (radian == 0 || radian == 90 || radian == 180 || radian == 270)
+            return 0;
+        else if (radian < 90)
+            return radian;
+        else if (radian <= 180)
+            return 180 - radian;
+        else if (radian < 270)
+            return radian - 180;
+        else
+            return 360 - radian;
     }
 
     private void CheckControl()
@@ -284,8 +346,8 @@ public class PlayerMovement : MonoBehaviour
     //displays text for debugging
     private void OnGUI()
     {
-        GUI.Label(new Rect(1100, 10, 100, 100), "Jump Input Used: " + jumpInputUsed);
-        //GUI.Label(new Rect(1200, 50, 100, 100), "is doing thing: " + isControlDashing);
+        //GUI.Label(new Rect(1100, 10, 100, 100), "xForce: " + xForce);
+        //GUI.Label(new Rect(1200, 50, 100, 100), "yForce: " + isControlDashing);
     }
 
 }

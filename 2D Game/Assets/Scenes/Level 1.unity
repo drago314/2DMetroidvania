@@ -282,6 +282,7 @@ MonoBehaviour:
   controlDashTime: 1
   controlDashSideSpeed: 10
   controlDashUpSpeed: 5
+  controlDashSmoothing: 0.5
   parachute: {fileID: 1613648098}
   groundLayer:
     serializedVersion: 2
