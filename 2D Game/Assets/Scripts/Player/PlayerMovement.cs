@@ -15,25 +15,40 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float wallJumpTime;
     [SerializeField] private float glideGravity;
     [SerializeField] private float glideFallSpeed;
+    [SerializeField] private float controlDashTime;
+    [SerializeField] private float controlDashSideSpeed;
+    [SerializeField] private float controlDashUpSpeed;
     [SerializeField] private ParachuteToggle parachute;
     [SerializeField] private LayerMask groundLayer;
+
     private BoxCollider2D boxCollider;
     private Rigidbody2D body;
     private Animator anim;
+
     private float defaultGravity;
     private Vector2 leftJoystick;
     private bool hasControl;
-    private bool jumpPressed;
-    private bool jumpInputUsed;
+
     private bool isGrounded;
     private bool onLeftWall;
     private bool onRightWall;
+
+    private bool jumpPressed;
+    private bool jumpInputUsed;
     private int jumpCounter;
+
     private bool grabbingWall;
     private bool wasGrabbingWall;
     private float wallJumpTimer;
+
     private bool glidePressed;
     private bool wasGliding;
+
+    private bool controlDashPressed;
+    private bool controlDashing;
+    private bool wasControlDashing;
+    private bool canControlDash;
+    private float controlDashTimer;
 
     private void Awake()
     {
@@ -47,10 +62,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        CheckGrounded();
-        CheckOnWall();
         CheckControl();
         CheckJump();
+        CheckControlDash();
+        CheckGrounded();
+        CheckOnWall();
 
         //Flipping Character Model
         if (leftJoystick.x > 0.01f)
@@ -64,6 +80,7 @@ public class PlayerMovement : MonoBehaviour
             Jump();
             WallMovement();
             Glide();
+            ControlDash();
         }
     }
 
@@ -164,14 +181,42 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void ControlDash()
+    {
+        if (canControlDash && controlDashPressed)
+        {
+            if (wasControlDashing && controlDashTimer > 0)
+            {
+                body.velocity = new Vector2(leftJoystick.x * controlDashSideSpeed, leftJoystick.y * controlDashUpSpeed);
+            }
+            else if (!wasControlDashing)
+            {
+                body.gravityScale = 0;
+                controlDashTimer = controlDashTime;
+                wasControlDashing = true;
+                body.velocity = new Vector2(leftJoystick.x * controlDashSideSpeed, leftJoystick.y * controlDashUpSpeed);
+            }
+        }
+        else if (wasControlDashing)
+        {
+            wasControlDashing = false;
+            body.gravityScale = defaultGravity;
+        }
+    }
+
     private void CheckControl()
     {
+        hasControl = false;
         if (wallJumpTimer > 0)
         {
-            hasControl = false;
             wallJumpTimer -= Time.deltaTime;
         }
-        else
+        else if(controlDashTimer > 0)
+        {
+            ControlDash();
+            controlDashTimer -= Time.deltaTime;
+        }
+        else 
         {
             hasControl = true;
         }
@@ -189,18 +234,25 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void CheckOnWall()
+    private void CheckControlDash()
     {
-        RaycastHit2D raycastHitRight = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.right, 0.1f, groundLayer);
-        RaycastHit2D raycastHitLeft = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.left, 0.1f, groundLayer);
-        onLeftWall = raycastHitLeft.collider != null;
-        onRightWall = raycastHitRight.collider != null;
+        //This is where you would add picking up a collectible to activate control dash
+        if (isGrounded || grabbingWall)
+            canControlDash = true;
     }
 
     private void CheckGrounded()
     {
         RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.05f, groundLayer);
         isGrounded = raycastHit.collider != null;
+    }
+
+    private void CheckOnWall()
+    {
+        RaycastHit2D raycastHitRight = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.right, 0.1f, groundLayer);
+        RaycastHit2D raycastHitLeft = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.left, 0.1f, groundLayer);
+        onLeftWall = raycastHitLeft.collider != null;
+        onRightWall = raycastHitRight.collider != null;
     }
 
     private void OnMove(InputValue value)
@@ -220,6 +272,11 @@ public class PlayerMovement : MonoBehaviour
     private void OnGlide(InputValue value)
     {
         glidePressed = value.isPressed;
+    }
+
+    private void OnControlDash(InputValue value)
+    {
+        controlDashPressed = value.isPressed;
     }
 
     //displays text for debugging

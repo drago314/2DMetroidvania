@@ -279,6 +279,9 @@ MonoBehaviour:
   wallJumpTime: 0.2
   glideGravity: 0
   glideFallSpeed: 1
+  controlDashTime: 1
+  controlDashSideSpeed: 10
+  controlDashUpSpeed: 5
   parachute: {fileID: 1613648098}
   groundLayer:
     serializedVersion: 2
