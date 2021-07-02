@@ -202,6 +202,7 @@ public class PlayerMovement : MonoBehaviour
             wasControlDashing = false;
             canControlDash = false; 
             body.gravityScale = defaultGravity;
+            controlDashTimer = 0;
         }
     }
 
