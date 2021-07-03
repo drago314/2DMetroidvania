@@ -71,6 +71,7 @@ public class PlayerMovement : MonoBehaviour
     private bool dashPressed;
     private bool wasDashing;
     private bool canDash;
+    private bool dashStarted;
     private float dashTimer;
     private float dashStartTimer;
 
@@ -288,17 +289,19 @@ public class PlayerMovement : MonoBehaviour
 
     private void Dash()
     {
-        if(canDash && dashPressed && !wasDashing && (dashTimer > dashCooldown || dashTimer == 0))
+        if(canDash && dashPressed && !wasDashing && (dashTimer > dashCooldown || dashTimer == 0) && dashStartTimer >= 0)
         {
             dashStartTimer = dashStartup;
             body.gravityScale = 0;
             body.velocity = new Vector2(0, 0);
+            dashStarted = true;
         }
-        if(canDash && dashPressed && !wasDashing && (dashTimer > dashCooldown || dashTimer == 0) && dashStartTimer <= 0)
+        if(canDash && (dashPressed || dashStarted) && !wasDashing && (dashTimer > dashCooldown || dashTimer == 0) && dashStartTimer <= 0)
         {
             dashTimer = dashTime;
             wasDashing = true;
             dashStartTimer = 0;
+            dashStarted = false;
             if (facingRight)
                 body.velocity = new Vector2(dashSpeed, 0);
             else if (!facingRight)
