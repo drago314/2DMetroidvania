@@ -274,6 +274,7 @@ MonoBehaviour:
   hasWallJump: 1
   hasGlide: 1
   hasControlDash: 1
+  hasDash: 1
   moveSpeed: 5
   jumpForce: 5
   fallMultiplier: 2.5
@@ -288,6 +289,10 @@ MonoBehaviour:
   controlDashSideSpeed: 10
   controlDashUpSpeed: 5
   controlDashSmoothing: 0.5
+  dashTime: 0.5
+  dashCooldown: 0.3
+  dashSpeed: 15
+  dashStartup: 0
   parachute: {fileID: 1613648098}
   groundLayer:
     serializedVersion: 2

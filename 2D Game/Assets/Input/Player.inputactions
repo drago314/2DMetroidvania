@@ -36,6 +36,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press(behavior=2)"
+                },
+                {
+                    "name": "Dash",
+                    "type": "Button",
+                    "id": "b5ce9d74-a0ef-4289-98dd-fbb48da79e6a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)"
                 }
             ],
             "bindings": [
@@ -129,22 +137,22 @@
                 },
                 {
                     "name": "",
-                    "id": "6fc6d79d-8abe-4af4-811f-820a1b0027ea",
-                    "path": "<Keyboard>/shift",
+                    "id": "b0ae2c21-9375-4604-8ed1-d54aff3ac430",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard & Mouse;Controller",
+                    "groups": "Controller",
                     "action": "Glide",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "b0ae2c21-9375-4604-8ed1-d54aff3ac430",
-                    "path": "<Gamepad>/rightTrigger",
+                    "id": "6fc6d79d-8abe-4af4-811f-820a1b0027ea",
+                    "path": "<Keyboard>/shift",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Controller",
+                    "groups": "Keyboard & Mouse;Controller",
                     "action": "Glide",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -168,6 +176,28 @@
                     "processors": "",
                     "groups": "Keyboard & Mouse;Controller",
                     "action": "ControlDash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cdf4d0d5-4490-4e9e-bcd0-cab6bc1ffe48",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b505a407-8e07-409e-be9b-48e6e2b2db94",
+                    "path": "<Keyboard>/l",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard & Mouse",
+                    "action": "Dash",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
