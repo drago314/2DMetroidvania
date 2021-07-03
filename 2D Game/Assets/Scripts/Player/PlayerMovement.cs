@@ -9,21 +9,33 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool hasWallJump;
     [SerializeField] private bool hasGlide;
     [SerializeField] private bool hasControlDash;
+    [SerializeField] private bool hasDash;
+
     [SerializeField] private float moveSpeed;
     [SerializeField] private float jumpForce;
     [SerializeField] private float fallMultiplier;
     [SerializeField] private float lowJumpMultiplier;
+
     [SerializeField] private float climbSpeed;
     [SerializeField] private float wallJumpSideForce;
     [SerializeField] private float wallJumpUpForce;
     [SerializeField] private float wallJumpTime;
+
     [SerializeField] private float glideGravity;
     [SerializeField] private float glideFallSpeed;
+
     [SerializeField] private float controlDashTime;
     [SerializeField] private float controlDashSideSpeed;
     [SerializeField] private float controlDashUpSpeed;
     [SerializeField] private float controlDashSmoothing;
+
+    [SerializeField] private float dashTime;
+    [SerializeField] private float dashCooldown;
+    [SerializeField] private float dashSpeed;
+    [SerializeField] private float dashStartup;
+
     [SerializeField] private ParachuteToggle parachute;
+
     [SerializeField] private LayerMask groundLayer;
 
     private BoxCollider2D boxCollider;
@@ -37,6 +49,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isGrounded;
     private bool onLeftWall;
     private bool onRightWall;
+    private bool facingRight;
 
     private bool jumpPressed;
     private bool jumpInputUsed;
@@ -55,6 +68,13 @@ public class PlayerMovement : MonoBehaviour
     private float controlDashTimer;
     private float lastRadian;
 
+    private bool dashPressed;
+    private bool wasDashing;
+    private bool canDash;
+    private bool dashStarted;
+    private float dashTimer;
+    private float dashStartTimer;
+
     private void Awake()
     {
         //Grab references 
@@ -63,6 +83,8 @@ public class PlayerMovement : MonoBehaviour
         //anim = GetComponent<Animator>();
 
         defaultGravity = body.gravityScale;
+        facingRight = true;
+        dashStartTimer = dashStartup;
     }
 
     private void Update()
@@ -71,14 +93,22 @@ public class PlayerMovement : MonoBehaviour
         CheckJump();
         if (hasControlDash)
             CheckControlDash();
+        if (hasDash)
+            CheckDash();
         CheckGrounded();
         CheckOnWall();
 
         //Flipping Character Model
         if (leftJoystick.x > 0.01f)
+        {
             transform.localScale = new Vector2(1, 1);
+            facingR();
+        }
         else if (leftJoystick.x < -0.01f)
+        {
             transform.localScale = new Vector2(-1, 1);
+            facingL();
+        }
 
         if (hasControl)
         {
@@ -90,6 +120,8 @@ public class PlayerMovement : MonoBehaviour
                 Glide();
             if (hasControlDash)
                 ControlDash();
+            if (hasDash)
+                Dash();
         }
     }
 
@@ -256,6 +288,38 @@ public class PlayerMovement : MonoBehaviour
             return 0;
     }
 
+    private void Dash()
+    {
+        if(canDash && dashPressed && !wasDashing && (dashTimer > dashCooldown || dashTimer == 0) && dashStartTimer >= 0)
+        {
+            dashStartTimer = dashStartup;
+            body.gravityScale = 0;
+            body.velocity = Vector2.zero;
+            dashStarted = true;
+        }
+        if(canDash && (dashPressed || dashStarted) && !wasDashing && (dashTimer > dashCooldown || dashTimer == 0) && dashStartTimer <= 0)
+        {
+            dashTimer = dashTime;
+            wasDashing = true;
+            dashStartTimer = 0;
+            dashStarted = false;
+            if (facingRight)
+                body.velocity = new Vector2(dashSpeed, 0);
+            else if (!facingRight)
+                body.velocity = new Vector2(dashSpeed * -1, 0);
+        }
+        else if(dashTimer <= dashCooldown && dashTimer > 0)
+        {
+            body.gravityScale = defaultGravity;
+        }
+        else if(wasDashing && dashTimer <= 0)
+        {
+            wasDashing = false;
+            canDash = false;
+            dashTimer = 0;
+        }
+    }
+
     private void CheckControl()
     {
         hasControl = false;
@@ -268,9 +332,19 @@ public class PlayerMovement : MonoBehaviour
             ControlDash();
             controlDashTimer -= Time.deltaTime;
         }
+        else if(dashTimer > dashCooldown)
+        {
+            dashTimer -= Time.deltaTime;
+        }
+        else if(dashStartTimer > 0)
+        {
+            dashStartTimer -= Time.deltaTime;
+        }
         else 
         {
             hasControl = true;
+            if (dashTimer > 0)
+                dashTimer -= Time.deltaTime;
         }
     }
 
@@ -291,6 +365,12 @@ public class PlayerMovement : MonoBehaviour
         //This is where you would add picking up a collectible to activate control dash
         if (isGrounded || grabbingWall)
             canControlDash = true;
+    }
+
+    private void CheckDash()
+    {
+        if (isGrounded || grabbingWall)
+            canDash = true;
     }
 
     private void CheckGrounded()
@@ -329,6 +409,21 @@ public class PlayerMovement : MonoBehaviour
     private void OnControlDash(InputValue value)
     {
         controlDashPressed = value.isPressed;
+    }
+
+    private void OnDash(InputValue value)
+    {
+        dashPressed = value.isPressed;
+    }
+
+    private void facingR()
+    {
+        facingRight = true;
+    }
+
+    private void facingL()
+    {
+        facingRight = false;
     }
 
     //displays text for debugging
