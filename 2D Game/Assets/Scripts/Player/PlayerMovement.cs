@@ -5,6 +5,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private float amountOfJumps;
+    [SerializeField] private bool hasWallJump;
+    [SerializeField] private bool hasGlide;
+    [SerializeField] private bool hasControlDash;
     [SerializeField] private float moveSpeed;
     [SerializeField] private float jumpForce;
     [SerializeField] private float fallMultiplier;
@@ -66,7 +70,8 @@ public class PlayerMovement : MonoBehaviour
     {
         CheckControl();
         CheckJump();
-        CheckControlDash();
+        if (hasControlDash)
+            CheckControlDash();
         CheckGrounded();
         CheckOnWall();
 
@@ -80,9 +85,12 @@ public class PlayerMovement : MonoBehaviour
         {
             Move();
             Jump();
-            WallMovement();
-            Glide();
-            ControlDash();
+            if (hasWallJump)
+                WallMovement();
+            if (hasGlide)
+                Glide();
+            if (hasControlDash)
+                ControlDash();
         }
     }
 
@@ -94,7 +102,7 @@ public class PlayerMovement : MonoBehaviour
     private void Jump()
     {
         //Regular Jump
-        if (jumpCounter < 2 && !jumpInputUsed && !grabbingWall)
+        if (jumpCounter < amountOfJumps && !jumpInputUsed && !grabbingWall)
         {
             Invoke("AddJump", 0.1f);
             body.velocity = new Vector2(body.velocity.x, jumpForce);
