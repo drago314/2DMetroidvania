@@ -270,6 +270,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c25162122d0a7d643b7cdc1419e05ab3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  amountOfJumps: 2
+  hasWallJump: 1
+  hasGlide: 1
+  hasControlDash: 1
   moveSpeed: 5
   jumpForce: 5
   fallMultiplier: 2.5

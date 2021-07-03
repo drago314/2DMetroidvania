@@ -50,7 +50,6 @@ public class PlayerMovement : MonoBehaviour
     private bool wasGliding;
 
     private bool controlDashPressed;
-    private bool controlDashing;
     private bool wasControlDashing;
     private bool canControlDash;
     private float controlDashTimer;
@@ -255,20 +254,6 @@ public class PlayerMovement : MonoBehaviour
             return 3 * Mathf.PI / 2f;
         else
             return 0;
-    }
-
-    private float FindPrime(float radian)
-    {
-        if (radian == 0 || radian == 90 || radian == 180 || radian == 270)
-            return 0;
-        else if (radian < 90)
-            return radian;
-        else if (radian <= 180)
-            return 180 - radian;
-        else if (radian < 270)
-            return radian - 180;
-        else
-            return 360 - radian;
     }
 
     private void CheckControl()
