@@ -201,7 +201,6 @@ public class PlayerMovement : MonoBehaviour
                     float currentRadianPrime = Mathf.Atan2(Mathf.Abs(leftJoystick.y), Mathf.Abs(leftJoystick.x));
                     float currentRadian = CheckRadian(leftJoystick.x, leftJoystick.y, currentRadianPrime);
                     float movementRadian = Mathf.MoveTowardsAngle(lastRadian * 180 / Mathf.PI, currentRadian * 180 / Mathf.PI, controlDashSmoothing);
-                    Debug.Log(currentRadian * 180 / Mathf.PI - movementRadian);
                     movementRadian *= Mathf.PI / 180;
                     //sin of 0 = 0, cos of 0 = 1
                     float xForce = Mathf.Cos(movementRadian) * hypotenuse;
@@ -233,7 +232,6 @@ public class PlayerMovement : MonoBehaviour
     private float CheckRadian(float x, float y, float joystickRadianPrime)
     {
         //don't yell at me my trig is dum and bad and idk the good way to do it
-        //I KNOW THIS WORKS FROM TESTING, AT LEAST WITH THE KEYBOARD!!!!!
         if (leftJoystick.y < 0 && leftJoystick.x < 0)
             return joystickRadianPrime + Mathf.PI;
         else if (leftJoystick.y < 0 && leftJoystick.x != 0)
@@ -292,7 +290,7 @@ public class PlayerMovement : MonoBehaviour
         {
             jumpCounter = 0;
         }
-        else if (wasGrabbingWall)
+        else if (wasGrabbingWall || wasControlDashing)
         {
             jumpCounter = 1;
         }
