@@ -15,25 +15,42 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float wallJumpTime;
     [SerializeField] private float glideGravity;
     [SerializeField] private float glideFallSpeed;
+    [SerializeField] private float controlDashTime;
+    [SerializeField] private float controlDashSideSpeed;
+    [SerializeField] private float controlDashUpSpeed;
+    [SerializeField] private float controlDashSmoothing;
     [SerializeField] private ParachuteToggle parachute;
     [SerializeField] private LayerMask groundLayer;
+
     private BoxCollider2D boxCollider;
     private Rigidbody2D body;
     private Animator anim;
+
     private float defaultGravity;
     private Vector2 leftJoystick;
     private bool hasControl;
-    private bool jumpPressed;
-    private bool jumpInputUsed;
+
     private bool isGrounded;
     private bool onLeftWall;
     private bool onRightWall;
+
+    private bool jumpPressed;
+    private bool jumpInputUsed;
     private int jumpCounter;
+
     private bool grabbingWall;
     private bool wasGrabbingWall;
     private float wallJumpTimer;
+
     private bool glidePressed;
     private bool wasGliding;
+
+    private bool controlDashPressed;
+    private bool controlDashing;
+    private bool wasControlDashing;
+    private bool canControlDash;
+    private float controlDashTimer;
+    private float lastRadian;
 
     private void Awake()
     {
@@ -47,10 +64,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        CheckGrounded();
-        CheckOnWall();
         CheckControl();
         CheckJump();
+        CheckControlDash();
+        CheckGrounded();
+        CheckOnWall();
 
         //Flipping Character Model
         if (leftJoystick.x > 0.01f)
@@ -64,6 +82,7 @@ public class PlayerMovement : MonoBehaviour
             Jump();
             WallMovement();
             Glide();
+            ControlDash();
         }
     }
 
@@ -164,14 +183,99 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void ControlDash()
+    { 
+        if (canControlDash && controlDashPressed && !wasControlDashing)
+        {
+            body.gravityScale = 0;
+            controlDashTimer = controlDashTime;
+            wasControlDashing = true;
+            body.velocity = new Vector2(leftJoystick.x * controlDashSideSpeed, leftJoystick.y * controlDashUpSpeed);
+            float currentRadianPrime = Mathf.Atan2(Mathf.Abs(leftJoystick.y), Mathf.Abs(leftJoystick.x));
+            lastRadian = CheckRadian(leftJoystick.x, leftJoystick.y, currentRadianPrime);
+        }
+        else if (wasControlDashing && controlDashTimer > 0)
+        {
+            float hypotenuse = Mathf.Sqrt(Mathf.Pow(leftJoystick.x, 2) + Mathf.Pow(leftJoystick.y, 2));
+            if (hypotenuse == 0)
+            {
+                //this code happens when there is no joystick input
+                //change for better slowdown or no slowdown or float down while no input or smth
+                body.velocity = Vector2.zero;
+            }
+            else
+            {
+                float currentRadianPrime = Mathf.Atan2(Mathf.Abs(leftJoystick.y), Mathf.Abs(leftJoystick.x));
+                float currentRadian = CheckRadian(leftJoystick.x, leftJoystick.y, currentRadianPrime);
+                float movementRadian = Mathf.MoveTowardsAngle(lastRadian * 180 / Mathf.PI, currentRadian * 180 / Mathf.PI, controlDashSmoothing);
+                movementRadian *= Mathf.PI / 180;
+                //sin of 0 = 0, cos of 0 = 1
+                float xForce = Mathf.Cos(movementRadian) * hypotenuse;
+                float yForce = Mathf.Sin(movementRadian) * hypotenuse;
+
+                body.velocity = new Vector2(xForce * controlDashSideSpeed, yForce * controlDashUpSpeed);
+                lastRadian = movementRadian;
+            }
+        }
+        else if (wasControlDashing)
+        {
+            wasControlDashing = false;
+            canControlDash = false;
+            body.gravityScale = defaultGravity;
+            controlDashTimer = 0;
+        }
+    }
+
+    private float CheckRadian(float x, float y, float joystickRadianPrime)
+    {
+        //don't yell at me my trig is dum and bad and idk the good way to do it
+        if (leftJoystick.y < 0 && leftJoystick.x < 0)
+            return joystickRadianPrime + Mathf.PI;
+        else if (leftJoystick.y < 0 && leftJoystick.x != 0)
+            return 2 * Mathf.PI - joystickRadianPrime;
+        else if (leftJoystick.x < 0 && leftJoystick.y != 0)
+            return Mathf.PI - joystickRadianPrime;
+        else if (leftJoystick.x > 0 && leftJoystick.y > 0)
+            return joystickRadianPrime;
+        else if (leftJoystick.y == 0 && leftJoystick.x > 0)
+            return 0;
+        else if (leftJoystick.y == 0 && leftJoystick.x < 0)
+            return Mathf.PI;
+        else if (leftJoystick.y > 0)
+            return Mathf.PI / 2f;
+        else if (leftJoystick.y < 0)
+            return 3 * Mathf.PI / 2f;
+        else
+            return 0;
+    }
+
+    private float FindPrime(float radian)
+    {
+        if (radian == 0 || radian == 90 || radian == 180 || radian == 270)
+            return 0;
+        else if (radian < 90)
+            return radian;
+        else if (radian <= 180)
+            return 180 - radian;
+        else if (radian < 270)
+            return radian - 180;
+        else
+            return 360 - radian;
+    }
+
     private void CheckControl()
     {
+        hasControl = false;
         if (wallJumpTimer > 0)
         {
-            hasControl = false;
             wallJumpTimer -= Time.deltaTime;
         }
-        else
+        else if(controlDashTimer > 0)
+        {
+            ControlDash();
+            controlDashTimer -= Time.deltaTime;
+        }
+        else 
         {
             hasControl = true;
         }
@@ -183,10 +287,23 @@ public class PlayerMovement : MonoBehaviour
         {
             jumpCounter = 0;
         }
-        else if (wasGrabbingWall)
+        else if (wasGrabbingWall || wasControlDashing)
         {
             jumpCounter = 1;
         }
+    }
+
+    private void CheckControlDash()
+    {
+        //This is where you would add picking up a collectible to activate control dash
+        if (isGrounded || grabbingWall)
+            canControlDash = true;
+    }
+
+    private void CheckGrounded()
+    {
+        RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.05f, groundLayer);
+        isGrounded = raycastHit.collider != null;
     }
 
     private void CheckOnWall()
@@ -195,12 +312,6 @@ public class PlayerMovement : MonoBehaviour
         RaycastHit2D raycastHitLeft = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.left, 0.1f, groundLayer);
         onLeftWall = raycastHitLeft.collider != null;
         onRightWall = raycastHitRight.collider != null;
-    }
-
-    private void CheckGrounded()
-    {
-        RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.05f, groundLayer);
-        isGrounded = raycastHit.collider != null;
     }
 
     private void OnMove(InputValue value)
@@ -222,11 +333,16 @@ public class PlayerMovement : MonoBehaviour
         glidePressed = value.isPressed;
     }
 
+    private void OnControlDash(InputValue value)
+    {
+        controlDashPressed = value.isPressed;
+    }
+
     //displays text for debugging
     private void OnGUI()
     {
-        GUI.Label(new Rect(1100, 10, 100, 100), "Jump Input Used: " + jumpInputUsed);
-        //GUI.Label(new Rect(1200, 50, 100, 100), "is doing thing: " + isControlDashing);
+        //GUI.Label(new Rect(1100, 10, 100, 100), "xForce: " + xForce);
+        //GUI.Label(new Rect(1200, 50, 100, 100), "yForce: " + isControlDashing);
     }
 
 }
