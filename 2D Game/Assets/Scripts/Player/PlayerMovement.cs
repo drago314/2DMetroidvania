@@ -93,9 +93,10 @@ public class PlayerMovement : MonoBehaviour
         CheckJump();
         if (hasControlDash)
             CheckControlDash();
+        if (hasDash)
+            CheckDash();
         CheckGrounded();
         CheckOnWall();
-        CheckDash();
 
         //Flipping Character Model
         if (leftJoystick.x > 0.01f)
@@ -293,7 +294,7 @@ public class PlayerMovement : MonoBehaviour
         {
             dashStartTimer = dashStartup;
             body.gravityScale = 0;
-            body.velocity = new Vector2(0, 0);
+            body.velocity = Vector2.zero;
             dashStarted = true;
         }
         if(canDash && (dashPressed || dashStarted) && !wasDashing && (dashTimer > dashCooldown || dashTimer == 0) && dashStartTimer <= 0)
