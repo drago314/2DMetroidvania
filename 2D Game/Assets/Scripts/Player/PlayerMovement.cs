@@ -184,50 +184,43 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void ControlDash()
-    {
-        if (canControlDash && controlDashPressed)
+    { 
+        if (canControlDash && controlDashPressed && !wasControlDashing)
         {
-            if (wasControlDashing && controlDashTimer > 0)
+            body.gravityScale = 0;
+            controlDashTimer = controlDashTime;
+            wasControlDashing = true;
+            body.velocity = new Vector2(leftJoystick.x * controlDashSideSpeed, leftJoystick.y * controlDashUpSpeed);
+            float currentRadianPrime = Mathf.Atan2(Mathf.Abs(leftJoystick.y), Mathf.Abs(leftJoystick.x));
+            lastRadian = CheckRadian(leftJoystick.x, leftJoystick.y, currentRadianPrime);
+        }
+        else if (wasControlDashing && controlDashTimer > 0)
+        {
+            float hypotenuse = Mathf.Sqrt(Mathf.Pow(leftJoystick.x, 2) + Mathf.Pow(leftJoystick.y, 2));
+            if (hypotenuse == 0)
             {
-                float hypotenuse = Mathf.Sqrt(Mathf.Pow(leftJoystick.x, 2) + Mathf.Pow(leftJoystick.y, 2));
-                if (hypotenuse == 0)
-                {
-                    //this code happens when there is no joystick input
-                    //change for better slowdown or no slowdown or smth
-                    body.velocity = Vector2.zero;
-                }
-                else
-                {
-                    float currentRadianPrime = Mathf.Atan2(Mathf.Abs(leftJoystick.y), Mathf.Abs(leftJoystick.x));
-                    float currentRadian = CheckRadian(leftJoystick.x, leftJoystick.y, currentRadianPrime);
-                    float movementRadian = Mathf.MoveTowardsAngle(lastRadian * 180 / Mathf.PI, currentRadian * 180 / Mathf.PI, controlDashSmoothing);
-                    movementRadian *= Mathf.PI / 180;
-                    //sin of 0 = 0, cos of 0 = 1
-                    float xForce = Mathf.Cos(movementRadian) * hypotenuse;
-                    float yForce = Mathf.Sin(movementRadian) * hypotenuse;
-
-                    body.velocity = new Vector2(xForce * controlDashSideSpeed, yForce * controlDashUpSpeed);
-                    lastRadian = movementRadian;
-                }
-            }
-            else if (!wasControlDashing)
-            {
-                body.gravityScale = 0;
-                controlDashTimer = controlDashTime;
-                wasControlDashing = true;
-                body.velocity = new Vector2(leftJoystick.x * controlDashSideSpeed, leftJoystick.y * controlDashUpSpeed);
-                float currentRadianPrime = Mathf.Atan2(Mathf.Abs(leftJoystick.y), Mathf.Abs(leftJoystick.x));
-                lastRadian = CheckRadian(leftJoystick.x, leftJoystick.y, currentRadianPrime);
+                //this code happens when there is no joystick input
+                //change for better slowdown or no slowdown or float down while no input or smth
+                body.velocity = Vector2.zero;
             }
             else
             {
-                canControlDash = false;
+                float currentRadianPrime = Mathf.Atan2(Mathf.Abs(leftJoystick.y), Mathf.Abs(leftJoystick.x));
+                float currentRadian = CheckRadian(leftJoystick.x, leftJoystick.y, currentRadianPrime);
+                float movementRadian = Mathf.MoveTowardsAngle(lastRadian * 180 / Mathf.PI, currentRadian * 180 / Mathf.PI, controlDashSmoothing);
+                movementRadian *= Mathf.PI / 180;
+                //sin of 0 = 0, cos of 0 = 1
+                float xForce = Mathf.Cos(movementRadian) * hypotenuse;
+                float yForce = Mathf.Sin(movementRadian) * hypotenuse;
+
+                body.velocity = new Vector2(xForce * controlDashSideSpeed, yForce * controlDashUpSpeed);
+                lastRadian = movementRadian;
             }
         }
         else if (wasControlDashing)
         {
             wasControlDashing = false;
-            canControlDash = false; 
+            canControlDash = false;
             body.gravityScale = defaultGravity;
             controlDashTimer = 0;
         }
