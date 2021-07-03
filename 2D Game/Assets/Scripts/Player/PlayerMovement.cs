@@ -219,6 +219,10 @@ public class PlayerMovement : MonoBehaviour
                 float currentRadianPrime = Mathf.Atan2(Mathf.Abs(leftJoystick.y), Mathf.Abs(leftJoystick.x));
                 lastRadian = CheckRadian(leftJoystick.x, leftJoystick.y, currentRadianPrime);
             }
+            else
+            {
+                canControlDash = false;
+            }
         }
         else if (wasControlDashing)
         {
