@@ -2,21 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Water : MonoBehaviour
+public class Water : Liquid
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Player")
+        try
         {
-            collision.GetComponent<PlayerMovement>().SetInWater(true);
+            collision.GetComponent<IWet>().OnEnterLiquid(this);
         }
+        catch(System.Exception) {}
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag == "Player")
+        try
         {
-            collision.GetComponent<PlayerMovement>().SetInWater(false);
+            collision.GetComponent<IWet>().OnExitLiquid(this);
         }
+        catch (System.Exception) { }
     }
 }

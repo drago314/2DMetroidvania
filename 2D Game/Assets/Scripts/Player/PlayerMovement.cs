@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IWet
 {
     [SerializeField] private float amountOfJumps;
     [SerializeField] private bool hasWallJump;
@@ -53,6 +53,7 @@ public class PlayerMovement : MonoBehaviour
     private bool onLeftWall;
     private bool onRightWall;
     private bool facingRight;
+    private bool airAbove;
 
     private bool jumpPressed;
     private bool jumpInputUsed;
@@ -344,11 +345,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void SetInWater(bool isInWater)
-    {
-        inWater = isInWater;
-    }
-
     private void CheckControl()
     {
         hasControl = false;
@@ -421,6 +417,18 @@ public class PlayerMovement : MonoBehaviour
         onRightWall = raycastHitRight.collider != null;
     }
 
+    public void OnEnterLiquid(Liquid liquid)
+    {
+        if (liquid.GetType() == typeof(Water))
+            inWater = true;
+    }
+
+    public void OnExitLiquid(Liquid liquid)
+    {
+        if (liquid.GetType() == typeof(Water))
+            inWater = false;
+    }
+
     private void OnMove(InputValue value)
     {
         leftJoystick = value.Get<Vector2>();
@@ -463,8 +471,7 @@ public class PlayerMovement : MonoBehaviour
     //displays text for debugging
     private void OnGUI()
     {
-        GUI.Label(new Rect(1100, 10, 100, 100), "in Water: " + inWater);
+        GUI.Label(new Rect(1100, 10, 100, 100), "Air Above: " + airAbove);
         //GUI.Label(new Rect(1200, 50, 100, 100), "yForce: " + isControlDashing);
     }
-
 }
