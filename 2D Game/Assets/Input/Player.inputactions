@@ -196,7 +196,7 @@
                     "path": "<Keyboard>/l",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard & Mouse",
+                    "groups": "Keyboard & Mouse;Controller",
                     "action": "Dash",
                     "isComposite": false,
                     "isPartOfComposite": false
