@@ -36,6 +36,7 @@ public class PlayerMovement : MonoBehaviour, IWet
 
     [SerializeField] private float swimUpSpeed;
     [SerializeField] private float swimSideSpeed;
+    [SerializeField] private float swimJumpForce;
 
     [SerializeField] private ParachuteToggle parachute;
 
@@ -53,7 +54,6 @@ public class PlayerMovement : MonoBehaviour, IWet
     private bool onLeftWall;
     private bool onRightWall;
     private bool facingRight;
-    private bool airAbove;
 
     private bool jumpPressed;
     private bool jumpInputUsed;
@@ -81,6 +81,7 @@ public class PlayerMovement : MonoBehaviour, IWet
 
     private bool inWater;
     private bool wasSwimming;
+    private float waterLevel;
 
     private void Awake()
     {
@@ -336,12 +337,32 @@ public class PlayerMovement : MonoBehaviour, IWet
         if (!wasSwimming)
         {
             wasSwimming = true;
+            waterLevel = body.position.y;
             body.gravityScale = 0;
-            body.velocity = new Vector2(leftJoystick.x * swimSideSpeed, leftJoystick.y * swimUpSpeed);
         }
         else
         {
-            body.velocity = new Vector2(leftJoystick.x * swimSideSpeed, leftJoystick.y * swimUpSpeed);
+            if (body.position.y >= waterLevel)
+            {
+                if (!jumpInputUsed && jumpPressed)
+                {
+                    body.velocity = new Vector2(leftJoystick.x * swimSideSpeed, swimJumpForce);
+                    jumpInputUsed = true;
+                    jumpCounter = 1;
+                    canDash = true;
+                    canControlDash = true;
+                    inWater = false;
+                }
+                else
+                {
+                    float yForce = Mathf.Clamp(leftJoystick.y * swimUpSpeed, -Mathf.Infinity, 0);
+                    body.velocity = new Vector2(leftJoystick.x * swimSideSpeed, yForce);
+                }
+            }
+            else
+            {
+                body.velocity = new Vector2(leftJoystick.x * swimSideSpeed, leftJoystick.y * swimUpSpeed);
+            }
         }
     }
 
@@ -471,7 +492,7 @@ public class PlayerMovement : MonoBehaviour, IWet
     //displays text for debugging
     private void OnGUI()
     {
-        GUI.Label(new Rect(1100, 10, 100, 100), "Air Above: " + airAbove);
-        //GUI.Label(new Rect(1200, 50, 100, 100), "yForce: " + isControlDashing);
+        GUI.Label(new Rect(1100, 10, 100, 100), "bodypostition: " + body.position.y);
+        GUI.Label(new Rect(1200, 50, 100, 100), "waterlevel: " + waterLevel);
     }
 }
