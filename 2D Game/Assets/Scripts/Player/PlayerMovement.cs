@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IWet
 {
     [SerializeField] private float amountOfJumps;
     [SerializeField] private bool hasWallJump;
@@ -33,6 +33,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float dashCooldown;
     [SerializeField] private float dashSpeed;
     [SerializeField] private float dashStartup;
+
+    [SerializeField] private float swimUpSpeed;
+    [SerializeField] private float swimSideSpeed;
+    [SerializeField] private float swimJumpForce;
 
     [SerializeField] private ParachuteToggle parachute;
 
@@ -74,6 +78,10 @@ public class PlayerMovement : MonoBehaviour
     private bool dashStarted;
     private float dashTimer;
     private float dashStartTimer;
+
+    private bool inWater;
+    private bool wasSwimming;
+    private float waterLevel;
 
     private void Awake()
     {
@@ -123,6 +131,10 @@ public class PlayerMovement : MonoBehaviour
             if (hasDash)
                 Dash();
         }
+        else if (inWater)
+        {
+            Swim();
+        }
     }
 
     private void Move()
@@ -165,11 +177,11 @@ public class PlayerMovement : MonoBehaviour
             wasGrabbingWall = true;
             body.gravityScale = 0;
 
-            if(leftJoystick.y > 0)
+            if (leftJoystick.y > 0)
             {
                 body.velocity = new Vector2(body.velocity.x, climbSpeed);
             }
-            else if(leftJoystick.y < 0)
+            else if (leftJoystick.y < 0)
             {
                 body.velocity = new Vector2(body.velocity.x, climbSpeed * -1);
             }
@@ -223,7 +235,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void ControlDash()
-    { 
+    {
         if (canControlDash && controlDashPressed && !wasControlDashing)
         {
             body.gravityScale = 0;
@@ -290,14 +302,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void Dash()
     {
-        if(canDash && dashPressed && !wasDashing && (dashTimer > dashCooldown || dashTimer == 0) && dashStartTimer >= 0)
+        if (canDash && dashPressed && !wasDashing && (dashTimer > dashCooldown || dashTimer == 0) && dashStartTimer >= 0)
         {
             dashStartTimer = dashStartup;
             body.gravityScale = 0;
             body.velocity = Vector2.zero;
             dashStarted = true;
         }
-        if(canDash && (dashPressed || dashStarted) && !wasDashing && (dashTimer > dashCooldown || dashTimer == 0) && dashStartTimer <= 0)
+        if (canDash && (dashPressed || dashStarted) && !wasDashing && (dashTimer > dashCooldown || dashTimer == 0) && dashStartTimer <= 0)
         {
             dashTimer = dashTime;
             wasDashing = true;
@@ -308,15 +320,49 @@ public class PlayerMovement : MonoBehaviour
             else if (!facingRight)
                 body.velocity = new Vector2(dashSpeed * -1, 0);
         }
-        else if(dashTimer <= dashCooldown && dashTimer > 0)
+        else if (dashTimer <= dashCooldown && dashTimer > 0)
         {
             body.gravityScale = defaultGravity;
         }
-        else if(wasDashing && dashTimer <= 0)
+        else if (wasDashing && dashTimer <= 0)
         {
             wasDashing = false;
             canDash = false;
             dashTimer = 0;
+        }
+    }
+
+    private void Swim()
+    {
+        if (!wasSwimming)
+        {
+            wasSwimming = true;
+            waterLevel = body.position.y;
+            body.gravityScale = 0;
+        }
+        else
+        {
+            if (body.position.y >= waterLevel)
+            {
+                if (!jumpInputUsed && jumpPressed)
+                {
+                    body.velocity = new Vector2(leftJoystick.x * swimSideSpeed, swimJumpForce);
+                    jumpInputUsed = true;
+                    jumpCounter = 1;
+                    canDash = true;
+                    canControlDash = true;
+                    inWater = false;
+                }
+                else
+                {
+                    float yForce = Mathf.Clamp(leftJoystick.y * swimUpSpeed, -Mathf.Infinity, 0);
+                    body.velocity = new Vector2(leftJoystick.x * swimSideSpeed, yForce);
+                }
+            }
+            else
+            {
+                body.velocity = new Vector2(leftJoystick.x * swimSideSpeed, leftJoystick.y * swimUpSpeed);
+            }
         }
     }
 
@@ -340,9 +386,14 @@ public class PlayerMovement : MonoBehaviour
         {
             dashStartTimer -= Time.deltaTime;
         }
-        else 
+        else if (!inWater)
         {
             hasControl = true;
+            if (wasSwimming)
+            {
+                wasSwimming = false;
+                body.gravityScale = defaultGravity;
+            }
             if (dashTimer > 0)
                 dashTimer -= Time.deltaTime;
         }
@@ -387,6 +438,18 @@ public class PlayerMovement : MonoBehaviour
         onRightWall = raycastHitRight.collider != null;
     }
 
+    public void OnEnterLiquid(Liquid liquid)
+    {
+        if (liquid.GetType() == typeof(Water))
+            inWater = true;
+    }
+
+    public void OnExitLiquid(Liquid liquid)
+    {
+        if (liquid.GetType() == typeof(Water))
+            inWater = false;
+    }
+
     private void OnMove(InputValue value)
     {
         leftJoystick = value.Get<Vector2>();
@@ -429,8 +492,7 @@ public class PlayerMovement : MonoBehaviour
     //displays text for debugging
     private void OnGUI()
     {
-        //GUI.Label(new Rect(1100, 10, 100, 100), "xForce: " + xForce);
-        //GUI.Label(new Rect(1200, 50, 100, 100), "yForce: " + isControlDashing);
+        GUI.Label(new Rect(1100, 10, 100, 100), "bodypostition: " + body.position.y);
+        GUI.Label(new Rect(1200, 50, 100, 100), "waterlevel: " + waterLevel);
     }
-
 }
