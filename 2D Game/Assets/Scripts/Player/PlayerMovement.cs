@@ -6,32 +6,43 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float moveSpeed;
+
     [SerializeField] private float jumpForce;
     [SerializeField] private float fallMultiplier;
     [SerializeField] private float lowJumpMultiplier;
+
     [SerializeField] private float climbSpeed;
     [SerializeField] private float wallJumpSideForce;
     [SerializeField] private float wallJumpUpForce;
     [SerializeField] private float wallJumpTime;
+
     [SerializeField] private float glideGravity;
     [SerializeField] private float glideFallSpeed;
     [SerializeField] private ParachuteToggle parachute;
+
     [SerializeField] private LayerMask groundLayer;
+
     private BoxCollider2D boxCollider;
     private Rigidbody2D body;
     private Animator anim;
+
     private float defaultGravity;
     private Vector2 leftJoystick;
-    private bool hasControl;
-    private bool jumpPressed;
-    private bool jumpInputUsed;
+
     private bool isGrounded;
     private bool onLeftWall;
     private bool onRightWall;
+
+    private bool hasControl;
+
+    private bool jumpPressed;
+    private bool jumpInputUsed;
     private int jumpCounter;
+
     private bool grabbingWall;
     private bool wasGrabbingWall;
     private float wallJumpTimer;
+
     private bool glidePressed;
     private bool wasGliding;
 
@@ -97,6 +108,19 @@ public class PlayerMovement : MonoBehaviour
     private void AddJump()
     {
         jumpCounter += 1;
+    }
+
+
+    private void CheckJump()
+    {
+        if (isGrounded)
+        {
+            jumpCounter = 0;
+        }
+        else if (wasGrabbingWall)
+        {
+            jumpCounter = 1;
+        }
     }
 
     private void WallMovement()
@@ -177,16 +201,10 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void CheckJump()
+    private void CheckGrounded()
     {
-        if (isGrounded)
-        {
-            jumpCounter = 0;
-        }
-        else if (wasGrabbingWall)
-        {
-            jumpCounter = 1;
-        }
+        RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.05f, groundLayer);
+        isGrounded = raycastHit.collider != null;
     }
 
     private void CheckOnWall()
@@ -197,11 +215,6 @@ public class PlayerMovement : MonoBehaviour
         onRightWall = raycastHitRight.collider != null;
     }
 
-    private void CheckGrounded()
-    {
-        RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.05f, groundLayer);
-        isGrounded = raycastHit.collider != null;
-    }
 
     private void OnMove(InputValue value)
     {
