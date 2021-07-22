@@ -356,6 +356,9 @@ MonoBehaviour:
   glideGravity: 0
   glideFallSpeed: 1
   parachute: {fileID: 1613648098}
+  dashForce: 15
+  dashTime: 0.3
+  dashCooldown: 0.3
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
