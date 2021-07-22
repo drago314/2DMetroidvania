@@ -39,6 +39,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxRoamLength: 10
   minRoamLength: 5
+  distanceToWall: 0
 --- !u!1101 &-5436583975002393193
 AnimatorStateTransition:
   m_ObjectHideFlags: 1

@@ -8,7 +8,7 @@ public class SidewaysPatroller : MonoBehaviour
     [SerializeField] private float distanceToGround;
     [SerializeField] private float distanceToWall;
     [SerializeField] private int damage;
-    [SerializeField] Transform obstacleDetector;
+    [SerializeField] private Transform obstacleDetector;
 
     private float movingRight = 1;
 
@@ -19,7 +19,7 @@ public class SidewaysPatroller : MonoBehaviour
         RaycastHit2D groundBelow = Physics2D.Raycast(obstacleDetector.position, Vector2.down, distanceToGround);
         RaycastHit2D wallNear = Physics2D.Raycast(obstacleDetector.position, Vector2.right, distanceToWall);
 
-        if (!groundBelow.collider || (wallNear.collider && wallNear.collider.tag != "Player"))
+        if (!groundBelow.collider || (wallNear.collider && wallNear.collider.tag == "Platforms"))
         {
             if (movingRight == 1)
             {
