@@ -1,0 +1,1608 @@
+fileFormatVersion: 2
+guid: b461aaa21edc6a749b3443397a3bfdc5
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7680495261332236667
+    second: Concept Art_0
+  - first:
+      213: -124238791487607383
+    second: Concept Art_1
+  - first:
+      213: 1090518466991043302
+    second: Concept Art_2
+  - first:
+      213: -3780751381472117580
+    second: Concept Art_3
+  - first:
+      213: 7945987267575444118
+    second: Concept Art_4
+  - first:
+      213: 1677266779057433251
+    second: Concept Art_5
+  - first:
+      213: 3458972704167310973
+    second: Concept Art_6
+  - first:
+      213: -7759790385826523367
+    second: Concept Art_7
+  - first:
+      213: 5161040674034058890
+    second: Concept Art_8
+  - first:
+      213: -2345950302792716660
+    second: Concept Art_9
+  - first:
+      213: 4267788510453469854
+    second: Concept Art_10
+  - first:
+      213: 6670788258229293364
+    second: Concept Art_11
+  - first:
+      213: -2677972410331967182
+    second: Concept Art_12
+  - first:
+      213: 8679495899128551508
+    second: Concept Art_13
+  - first:
+      213: 9061113309684584017
+    second: Concept Art_14
+  - first:
+      213: -1530446353066057484
+    second: Concept Art_15
+  - first:
+      213: -7990748263834944638
+    second: Concept Art_16
+  - first:
+      213: 3137589657520262037
+    second: Concept Art_17
+  - first:
+      213: 3606096344281145292
+    second: Concept Art_18
+  - first:
+      213: 8962465005741136071
+    second: Concept Art_19
+  - first:
+      213: 6029236150622508580
+    second: Concept Art_20
+  - first:
+      213: 109551138881424668
+    second: Concept Art_21
+  - first:
+      213: -6179323595834925936
+    second: Concept Art_22
+  - first:
+      213: 8259528160592157634
+    second: Concept Art_23
+  - first:
+      213: 7935954027130799417
+    second: Concept Art_24
+  - first:
+      213: -406413397090033925
+    second: Concept Art_25
+  - first:
+      213: 6438384072312014662
+    second: Concept Art_26
+  - first:
+      213: -6731510137443012241
+    second: Concept Art_27
+  - first:
+      213: 5118552360003698797
+    second: Concept Art_28
+  - first:
+      213: -1139097537975966402
+    second: Concept Art_29
+  - first:
+      213: -1182311596148041194
+    second: Concept Art_30
+  - first:
+      213: -1245743109251483735
+    second: Concept Art_31
+  - first:
+      213: 1648834083028041961
+    second: Concept Art_32
+  - first:
+      213: -8199568120101012434
+    second: Concept Art_33
+  - first:
+      213: -6544850161365081603
+    second: Concept Art_34
+  - first:
+      213: -7876663573124965211
+    second: Concept Art_35
+  - first:
+      213: -4746413592027547223
+    second: Concept Art_36
+  - first:
+      213: -1542336872414134294
+    second: Concept Art_37
+  - first:
+      213: -6919251937254650129
+    second: Concept Art_38
+  - first:
+      213: 4495556741535319744
+    second: Concept Art_39
+  - first:
+      213: 5436097824255356471
+    second: Concept Art_40
+  - first:
+      213: -2599135877958338355
+    second: Concept Art_41
+  - first:
+      213: 1060498165465675271
+    second: Concept Art_42
+  - first:
+      213: 3751260025543743098
+    second: Concept Art_43
+  - first:
+      213: -7584579041138356954
+    second: Concept Art_44
+  - first:
+      213: 6667109588120963286
+    second: Concept Art_45
+  - first:
+      213: 7227519004261696695
+    second: Concept Art_46
+  - first:
+      213: 7606629605763732147
+    second: Concept Art_47
+  - first:
+      213: 2630114197222578373
+    second: Concept Art_48
+  - first:
+      213: -2044454285440718658
+    second: Concept Art_49
+  - first:
+      213: 5881813489312405022
+    second: Concept Art_50
+  - first:
+      213: -6827224830579263240
+    second: Concept Art_51
+  - first:
+      213: -7357571523918780260
+    second: Concept Art_52
+  - first:
+      213: 624158980642342168
+    second: Concept Art_53
+  - first:
+      213: 9188009767461135896
+    second: Concept Art_54
+  - first:
+      213: -7006335650123996937
+    second: Concept Art_55
+  - first:
+      213: -2067851249829012681
+    second: Concept Art_56
+  - first:
+      213: 5834549234579318563
+    second: Concept Art_57
+  - first:
+      213: -7303420810753931293
+    second: Concept Art_58
+  - first:
+      213: -1848592891298353657
+    second: Concept Art_59
+  - first:
+      213: 3030348683567368572
+    second: Concept Art_60
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Concept Art_0
+      rect:
+        serializedVersion: 2
+        x: 1012
+        y: 1108
+        width: 28
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5869839b046696590800000000000000
+      internalID: -7680495261332236667
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_1
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 983
+        width: 483
+        height: 123
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9adae063a7d964ef0800000000000000
+      internalID: -124238791487607383
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_2
+      rect:
+        serializedVersion: 2
+        x: 556
+        y: 983
+        width: 484
+        height: 123
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e2310694cc422f00800000000000000
+      internalID: 1090518466991043302
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_3
+      rect:
+        serializedVersion: 2
+        x: 1060
+        y: 856
+        width: 123
+        height: 243
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4bc794b56a2188bc0800000000000000
+      internalID: -3780751381472117580
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_4
+      rect:
+        serializedVersion: 2
+        x: 1186
+        y: 856
+        width: 124
+        height: 243
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6927c99f151d54e60800000000000000
+      internalID: 7945987267575444118
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_5
+      rect:
+        serializedVersion: 2
+        x: 1313
+        y: 856
+        width: 122
+        height: 243
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3aa284fbf39d64710800000000000000
+      internalID: 1677266779057433251
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_6
+      rect:
+        serializedVersion: 2
+        x: 1438
+        y: 856
+        width: 124
+        height: 243
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d763aa7195db00030800000000000000
+      internalID: 3458972704167310973
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_7
+      rect:
+        serializedVersion: 2
+        x: 1564
+        y: 856
+        width: 124
+        height: 243
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9179159d1cfaf4490800000000000000
+      internalID: -7759790385826523367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_8
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 856
+        width: 124
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a86842f0623bf9740800000000000000
+      internalID: 5161040674034058890
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_9
+      rect:
+        serializedVersion: 2
+        x: 304
+        y: 856
+        width: 124
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8ee15501a2817fd0800000000000000
+      internalID: -2345950302792716660
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_10
+      rect:
+        serializedVersion: 2
+        x: 430
+        y: 856
+        width: 123
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e92921ed90b3a3b30800000000000000
+      internalID: 4267788510453469854
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_11
+      rect:
+        serializedVersion: 2
+        x: 556
+        y: 856
+        width: 124
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4319a97d396639c50800000000000000
+      internalID: 6670788258229293364
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_12
+      rect:
+        serializedVersion: 2
+        x: 683
+        y: 856
+        width: 122
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 231ddd3084ee5dad0800000000000000
+      internalID: -2677972410331967182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_13
+      rect:
+        serializedVersion: 2
+        x: 808
+        y: 856
+        width: 124
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4585409c883c37870800000000000000
+      internalID: 8679495899128551508
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_14
+      rect:
+        serializedVersion: 2
+        x: 1012
+        y: 952
+        width: 28
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15e405d1c8a8fbd70800000000000000
+      internalID: 9061113309684584017
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_15
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 731
+        width: 124
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f0a4b98623c2cae0800000000000000
+      internalID: -1530446353066057484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_16
+      rect:
+        serializedVersion: 2
+        x: 304
+        y: 731
+        width: 124
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 28b7c847ac82b1190800000000000000
+      internalID: -7990748263834944638
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_17
+      rect:
+        serializedVersion: 2
+        x: 430
+        y: 731
+        width: 123
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59b4f6b7b25fa8b20800000000000000
+      internalID: 3137589657520262037
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_18
+      rect:
+        serializedVersion: 2
+        x: 556
+        y: 731
+        width: 124
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ccf56bae48d6b0230800000000000000
+      internalID: 3606096344281145292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_19
+      rect:
+        serializedVersion: 2
+        x: 683
+        y: 731
+        width: 122
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c8d1130072116c70800000000000000
+      internalID: 8962465005741136071
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_20
+      rect:
+        serializedVersion: 2
+        x: 808
+        y: 731
+        width: 124
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4265cc0b5562ca350800000000000000
+      internalID: 6029236150622508580
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_21
+      rect:
+        serializedVersion: 2
+        x: 934
+        y: 731
+        width: 124
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c1d44cd2e24358100800000000000000
+      internalID: 109551138881424668
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_22
+      rect:
+        serializedVersion: 2
+        x: 1060
+        y: 731
+        width: 123
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 09cd116dde1ae3aa0800000000000000
+      internalID: -6179323595834925936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_23
+      rect:
+        serializedVersion: 2
+        x: 1186
+        y: 731
+        width: 124
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2cb5e68e91dbf9270800000000000000
+      internalID: 8259528160592157634
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_24
+      rect:
+        serializedVersion: 2
+        x: 1313
+        y: 371
+        width: 482
+        height: 482
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 93546f4242c222e60800000000000000
+      internalID: 7935954027130799417
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_25
+      rect:
+        serializedVersion: 2
+        x: 1798
+        y: 371
+        width: 484
+        height: 482
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bfe1d7a2b212c5af0800000000000000
+      internalID: -406413397090033925
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_26
+      rect:
+        serializedVersion: 2
+        x: 2284
+        y: 371
+        width: 484
+        height: 482
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 647c0b5a33cb95950800000000000000
+      internalID: 6438384072312014662
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_27
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 604
+        width: 483
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f61b4cfe13fd492a0800000000000000
+      internalID: -6731510137443012241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_28
+      rect:
+        serializedVersion: 2
+        x: 556
+        y: 604
+        width: 124
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d60024e8040c80740800000000000000
+      internalID: 5118552360003698797
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_29
+      rect:
+        serializedVersion: 2
+        x: 683
+        y: 604
+        width: 122
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e35ab6c03dc1130f0800000000000000
+      internalID: -1139097537975966402
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_30
+      rect:
+        serializedVersion: 2
+        x: 808
+        y: 604
+        width: 124
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 61a55c11ed5979fe0800000000000000
+      internalID: -1182311596148041194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_31
+      rect:
+        serializedVersion: 2
+        x: 934
+        y: 604
+        width: 124
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a7bcab0e3b36bee0800000000000000
+      internalID: -1245743109251483735
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_32
+      rect:
+        serializedVersion: 2
+        x: 1060
+        y: 604
+        width: 123
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e08174dcd5d1e610800000000000000
+      internalID: 1648834083028041961
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_33
+      rect:
+        serializedVersion: 2
+        x: 1186
+        y: 604
+        width: 124
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e2cf2c9ec38453e80800000000000000
+      internalID: -8199568120101012434
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_34
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 478
+        width: 28
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df12daf44750c25a0800000000000000
+      internalID: -6544850161365081603
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_35
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 478
+        width: 124
+        height: 123
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ac90ac663870b290800000000000000
+      internalID: -7876663573124965211
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_36
+      rect:
+        serializedVersion: 2
+        x: 304
+        y: 478
+        width: 124
+        height: 123
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a9bc125cf9512eb0800000000000000
+      internalID: -4746413592027547223
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_37
+      rect:
+        serializedVersion: 2
+        x: 430
+        y: 478
+        width: 123
+        height: 123
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aefb4c349c4889ae0800000000000000
+      internalID: -1542336872414134294
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_38
+      rect:
+        serializedVersion: 2
+        x: 556
+        y: 478
+        width: 124
+        height: 123
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: feec088d501e9ff90800000000000000
+      internalID: -6919251937254650129
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_39
+      rect:
+        serializedVersion: 2
+        x: 683
+        y: 478
+        width: 122
+        height: 123
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c643d6b90d636e30800000000000000
+      internalID: 4495556741535319744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_40
+      rect:
+        serializedVersion: 2
+        x: 808
+        y: 478
+        width: 124
+        height: 123
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 73ea3036b26e07b40800000000000000
+      internalID: 5436097824255356471
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_41
+      rect:
+        serializedVersion: 2
+        x: 934
+        y: 478
+        width: 124
+        height: 123
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc8f15790b30eebd0800000000000000
+      internalID: -2599135877958338355
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_42
+      rect:
+        serializedVersion: 2
+        x: 1060
+        y: 478
+        width: 123
+        height: 123
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 706f8857675a7be00800000000000000
+      internalID: 1060498165465675271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_43
+      rect:
+        serializedVersion: 2
+        x: 1186
+        y: 478
+        width: 124
+        height: 123
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7658a24e172f0430800000000000000
+      internalID: 3751260025543743098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_44
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 352
+        width: 483
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 62d43120c892eb690800000000000000
+      internalID: -7584579041138356954
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_45
+      rect:
+        serializedVersion: 2
+        x: 556
+        y: 352
+        width: 124
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d80d86b8d4568c50800000000000000
+      internalID: 6667109588120963286
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_46
+      rect:
+        serializedVersion: 2
+        x: 683
+        y: 352
+        width: 122
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7b44768cd3e4d4460800000000000000
+      internalID: 7227519004261696695
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_47
+      rect:
+        serializedVersion: 2
+        x: 808
+        y: 352
+        width: 124
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3b25485235d209960800000000000000
+      internalID: 7606629605763732147
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_48
+      rect:
+        serializedVersion: 2
+        x: 934
+        y: 352
+        width: 124
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c8d92c6dea008420800000000000000
+      internalID: 2630114197222578373
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_49
+      rect:
+        serializedVersion: 2
+        x: 1060
+        y: 352
+        width: 123
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb8e7ccc8a3a0a3e0800000000000000
+      internalID: -2044454285440718658
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_50
+      rect:
+        serializedVersion: 2
+        x: 1186
+        y: 352
+        width: 124
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e161191943660a150800000000000000
+      internalID: 5881813489312405022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_51
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 323
+        width: 28
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f8b8935033d041a0800000000000000
+      internalID: -6827224830579263240
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_52
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 226
+        width: 124
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c98aa4b5ea7a4e990800000000000000
+      internalID: -7357571523918780260
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_53
+      rect:
+        serializedVersion: 2
+        x: 304
+        y: 226
+        width: 124
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8158e84394579a800800000000000000
+      internalID: 624158980642342168
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_54
+      rect:
+        serializedVersion: 2
+        x: 430
+        y: 226
+        width: 123
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 816275e043e528f70800000000000000
+      internalID: 9188009767461135896
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_55
+      rect:
+        serializedVersion: 2
+        x: 556
+        y: 226
+        width: 124
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f0243de8de74ce90800000000000000
+      internalID: -7006335650123996937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_56
+      rect:
+        serializedVersion: 2
+        x: 683
+        y: 226
+        width: 122
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 73b18958e348d43e0800000000000000
+      internalID: -2067851249829012681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_57
+      rect:
+        serializedVersion: 2
+        x: 808
+        y: 226
+        width: 124
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 327a0a7bd9b78f050800000000000000
+      internalID: 5834549234579318563
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_58
+      rect:
+        serializedVersion: 2
+        x: 934
+        y: 226
+        width: 387
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e701d1c77905aa90800000000000000
+      internalID: -7303420810753931293
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_59
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 101
+        width: 483
+        height: 123
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70e69d34f8a7856e0800000000000000
+      internalID: -1848592891298353657
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Concept Art_60
+      rect:
+        serializedVersion: 2
+        x: 922
+        y: 64
+        width: 399
+        height: 160
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c790b9d7216fd0a20800000000000000
+      internalID: 3030348683567368572
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
