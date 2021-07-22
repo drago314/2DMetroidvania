@@ -7,14 +7,12 @@ public class SidewaysPatroller : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float distanceToGround;
     [SerializeField] private float distanceToWall;
-
     [SerializeField] private int damage;
-
     [SerializeField] Transform obstacleDetector;
 
     private Rigidbody2D body;
-
     private float movingRight = 1;
+    private Vector2 lastVeloicty;
 
     private void Awake()
     {
@@ -41,10 +39,13 @@ public class SidewaysPatroller : MonoBehaviour
                 transform.eulerAngles = new Vector3(0, 0, 0);
             }
         }
+
+        lastVeloicty = body.velocity;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        body.velocity = lastVeloicty;
         if (collision.collider.tag == "Player")
         {
             collision.collider.GetComponent<Health>().Damage(damage);
