@@ -268,7 +268,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 1
   speed: 3
-  viewRadius: 10
+  viewRadius: 5
   obstacleDetector: {fileID: 1394361173}
 --- !u!1 &84496166
 GameObject:
