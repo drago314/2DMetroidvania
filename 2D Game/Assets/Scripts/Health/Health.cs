@@ -67,10 +67,13 @@ public class Health : MonoBehaviour
                 listener.OnHealthChanged(currentHealth, maxHealth);
             }
         }
-        foreach (IHealthCallback listener in listeners)
+        else
         {
-            listener.OnHit();
-            listener.OnHealthChanged(currentHealth, maxHealth);
+            foreach (IHealthCallback listener in listeners)
+            {
+                listener.OnHit();
+                listener.OnHealthChanged(currentHealth, maxHealth);
+            }
         }
     }
 

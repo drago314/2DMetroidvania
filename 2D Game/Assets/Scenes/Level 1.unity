@@ -209,11 +209,13 @@ GameObject:
   - component: {fileID: 177300797}
   - component: {fileID: 177300798}
   - component: {fileID: 177300800}
+  - component: {fileID: 177300802}
+  - component: {fileID: 177300801}
   - component: {fileID: 177300796}
   - component: {fileID: 177300795}
   - component: {fileID: 177300794}
   - component: {fileID: 177300799}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -403,6 +405,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 5
   currentHealth: 5
+--- !u!114 &177300801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 177300793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4dd10708418ee145a6a906764875a89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &177300802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 177300793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b03efd340e3c75544898d242b3ad3e65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iFrameDuration: 1
+  numberOfFlashes: 2
+  health: {fileID: 177300800}
+  iFrame: {fileID: 177300801}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -617,7 +647,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 794414168}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ObstacleDetector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -651,7 +681,7 @@ GameObject:
   - component: {fileID: 907951392}
   - component: {fileID: 907951389}
   - component: {fileID: 907951393}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Patrolling Dragon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1032,7 +1062,7 @@ GameObject:
   - component: {fileID: 1613648096}
   - component: {fileID: 1613648097}
   - component: {fileID: 1613648098}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Parachute
   m_TagString: Untagged
   m_Icon: {fileID: 0}
