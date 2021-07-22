@@ -6,6 +6,7 @@ public class FlyingTowardsPlayer : MonoBehaviour
 {
     [SerializeField] private int damage;
     [SerializeField] private float speed;
+    [SerializeField] private float viewRadius;
     [SerializeField] private Transform obstacleDetector;
 
 
@@ -13,9 +14,15 @@ public class FlyingTowardsPlayer : MonoBehaviour
     {
         return speed;
     }
+
     public Transform GetObstacleDetector()
     {
         return obstacleDetector;
+    }
+
+    public float GetViewRadius()
+    {
+        return viewRadius;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -31,7 +31,7 @@ public class SidewaysPatroller : MonoBehaviour
                 movingRight = 1;
                 transform.eulerAngles = new Vector3(0, 0, 0);
             }
-        }
+        }   
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -8,18 +8,18 @@ public class RoamingBehaviour : StateMachineBehaviour
     [SerializeField] private float minRoamLength;
     [SerializeField] private float distanceToWall;
 
-    private Rigidbody2D body;
     private Vector2 randomSpot;
     private Transform obstacleDetector;
     private float speed;
     private int direction = 1;
+    private float viewRadius;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        body = animator.GetComponent<Rigidbody2D>();
         speed = animator.GetComponent<FlyingTowardsPlayer>().GetSpeed();
         obstacleDetector = animator.GetComponent<FlyingTowardsPlayer>().GetObstacleDetector();
+        viewRadius = animator.GetComponent<FlyingTowardsPlayer>().GetViewRadius();
 
         float xPos = Random.Range(minRoamLength, maxRoamLength);
         randomSpot = new Vector2(xPos + animator.transform.position.x, animator.transform.position.y);
@@ -40,8 +40,12 @@ public class RoamingBehaviour : StateMachineBehaviour
             else
                 animator.transform.eulerAngles = new Vector3(0, 0, 0);
             direction = -direction;
+        }   
+        float distance = Vector2.Distance(animator.transform.position, FindObjectOfType<PlayerMovement>().transform.position);
+        if (distance <= viewRadius)
+        {
+            animator.SetBool("PlayerInSight", true);
         }
-
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
