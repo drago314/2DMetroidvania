@@ -20,6 +20,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float glideFallSpeed;
     [SerializeField] private ParachuteToggle parachute;
 
+    [SerializeField] private float dashForce;
+    [SerializeField] private float dashTime;
+    [SerializeField] private float dashCooldown;
+
     [SerializeField] private LayerMask groundLayer;
 
     private BoxCollider2D boxCollider;
@@ -34,6 +38,7 @@ public class PlayerMovement : MonoBehaviour
     private bool onRightWall;
 
     private bool hasControl;
+    private bool facingRight;
 
     private bool jumpPressed;
     private bool jumpInputUsed;
@@ -45,6 +50,13 @@ public class PlayerMovement : MonoBehaviour
 
     private bool glidePressed;
     private bool wasGliding;
+
+    private bool dashPressed;
+    private bool dashInputUsed;
+    private bool canDash;
+    private bool dashing;
+    private float dashTimer;
+    private float dashCooldownTimer = 0f;
 
     private void Awake()
     {
@@ -61,13 +73,19 @@ public class PlayerMovement : MonoBehaviour
         CheckGrounded();
         CheckOnWall();
         CheckControl();
-        CheckJump();
+        CheckAbilities();
 
         //Flipping Character Model
         if (leftJoystick.x > 0.01f)
+        {
             transform.localScale = new Vector2(1, 1);
+            facingRight = true;
+        }
         else if (leftJoystick.x < -0.01f)
+        {
             transform.localScale = new Vector2(-1, 1);
+            facingRight = false;
+        }
 
         if (hasControl)
         {
@@ -75,6 +93,7 @@ public class PlayerMovement : MonoBehaviour
             Jump();
             WallMovement();
             Glide();
+            Dash();
         }
     }
 
@@ -86,7 +105,7 @@ public class PlayerMovement : MonoBehaviour
     private void Jump()
     {
         //Regular Jump
-        if (jumpCounter < 2 && !jumpInputUsed && !grabbingWall)
+        if (jumpCounter < 2 && jumpPressed && !jumpInputUsed && !grabbingWall)
         {
             Invoke("AddJump", 0.1f);
             body.velocity = new Vector2(body.velocity.x, jumpForce);
@@ -108,19 +127,6 @@ public class PlayerMovement : MonoBehaviour
     private void AddJump()
     {
         jumpCounter += 1;
-    }
-
-
-    private void CheckJump()
-    {
-        if (isGrounded)
-        {
-            jumpCounter = 0;
-        }
-        else if (wasGrabbingWall)
-        {
-            jumpCounter = 1;
-        }
     }
 
     private void WallMovement()
@@ -151,13 +157,9 @@ public class PlayerMovement : MonoBehaviour
                 body.gravityScale = defaultGravity;
                 int jumpDirection;
                 if (onLeftWall)
-                {
                     jumpDirection = 1;
-                }
                 else
-                {
                     jumpDirection = -1;
-                }
                 body.velocity = new Vector2(jumpDirection * wallJumpSideForce, wallJumpUpForce);
                 grabbingWall = false;
                 wasGrabbingWall = false;
@@ -188,19 +190,65 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void Dash()
+    {
+        if (dashing)
+        {
+            dashCooldownTimer = dashCooldown;
+            body.gravityScale = defaultGravity;
+            dashing = false;
+        }
+        if (canDash && dashPressed && !dashInputUsed && dashCooldownTimer <= 0)
+        {
+            dashTimer = dashTime;
+            body.gravityScale = 0;
+            dashing = true;
+            dashInputUsed = true;
+            canDash = false;
+
+            int dashDirection;
+            if (facingRight)
+                dashDirection = 1;
+            else
+                dashDirection = -1;
+            body.velocity = new Vector2(dashDirection * dashForce, 0);
+        }
+    }
+
     private void CheckControl()
     {
+        hasControl = false;
+
         if (wallJumpTimer > 0)
         {
-            hasControl = false;
             wallJumpTimer -= Time.deltaTime;
+        }
+        else if (dashTimer > 0)
+        {
+            dashTimer -= Time.deltaTime;
         }
         else
         {
             hasControl = true;
+
+            if (dashCooldownTimer > 0)
+                dashCooldownTimer -= Time.deltaTime;
         }
     }
 
+    private void CheckAbilities()
+    {
+        if (isGrounded)
+        {
+            jumpCounter = 0;
+            canDash = true;
+        }
+        else if (wasGrabbingWall)
+        {
+            jumpCounter = 1;
+            canDash = true;
+        }
+    }
     private void CheckGrounded()
     {
         RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.05f, groundLayer);
@@ -233,6 +281,15 @@ public class PlayerMovement : MonoBehaviour
     private void OnGlide(InputValue value)
     {
         glidePressed = value.isPressed;
+    }
+
+    private void OnDash(InputValue value)
+    {
+        dashPressed = value.isPressed;
+        if (dashPressed)
+        {
+            dashInputUsed = false;
+        }
     }
 
     //displays text for debugging

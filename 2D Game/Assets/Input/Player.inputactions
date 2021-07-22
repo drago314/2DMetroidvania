@@ -28,6 +28,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press(behavior=2)"
+                },
+                {
+                    "name": "Dash",
+                    "type": "Button",
+                    "id": "d984ab2d-cf7c-47ec-8fe8-e783940dbcea",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)"
                 }
             ],
             "bindings": [
@@ -138,6 +146,28 @@
                     "processors": "",
                     "groups": "Controller",
                     "action": "Glide",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "064464ed-930e-4546-8caa-cd3472e18577",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller;Keyboard & Mouse",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "67a6dd75-fcbd-476a-9171-3c620a73183d",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Dash",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
