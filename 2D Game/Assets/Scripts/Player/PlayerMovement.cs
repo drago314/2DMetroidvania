@@ -134,7 +134,7 @@ public class PlayerMovement : MonoBehaviour
     private void WallMovement()
     {
         grabbingWall = (onLeftWall && leftJoystick.x <= 0) || (onRightWall && leftJoystick.x >= 0);
-        if (grabbingWall && !isGrounded)
+        if (grabbingWall)
         {
             wasGrabbingWall = true;
             body.gravityScale = 0;
@@ -165,7 +165,11 @@ public class PlayerMovement : MonoBehaviour
 
         if (wallJumpCherryTimer > 0)
         {
-            if (!jumpInputUsed && jumpPressed)
+            if (isGrounded)
+            {
+                wallJumpCherryTimer = 0;    
+            }
+            else if (!jumpInputUsed && jumpPressed)
             {
                 int jumpDirection;
                 if (leftJoystick.x > 0)
@@ -187,7 +191,6 @@ public class PlayerMovement : MonoBehaviour
         grabbingWall = false;
         wasGrabbingWall = false;
         jumpInputUsed = true;
-        Debug.Log("here");
     }
 
     private void Glide()
@@ -274,8 +277,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckOnWall()
     {
-        RaycastHit2D raycastHitRight = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.right, 0.05f, groundLayer);
-        RaycastHit2D raycastHitLeft = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.left, 0.05f, groundLayer);
+        Vector2 center = new Vector2(boxCollider.bounds.center.x, boxCollider.bounds.center.y + 0.5f);
+        RaycastHit2D raycastHitRight = Physics2D.BoxCast(center, boxCollider.bounds.size, 0, Vector2.right, 0.05f, groundLayer);
+        RaycastHit2D raycastHitLeft = Physics2D.BoxCast(center, boxCollider.bounds.size, 0, Vector2.left, 0.05f, groundLayer);
         onLeftWall = raycastHitLeft.collider != null;
         onRightWall = raycastHitRight.collider != null;
     }
