@@ -1,33 +1,47 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class BasicAttack : MonoBehaviour
 {
-    public Transform AttackPoint;
-    public GameObject SlashPrefab;
+    [SerializeField] private Transform AttackPoint;
+    [SerializeField] private GameObject SlashPrefab;
 
-    public float AttackRate = 4.5f;
+    [SerializeField] private float AttackRate = 4.5f;
 
     private float nextTimeToAttack = 0f;
 
-    void Start()
+    private bool attackPressed;
+    private bool attackInputUsed;
+
+    private void Start()
     {
 
     }
 
-    void Update()
+    private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && Time.time >= nextTimeToAttack)
+        if (attackPressed && !attackInputUsed && Time.time >= nextTimeToAttack)
         {
+            attackInputUsed = true;
             nextTimeToAttack = Time.time + 1f / AttackRate;
             Attack();
         }
     }
 
-    void Attack()
+    private void Attack()
     {
 
         GameObject SlashEffect = Instantiate(SlashPrefab, AttackPoint.position, AttackPoint.rotation);
+    }
+
+    private void OnAttack(InputValue value)
+    {
+        attackPressed = value.isPressed;
+        if (attackPressed)
+        {
+            attackInputUsed = false;
+        }
     }
 }
