@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float wallJumpSideForce;
     [SerializeField] private float wallJumpUpForce;
     [SerializeField] private float wallJumpTime;
+    [SerializeField] private float wallJumpCherryTime;
 
     [SerializeField] private float glideGravity;
     [SerializeField] private float glideFallSpeed;
@@ -45,8 +46,9 @@ public class PlayerMovement : MonoBehaviour
     private int jumpCounter;
 
     private bool grabbingWall;
-    private bool wasGrabbingWall;
+    private bool wasGrabbingWall = false;
     private float wallJumpTimer;
+    private float wallJumpCherryTimer = 0;
 
     private bool glidePressed;
     private bool wasGliding;
@@ -105,7 +107,7 @@ public class PlayerMovement : MonoBehaviour
     private void Jump()
     {
         //Regular Jump
-        if (jumpCounter < 2 && jumpPressed && !jumpInputUsed && !grabbingWall)
+        if (jumpCounter < 2 && jumpPressed && !jumpInputUsed && !grabbingWall && wallJumpCherryTimer <= 0)
         {
             Invoke("AddJump", 0.1f);
             body.velocity = new Vector2(body.velocity.x, jumpForce);
@@ -132,45 +134,60 @@ public class PlayerMovement : MonoBehaviour
     private void WallMovement()
     {
         grabbingWall = (onLeftWall && leftJoystick.x <= 0) || (onRightWall && leftJoystick.x >= 0);
-        if (grabbingWall)
+        if (grabbingWall && !isGrounded)
         {
             wasGrabbingWall = true;
             body.gravityScale = 0;
 
             if(leftJoystick.y > 0)
-            {
                 body.velocity = new Vector2(body.velocity.x, climbSpeed);
-            }
             else if(leftJoystick.y < 0)
-            {
                 body.velocity = new Vector2(body.velocity.x, climbSpeed * -1);
-            }
             else
-            {
                 body.velocity = Vector2.zero;
-            }
 
-            if (!jumpInputUsed)
+            if (!jumpInputUsed && jumpPressed)
             {
-                wallJumpTimer = wallJumpTime;
-                body.velocity = Vector2.zero;
-                body.gravityScale = defaultGravity;
                 int jumpDirection;
                 if (onLeftWall)
                     jumpDirection = 1;
                 else
                     jumpDirection = -1;
-                body.velocity = new Vector2(jumpDirection * wallJumpSideForce, wallJumpUpForce);
-                grabbingWall = false;
-                wasGrabbingWall = false;
-                jumpInputUsed = true;
+                WallJump(jumpDirection);
             }
         }
         else if (wasGrabbingWall)
         {
             body.gravityScale = defaultGravity;
+            wallJumpCherryTimer = wallJumpCherryTime;
             wasGrabbingWall = false;
         }
+
+        if (wallJumpCherryTimer > 0)
+        {
+            if (!jumpInputUsed && jumpPressed)
+            {
+                int jumpDirection;
+                if (leftJoystick.x > 0)
+                    jumpDirection = 1;
+                else
+                    jumpDirection = -1;
+                WallJump(jumpDirection);
+            }
+            wallJumpCherryTimer -= Time.deltaTime;
+        }
+    }
+
+    private void WallJump(int jumpDirection)
+    {
+        wallJumpTimer = wallJumpTime;
+        body.velocity = Vector2.zero;
+        body.gravityScale = defaultGravity;
+        body.velocity = new Vector2(jumpDirection * wallJumpSideForce, wallJumpUpForce);
+        grabbingWall = false;
+        wasGrabbingWall = false;
+        jumpInputUsed = true;
+        Debug.Log("here");
     }
 
     private void Glide()
@@ -295,8 +312,8 @@ public class PlayerMovement : MonoBehaviour
     //displays text for debugging
     private void OnGUI()
     {
-        GUI.Label(new Rect(1100, 10, 100, 100), "Jump Input Used: " + jumpInputUsed);
-        //GUI.Label(new Rect(1200, 50, 100, 100), "is doing thing: " + isControlDashing);
+        GUI.Label(new Rect(1100, 10, 100, 100), "timer: " + wallJumpCherryTimer);
+        GUI.Label(new Rect(1200, 50, 100, 100), "onWall: " + (onLeftWall || onRightWall));
     }
 
 }
