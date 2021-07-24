@@ -31,12 +31,21 @@ public class InvFrame : MonoBehaviour, IHealthCallback
 
     public void OnHit()
     {
-        HaveInvFrame();
+        InvForTime(iFrameDuration);
     }
 
-    public void HaveInvFrame()
+    public void InvForTime(float duration)
     {
-        StartCoroutine(Invulnerability(iFrameDuration, numberOfFlashes, spriteRend));
+        int numFlashes = (int) (numberOfFlashes / iFrameDuration * duration);
+        StartCoroutine(Invulnerability(duration, numFlashes, spriteRend));
+    }
+
+    public void Invincible(bool inv)
+    {
+        if (inv)
+            Physics2D.IgnoreLayerCollision(10, 9, true);
+        else
+            Physics2D.IgnoreLayerCollision(10, 9, false);
     }
 
     public IEnumerator Invulnerability(float time, int amountOfFlashes, SpriteRenderer spriteRend)
