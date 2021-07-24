@@ -25,7 +25,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float dashTime;
     [SerializeField] private float dashCooldown;
 
+    [SerializeField] private float animeDashForce;
+    [SerializeField] private float animeDashRange;
+    [SerializeField] private float animeDashTime;
+    [SerializeField] private float animeDashCooldown;
+
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask enemyLayer;
 
     private BoxCollider2D boxCollider;
     private Rigidbody2D body;
@@ -59,6 +65,13 @@ public class PlayerMovement : MonoBehaviour
     private bool dashing;
     private float dashTimer;
     private float dashCooldownTimer = 0f;
+
+    private bool animeDashPressed;
+    private bool animeDashInputUsed;
+    private bool canAnimeDash;
+    private bool animeDashing;
+    private float animeDashTimer;
+    private float animeDashCooldownTimer = 0f;
 
     private void Awake()
     {
@@ -96,6 +109,7 @@ public class PlayerMovement : MonoBehaviour
             WallMovement();
             Glide();
             Dash();
+            AnimeDash();
         }
     }
 
@@ -235,6 +249,35 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void AnimeDash()
+    {
+        if (animeDashing)
+        {
+            animeDashCooldownTimer = animeDashCooldown;
+            body.gravityScale = defaultGravity;
+            animeDashing = false;
+        }
+        if (canAnimeDash && animeDashPressed && !animeDashInputUsed && animeDashCooldownTimer <= 0)
+        {
+            animeDashInputUsed = true;
+            Collider2D[] possibleTargets = Physics2D.OverlapCircleAll(body.position, animeDashRange, enemyLayer);
+            if (possibleTargets.Length > 0)
+            {
+                animeDashTimer = animeDashTime;
+                body.gravityScale = 0;
+                animeDashing = true;
+                canAnimeDash = false;
+
+                DashToPosition(possibleTargets[0].transform.position);
+            }
+        }
+    }
+
+    private void DashToPosition(Vector2 target)
+    {
+        gameObject.transform.position = target;
+    }
+
     private void CheckControl()
     {
         hasControl = false;
@@ -247,12 +290,19 @@ public class PlayerMovement : MonoBehaviour
         {
             dashTimer -= Time.deltaTime;
         }
+        else if (animeDashTimer > 0)
+        {
+            animeDashTimer -= Time.deltaTime;   
+        }
         else
         {
             hasControl = true;
 
             if (dashCooldownTimer > 0)
                 dashCooldownTimer -= Time.deltaTime;
+
+            if (animeDashCooldownTimer > 0)
+                animeDashCooldownTimer -= Time.deltaTime;
         }
     }
 
@@ -262,8 +312,15 @@ public class PlayerMovement : MonoBehaviour
         {
             jumpCounter = 0;
             canDash = true;
+            canAnimeDash = true;
         }
         else if (wasGrabbingWall)
+        {
+            jumpCounter = 1;
+            canDash = true;
+            canAnimeDash = true;
+        }
+        else if (animeDashing)
         {
             jumpCounter = 1;
             canDash = true;
@@ -310,6 +367,15 @@ public class PlayerMovement : MonoBehaviour
         if (dashPressed)
         {
             dashInputUsed = false;
+        }
+    }
+
+    private void OnAnimeDash(InputValue value)
+    {
+        animeDashPressed = value.isPressed;
+        if (animeDashPressed)
+        {
+            animeDashInputUsed = false;
         }
     }
 
