@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float moveSpeed;
+    [SerializeField] private float maxMoveSpeed;
+    [SerializeField] private float moveSlowdown;
 
     [SerializeField] private float jumpForce;
     [SerializeField] private float fallMultiplier;
@@ -119,7 +121,22 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move()
     {
-        body.velocity = new Vector2(leftJoystick.x * moveSpeed, body.velocity.y);
+        if (leftJoystick.x > 0)
+        {
+            float xForce = leftJoystick.x * moveSpeed + body.velocity.x;
+            if (xForce <= maxMoveSpeed)
+                body.velocity = new Vector2(xForce, body.velocity.y);
+        }
+        else if (leftJoystick.x < 0)
+        {
+            float xForce = leftJoystick.x * moveSpeed + body.velocity.x;
+            if (xForce >= -maxMoveSpeed)
+                body.velocity = new Vector2(xForce, body.velocity.y);
+        }
+        else
+        {
+            body.velocity = new Vector2(0, body.velocity.y);
+        }
     }
 
     private void Jump()
