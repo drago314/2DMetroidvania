@@ -30,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float animeDashForce;
     [SerializeField] private float animeDashRange;
     [SerializeField] private float animeDashInvincibilityTime;
+    [SerializeField] private float animeDashTime;
     [SerializeField] private float animeDashCooldown;
 
     [SerializeField] private LayerMask groundLayer;
@@ -72,8 +73,9 @@ public class PlayerMovement : MonoBehaviour
 
     private bool animeDashPressed;
     private bool animeDashInputUsed;
-    private bool canAnimeDash;
-    private bool animeDashing;
+    private bool animeDashing = false;
+    private bool reachedTarget;
+    private float animeDashTimer = 0f;
     private float animeDashCooldownTimer = 0f;
     private Vector2 animeDashTarget;
     private Vector2 animeDashDirection;
@@ -272,24 +274,30 @@ public class PlayerMovement : MonoBehaviour
 
     private void AnimeDash()
     {
-        if (animeDashing && Vector2.Distance(body.position, animeDashTarget) < 0.2f)
+        if (animeDashing && !reachedTarget && Vector2.Distance(body.position, animeDashTarget) < 0.2f)
         {
             Invoke("RemoveInvincibility", animeDashInvincibilityTime);
-            animeDashing = false;
+            reachedTarget = true;
             animeDashCooldownTimer = animeDashCooldown;
+            animeDashTimer = animeDashTime;
             body.velocity = animeDashDirection;
-            body.gravityScale = defaultGravity;
         }
-        else if (canAnimeDash && animeDashPressed && !animeDashInputUsed && animeDashCooldownTimer <= 0)
+        else if (animeDashing && reachedTarget && animeDashTimer <= 0)
         {
-            iFrame.Invincible(true);
+            body.gravityScale = defaultGravity;
+            animeDashing = false;
+        }
+        else if (animeDashPressed && !animeDashInputUsed && animeDashCooldownTimer <= 0)
+        {
             animeDashInputUsed = true;
             Collider2D[] possibleTargets = Physics2D.OverlapCircleAll(body.position, animeDashRange, enemyLayer);
             if (possibleTargets.Length > 0)
             {
+                iFrame.Invincible(true);
+
                 body.gravityScale = 0;
                 animeDashing = true;
-                canAnimeDash = false;
+                reachedTarget = false;
 
                 animeDashTarget = possibleTargets[0].transform.position;
                 DashToPosition(animeDashTarget);
@@ -352,6 +360,8 @@ public class PlayerMovement : MonoBehaviour
         else if (animeDashing)
         {
             AnimeDash();
+            if (animeDashTimer > 0)
+                animeDashTimer -= Time.deltaTime;
         }
         else
         {
@@ -371,13 +381,11 @@ public class PlayerMovement : MonoBehaviour
         {
             jumpCounter = 0;
             canDash = true;
-            canAnimeDash = true;
         }
         else if (wasGrabbingWall)
         {
             jumpCounter = 1;
             canDash = true;
-            canAnimeDash = true;
         }
         else if (animeDashing)
         {

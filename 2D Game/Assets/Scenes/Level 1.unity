@@ -513,7 +513,8 @@ MonoBehaviour:
   animeDashForce: 15
   animeDashRange: 10
   animeDashInvincibilityTime: 0.4
-  animeDashCooldown: 0.3
+  animeDashTime: 0.2
+  animeDashCooldown: 1
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
