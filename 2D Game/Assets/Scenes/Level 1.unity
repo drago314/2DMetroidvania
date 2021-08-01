@@ -494,8 +494,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  maxMoveSpeed: 5
-  moveSlowdown: 0.9
   jumpForce: 5
   fallMultiplier: 2.5
   lowJumpMultiplier: 4
@@ -512,9 +510,9 @@ MonoBehaviour:
   dashCooldown: 0.3
   animeDashForce: 20
   animeDashRange: 10
-  animeDashInvincibilityTime: 0.4
-  animeDashTime: 0.2
-  animeDashCooldown: 1
+  animeDashInvincibilityTime: 0.1
+  animeDashTime: 0.1
+  animeDashCooldown: 0.5
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
