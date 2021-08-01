@@ -51,6 +51,9 @@ public class PlayerAttack : MonoBehaviour
             sideAttack.Attack();
             attackTimer = attackTime;
 
+            playerActions.body.velocity = Vector2.zero;
+            playerActions.body.gravityScale = 0;
+
             Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, attackRadius, enemyLayer);
 
             foreach (Collider2D enemy in enemies)
@@ -63,6 +66,7 @@ public class PlayerAttack : MonoBehaviour
     private void EndAttack()
     {
         sideAttack.EndAttack();
+        playerActions.body.gravityScale = playerActions.defaultGravity;
     }
 
     private void OnAttack(InputValue value)
