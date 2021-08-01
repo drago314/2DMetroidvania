@@ -493,7 +493,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c25162122d0a7d643b7cdc1419e05ab3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0.5
+  moveSpeed: 5
   maxMoveSpeed: 5
   moveSlowdown: 0.9
   jumpForce: 5
@@ -510,7 +510,7 @@ MonoBehaviour:
   dashForce: 15
   dashTime: 0.3
   dashCooldown: 0.3
-  animeDashForce: 15
+  animeDashForce: 20
   animeDashRange: 10
   animeDashInvincibilityTime: 0.4
   animeDashTime: 0.2
