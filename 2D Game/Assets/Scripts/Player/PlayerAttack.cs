@@ -15,6 +15,7 @@ public class PlayerAttack : MonoBehaviour
     private LayerMask enemyLayer;
 
     private float attackTimer = 0f;
+    private float attackCooldownTimer = 0f;
 
     private bool attackPressed;
     private bool attackInputUsed;
@@ -36,16 +37,23 @@ public class PlayerAttack : MonoBehaviour
         bool hasControl = false;
 
         if (attackTimer > 0)
+        {
             attackTimer -= Time.deltaTime;
+        }
         else
+        {
+            if (attackCooldownTimer > 0)
+                attackCooldownTimer -= Time.deltaTime;
+
             hasControl = true;
+        }
 
         return hasControl;
     }
 
     private void BasicAttack()
     {
-        if (attackPressed && !attackInputUsed)
+        if (attackPressed && !attackInputUsed && attackCooldownTimer <= 0)
         {
             attackInputUsed = true;
             sideAttack.Attack();
@@ -66,6 +74,7 @@ public class PlayerAttack : MonoBehaviour
     private void EndAttack()
     {
         sideAttack.EndAttack();
+        attackCooldownTimer = attackCooldown;
         playerActions.body.gravityScale = playerActions.defaultGravity;
     }
 

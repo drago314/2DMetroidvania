@@ -525,8 +525,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c0fb8c8eca07ad4ca132b2c433789e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackTime: 0.2
-  attackCooldown: 0
+  attackTime: 0.25
+  attackCooldown: 0.2
   damage: 1
   attackRadius: 1
   sideAttack: {fileID: 1282286908}
@@ -1218,7 +1218,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1035057487}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.86, y: -1.12, z: -1.3680669}
+  m_LocalPosition: {x: 2.86, y: 2.51, z: -1.3680669}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
