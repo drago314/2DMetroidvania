@@ -134,6 +134,8 @@ GameObject:
   - component: {fileID: 63465634}
   - component: {fileID: 63465633}
   - component: {fileID: 63465636}
+  - component: {fileID: 63465631}
+  - component: {fileID: 63465637}
   - component: {fileID: 63465632}
   - component: {fileID: 63465635}
   m_Layer: 9
@@ -143,6 +145,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &63465631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 63465630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dea80ce27058f14a9a2e2879133f6b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 3
+  currentHealth: 3
 --- !u!61 &63465632
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -270,6 +286,19 @@ MonoBehaviour:
   speed: 3
   viewRadius: 5
   obstacleDetector: {fileID: 1394361173}
+--- !u!114 &63465637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 63465630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55031e54d98e9ee469c162a9780315ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: {fileID: 63465631}
 --- !u!1 &84496166
 GameObject:
   m_ObjectHideFlags: 0
@@ -498,7 +527,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackTime: 1
   attackCooldown: 0
-  Damage: 0
+  damage: 1
+  attackRadius: 1
   sideAttack: {fileID: 1282286908}
 --- !u!114 &177300799
 MonoBehaviour:
@@ -855,6 +885,8 @@ GameObject:
   - component: {fileID: 907951391}
   - component: {fileID: 907951390}
   - component: {fileID: 907951392}
+  - component: {fileID: 907951393}
+  - component: {fileID: 907951394}
   - component: {fileID: 907951389}
   m_Layer: 9
   m_Name: Patrolling Enemy
@@ -972,6 +1004,33 @@ MonoBehaviour:
   distanceToWall: 0
   damage: 1
   obstacleDetector: {fileID: 794414168}
+--- !u!114 &907951393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 907951388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dea80ce27058f14a9a2e2879133f6b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 3
+  currentHealth: 3
+--- !u!114 &907951394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 907951388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55031e54d98e9ee469c162a9780315ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: {fileID: 907951393}
 --- !u!1 &996572708
 GameObject:
   m_ObjectHideFlags: 0
@@ -1050,6 +1109,8 @@ GameObject:
   - component: {fileID: 1035057491}
   - component: {fileID: 1035057490}
   - component: {fileID: 1035057492}
+  - component: {fileID: 1035057489}
+  - component: {fileID: 1035057493}
   - component: {fileID: 1035057488}
   m_Layer: 9
   m_Name: Flying Stationary Enemy
@@ -1084,6 +1145,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.2404847, y: 1.22}
   m_EdgeRadius: 0
+--- !u!114 &1035057489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1035057487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dea80ce27058f14a9a2e2879133f6b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 3
+  currentHealth: 3
 --- !u!212 &1035057490
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1143,7 +1218,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1035057487}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.9, y: 2.39, z: -1.3680669}
+  m_LocalPosition: {x: 2.86, y: -1.12, z: -1.3680669}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1162,6 +1237,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
+--- !u!114 &1035057493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1035057487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55031e54d98e9ee469c162a9780315ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: {fileID: 1035057489}
 --- !u!4 &1074855535 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 403258334553159310, guid: 82f4e96422277804497f3b489f90cc57, type: 3}

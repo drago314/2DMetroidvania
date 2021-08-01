@@ -7,13 +7,24 @@ public class PlayerAttack : MonoBehaviour
 {
     [SerializeField] private float attackTime;
     [SerializeField] private float attackCooldown;
-    [SerializeField] private float Damage;
+    [SerializeField] private int damage;
+    [SerializeField] private float attackRadius;
     [SerializeField] private SideAttackToggle sideAttack;
+
+    private PlayerActions playerActions;
+    private LayerMask enemyLayer;
 
     private float attackTimer = 0f;
 
     private bool attackPressed;
     private bool attackInputUsed;
+
+    private void Start()
+    {
+        playerActions = GetComponent<PlayerActions>();
+
+        enemyLayer = playerActions.GetEnemyLayer();
+    }
 
     public void Attack()
     {
@@ -39,6 +50,12 @@ public class PlayerAttack : MonoBehaviour
             attackInputUsed = true;
             sideAttack.Attack();
             attackTimer = attackTime;
+
+            Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, attackRadius, enemyLayer);
+
+            foreach (Collider2D enemy in enemies)
+                enemy.GetComponent<Health>().Damage(damage);
+
             Invoke("EndAttack", attackTime);
         }
     }
