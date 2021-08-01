@@ -31,24 +31,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float animeDashTime;
     [SerializeField] private float animeDashCooldown;
 
-    [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private LayerMask enemyLayer;
+    private PlayerActions playerActions;
 
-    private BoxCollider2D boxCollider;
     private Rigidbody2D body;
     private Animator anim;
-
+    private LayerMask groundLayer;
+    private LayerMask enemyLayer;
     private float defaultGravity;
-    private Vector2 leftJoystick;
-
-    private InvFrame iFrame;
-
-    private bool isGrounded;
-    private bool onLeftWall;
-    private bool onRightWall;
-
-    private bool hasControl;
-    private bool facingRight;
 
     private bool jumpPressed;
     private bool jumpInputUsed;
@@ -78,50 +67,81 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 animeDashTarget;
     private Vector2 animeDashDirection;
 
-    private void Awake()
+    private void Start()
     {
-        //Grab references 
-        boxCollider = GetComponent<BoxCollider2D>();
-        body = GetComponent<Rigidbody2D>();
-        //anim = GetComponent<Animator>();
-        iFrame = gameObject.GetComponent<InvFrame>();
+        playerActions = gameObject.GetComponent<PlayerActions>();
 
-        defaultGravity = body.gravityScale;
+        body = playerActions.body;
+        anim = playerActions.anim;
+        groundLayer = playerActions.GetGroundLayer();
+        enemyLayer = playerActions.GetEnemyLayer();
+        defaultGravity = playerActions.defaultGravity;
+    }   
+
+    public void Movement()
+    {
+        Move();
+        Jump();
+        WallMovement();
+        Glide();
+        Dash();
+        AnimeDash();
     }
 
-    private void Update()
+    public bool CheckControl()
     {
-        CheckGrounded();
-        CheckOnWall();
-        CheckControl();
-        CheckAbilities();
+        bool hasControl = false;
 
-        //Flipping Character Model
-        if (leftJoystick.x > 0.01f)
+        if (wallJumpTimer > 0)
         {
-            transform.localScale = new Vector2(1, 1);
-            facingRight = true;
+            wallJumpTimer -= Time.deltaTime;
         }
-        else if (leftJoystick.x < -0.01f)
+        else if (dashTimer > 0)
         {
-            transform.localScale = new Vector2(-1, 1);
-            facingRight = false;
+            dashTimer -= Time.deltaTime;
         }
-
-        if (hasControl)
+        else if (animeDashing)
         {
-            Move();
-            Jump();
-            WallMovement();
-            Glide();
-            Dash();
             AnimeDash();
+            if (animeDashTimer > 0)
+                animeDashTimer -= Time.deltaTime;
+        }
+        else
+        {
+            hasControl = true;
+
+            if (dashCooldownTimer > 0)
+                dashCooldownTimer -= Time.deltaTime;
+
+            if (animeDashCooldownTimer > 0)
+                animeDashCooldownTimer -= Time.deltaTime;
+        }
+
+        return hasControl;
+    }
+
+    public void CheckMovement()
+    {
+        if (playerActions.isGrounded)
+        {
+            jumpCounter = 0;
+            canDash = true;
+        }
+        else if (wasGrabbingWall)
+        {
+            jumpCounter = 1;
+            canDash = true;
+        }
+        else if (animeDashing)
+        {
+            jumpCounter = 1;
+            canDash = true;
         }
     }
 
     private void Move()
     {
-        body.velocity = new Vector2(leftJoystick.x * moveSpeed, body.velocity.y);
+        body.velocity = new Vector2(playerActions.leftJoystick.x * moveSpeed, body.velocity.y);
     }
 
     private void Jump()
@@ -153,15 +173,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void WallMovement()
     {
-        grabbingWall = (onLeftWall && leftJoystick.x <= 0) || (onRightWall && leftJoystick.x >= 0);
+        grabbingWall = (playerActions.onLeftWall && playerActions.leftJoystick.x <= 0) || (playerActions.onRightWall && playerActions.leftJoystick.x >= 0);
         if (grabbingWall)
         {
             wasGrabbingWall = true;
             body.gravityScale = 0;
 
-            if(leftJoystick.y > 0)
+            if (playerActions.leftJoystick.y > 0)
                 body.velocity = new Vector2(body.velocity.x, climbSpeed);
-            else if(leftJoystick.y < 0)
+            else if (playerActions.leftJoystick.y < 0)
                 body.velocity = new Vector2(body.velocity.x, climbSpeed * -1);
             else
                 body.velocity = Vector2.zero;
@@ -169,7 +189,7 @@ public class PlayerMovement : MonoBehaviour
             if (!jumpInputUsed && jumpPressed)
             {
                 int jumpDirection;
-                if (onLeftWall)
+                if (playerActions.onLeftWall)
                     jumpDirection = 1;
                 else
                     jumpDirection = -1;
@@ -185,14 +205,14 @@ public class PlayerMovement : MonoBehaviour
 
         if (wallJumpCherryTimer > 0)
         {
-            if (isGrounded)
+            if (playerActions.isGrounded)
             {
-                wallJumpCherryTimer = 0;    
+                wallJumpCherryTimer = 0;
             }
             else if (!jumpInputUsed && jumpPressed)
             {
                 int jumpDirection;
-                if (leftJoystick.x > 0)
+                if (playerActions.leftJoystick.x > 0)
                     jumpDirection = 1;
                 else
                     jumpDirection = -1;
@@ -215,7 +235,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Glide()
     {
-        if (glidePressed && !isGrounded && !onLeftWall && !onRightWall)
+        if (glidePressed && !playerActions.isGrounded && !playerActions.onLeftWall && !playerActions.onRightWall)
         {
             wasGliding = true;
             parachute.Open();
@@ -247,7 +267,7 @@ public class PlayerMovement : MonoBehaviour
             canDash = false;
 
             int dashDirection;
-            if (facingRight)
+            if (playerActions.facingRight)
                 dashDirection = 1;
             else
                 dashDirection = -1;
@@ -277,7 +297,7 @@ public class PlayerMovement : MonoBehaviour
             Collider2D[] possibleTargets = Physics2D.OverlapCircleAll(body.position, animeDashRange, enemyLayer);
             if (possibleTargets.Length > 0)
             {
-                iFrame.Invincible(true);
+                playerActions.iFrame.Invincible(true);
 
                 body.gravityScale = 0;
                 animeDashing = true;
@@ -326,76 +346,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void RemoveInvincibility()
     {
-        iFrame.Invincible(false);
-    }
-
-    private void CheckControl()
-    {
-        hasControl = false;
-
-        if (wallJumpTimer > 0)
-        {
-            wallJumpTimer -= Time.deltaTime;
-        }
-        else if (dashTimer > 0)
-        {
-            dashTimer -= Time.deltaTime;
-        }
-        else if (animeDashing)
-        {
-            AnimeDash();
-            if (animeDashTimer > 0)
-                animeDashTimer -= Time.deltaTime;
-        }
-        else
-        {
-            hasControl = true;
-
-            if (dashCooldownTimer > 0)
-                dashCooldownTimer -= Time.deltaTime;
-
-            if (animeDashCooldownTimer > 0)
-                animeDashCooldownTimer -= Time.deltaTime;
-        }
-    }
-
-    private void CheckAbilities()
-    {
-        if (isGrounded)
-        {
-            jumpCounter = 0;
-            canDash = true;
-        }
-        else if (wasGrabbingWall)
-        {
-            jumpCounter = 1;
-            canDash = true;
-        }
-        else if (animeDashing)
-        {
-            jumpCounter = 1;
-            canDash = true;
-        }
-    }
-    private void CheckGrounded()
-    {
-        RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.05f, groundLayer);
-        isGrounded = raycastHit.collider != null;
-    }
-
-    private void CheckOnWall()
-    {
-        Vector2 center = new Vector2(boxCollider.bounds.center.x, boxCollider.bounds.center.y + 0.5f);
-        RaycastHit2D raycastHitRight = Physics2D.BoxCast(center, boxCollider.bounds.size, 0, Vector2.right, 0.05f, groundLayer);
-        RaycastHit2D raycastHitLeft = Physics2D.BoxCast(center, boxCollider.bounds.size, 0, Vector2.left, 0.05f, groundLayer);
-        onLeftWall = raycastHitLeft.collider != null;
-        onRightWall = raycastHitRight.collider != null;
-    }
-
-
-    private void OnMove(InputValue value)
-    {
-        leftJoystick = value.Get<Vector2>();
+        playerActions.iFrame.Invincible(false);
     }
 
     private void OnJump(InputValue value)
@@ -429,12 +380,4 @@ public class PlayerMovement : MonoBehaviour
             animeDashInputUsed = false;
         }
     }
-
-    //displays text for debugging
-    private void OnGUI()
-    {
-        GUI.Label(new Rect(1100, 10, 100, 100), "anime Dashing: " + animeDashing);
-        //GUI.Label(new Rect(1200, 50, 100, 100), "onWall: " + (onLeftWall || onRightWall));
-    }
-
 }
