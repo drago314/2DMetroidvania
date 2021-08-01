@@ -25,7 +25,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float dashTime;
     [SerializeField] private float dashCooldown;
 
+    [SerializeField] private float animeDashForce;
+    [SerializeField] private float animeDashRange;
+    [SerializeField] private float animeDashInvincibilityTime;
+    [SerializeField] private float animeDashTime;
+    [SerializeField] private float animeDashCooldown;
+
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask enemyLayer;
 
     private BoxCollider2D boxCollider;
     private Rigidbody2D body;
@@ -33,6 +40,8 @@ public class PlayerMovement : MonoBehaviour
 
     private float defaultGravity;
     private Vector2 leftJoystick;
+
+    private InvFrame iFrame;
 
     private bool isGrounded;
     private bool onLeftWall;
@@ -60,12 +69,22 @@ public class PlayerMovement : MonoBehaviour
     private float dashTimer;
     private float dashCooldownTimer = 0f;
 
+    private bool animeDashPressed;
+    private bool animeDashInputUsed;
+    private bool animeDashing = false;
+    private bool reachedTarget;
+    private float animeDashTimer = 0f;
+    private float animeDashCooldownTimer = 0f;
+    private Vector2 animeDashTarget;
+    private Vector2 animeDashDirection;
+
     private void Awake()
     {
         //Grab references 
         boxCollider = GetComponent<BoxCollider2D>();
         body = GetComponent<Rigidbody2D>();
         //anim = GetComponent<Animator>();
+        iFrame = gameObject.GetComponent<InvFrame>();
 
         defaultGravity = body.gravityScale;
     }
@@ -96,6 +115,7 @@ public class PlayerMovement : MonoBehaviour
             WallMovement();
             Glide();
             Dash();
+            AnimeDash();
         }
     }
 
@@ -235,6 +255,80 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void AnimeDash()
+    {
+        if (animeDashing && !reachedTarget && Vector2.Distance(body.position, animeDashTarget) < 0.2f)
+        {
+            Invoke("RemoveInvincibility", animeDashInvincibilityTime);
+            reachedTarget = true;
+            animeDashCooldownTimer = animeDashCooldown;
+            animeDashTimer = animeDashTime;
+            body.velocity = animeDashDirection;
+        }
+        else if (animeDashing && reachedTarget && animeDashTimer <= 0)
+        {
+            body.gravityScale = defaultGravity;
+            body.velocity = Vector2.zero;
+            animeDashing = false;
+        }
+        else if (animeDashPressed && !animeDashInputUsed && animeDashCooldownTimer <= 0)
+        {
+            animeDashInputUsed = true;
+            Collider2D[] possibleTargets = Physics2D.OverlapCircleAll(body.position, animeDashRange, enemyLayer);
+            if (possibleTargets.Length > 0)
+            {
+                iFrame.Invincible(true);
+
+                body.gravityScale = 0;
+                animeDashing = true;
+                reachedTarget = false;
+
+                animeDashTarget = possibleTargets[0].transform.position;
+                DashToPosition(animeDashTarget);
+            }
+        }
+    }
+
+    private void DashToPosition(Vector2 target)
+    {
+        Vector2 current = body.position;
+        float slope = (target.y - current.y) / (target.x - current.x);
+        float radian = Mathf.Atan(Mathf.Abs(slope));
+        radian = CheckRadian(target.x - current.x, target.y - current.y, radian);
+        float xForce = Mathf.Cos(radian);
+        float yForce = Mathf.Sin(radian);
+        animeDashDirection = new Vector2(xForce * animeDashForce, yForce * animeDashForce);
+        body.velocity = animeDashDirection;
+    }
+
+    private float CheckRadian(float x, float y, float radianPrime)
+    {
+        //don't yell at me my trig is dum and bad and idk the good way to do it
+        if (y < 0 && x < 0)
+            return radianPrime + Mathf.PI;
+        else if (y < 0 && x != 0)
+            return 2 * Mathf.PI - radianPrime;
+        else if (x < 0 && y != 0)
+            return Mathf.PI - radianPrime;
+        else if (x > 0 && y > 0)
+            return radianPrime;
+        else if (y == 0 && x > 0)
+            return 0;
+        else if (y == 0 && x < 0)
+            return Mathf.PI;
+        else if (y > 0)
+            return Mathf.PI / 2f;
+        else if (y < 0)
+            return 3 * Mathf.PI / 2f;
+        else
+            return 0;
+    }
+
+    private void RemoveInvincibility()
+    {
+        iFrame.Invincible(false);
+    }
+
     private void CheckControl()
     {
         hasControl = false;
@@ -247,12 +341,21 @@ public class PlayerMovement : MonoBehaviour
         {
             dashTimer -= Time.deltaTime;
         }
+        else if (animeDashing)
+        {
+            AnimeDash();
+            if (animeDashTimer > 0)
+                animeDashTimer -= Time.deltaTime;
+        }
         else
         {
             hasControl = true;
 
             if (dashCooldownTimer > 0)
                 dashCooldownTimer -= Time.deltaTime;
+
+            if (animeDashCooldownTimer > 0)
+                animeDashCooldownTimer -= Time.deltaTime;
         }
     }
 
@@ -264,6 +367,11 @@ public class PlayerMovement : MonoBehaviour
             canDash = true;
         }
         else if (wasGrabbingWall)
+        {
+            jumpCounter = 1;
+            canDash = true;
+        }
+        else if (animeDashing)
         {
             jumpCounter = 1;
             canDash = true;
@@ -313,11 +421,20 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void OnAnimeDash(InputValue value)
+    {
+        animeDashPressed = value.isPressed;
+        if (animeDashPressed)
+        {
+            animeDashInputUsed = false;
+        }
+    }
+
     //displays text for debugging
     private void OnGUI()
     {
-        GUI.Label(new Rect(1100, 10, 100, 100), "timer: " + wallJumpCherryTimer);
-        GUI.Label(new Rect(1200, 50, 100, 100), "onWall: " + (onLeftWall || onRightWall));
+        GUI.Label(new Rect(1100, 10, 100, 100), "anime Dashing: " + animeDashing);
+        //GUI.Label(new Rect(1200, 50, 100, 100), "onWall: " + (onLeftWall || onRightWall));
     }
 
 }

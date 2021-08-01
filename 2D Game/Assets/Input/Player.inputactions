@@ -36,6 +36,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press(behavior=2)"
+                },
+                {
+                    "name": "AnimeDash",
+                    "type": "Button",
+                    "id": "0711da7e-d1f7-4085-9a04-3b66d830d207",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)"
                 }
             ],
             "bindings": [
@@ -141,7 +149,7 @@
                 {
                     "name": "",
                     "id": "b0ae2c21-9375-4604-8ed1-d54aff3ac430",
-                    "path": "<Gamepad>/rightTrigger",
+                    "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
@@ -163,11 +171,33 @@
                 {
                     "name": "",
                     "id": "67a6dd75-fcbd-476a-9171-3c620a73183d",
-                    "path": "<Gamepad>/rightShoulder",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
                     "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "842e2ded-8acf-4846-b784-9e8bfdf60f78",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller;Keyboard & Mouse",
+                    "action": "AnimeDash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "06e14788-e51f-4881-8e07-23b811cd04a7",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AnimeDash",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
