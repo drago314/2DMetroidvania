@@ -8,8 +8,10 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private float attackTime;
     [SerializeField] private float attackCooldown;
     [SerializeField] private int damage;
-    [SerializeField] private float attackRadius;
+    [SerializeField] private float sideAttackRadius;
+    [SerializeField] private float upAttackRadius;
     [SerializeField] private SideAttackToggle sideAttack;
+    [SerializeField] private UpAttackToggle upAttack;
 
     private PlayerActions playerActions;
     private LayerMask enemyLayer;
@@ -48,23 +50,45 @@ public class PlayerAttack : MonoBehaviour
         if (attackPressed && !attackInputUsed && attackCooldownTimer <= 0)
         {
             attackInputUsed = true;
-            sideAttack.Attack();
 
-            //playerActions.body.velocity = Vector2.zero;
-            //playerActions.body.gravityScale = 0;
+            if (playerActions.leftJoystick.y > 0.2)
+            {
+                upAttack.Attack();
 
-            Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, attackRadius, enemyLayer);
+                Collider2D[] enemies = Physics2D.OverlapCircleAll(upAttack.transform.position, upAttackRadius, enemyLayer);
 
-            foreach (Collider2D enemy in enemies)
-                enemy.GetComponent<Health>().Damage(damage);
+                foreach (Collider2D enemy in enemies)
+                    enemy.GetComponent<Health>().Damage(damage);
 
-            Invoke("EndAttack", attackTime);
+                Invoke("EndUpAttack", attackTime);
+            }
+            else if (playerActions.leftJoystick.y < -0.2 )
+            {
+
+            }
+            else
+            {
+                sideAttack.Attack(playerActions.facingRight);
+
+                Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, sideAttackRadius, enemyLayer);
+
+                foreach (Collider2D enemy in enemies)
+                    enemy.GetComponent<Health>().Damage(damage);
+
+                Invoke("EndSideAttack", attackTime);
+            }
         }
     }
 
-    private void EndAttack()
+    private void EndSideAttack()
     {
         sideAttack.EndAttack();
+        attackCooldownTimer = attackCooldown;
+    }
+
+    private void EndUpAttack()
+    {
+        upAttack.EndAttack();
         attackCooldownTimer = attackCooldown;
     }
 
