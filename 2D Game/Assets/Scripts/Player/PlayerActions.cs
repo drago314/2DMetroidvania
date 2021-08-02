@@ -10,6 +10,7 @@ public class PlayerActions : MonoBehaviour
     [SerializeField] private LayerMask enemyLayer;
     public LayerMask GetEnemyLayer() { return enemyLayer; }
 
+    public SpriteRenderer spriteRenderer { get; private set; }
     public BoxCollider2D boxCollider { get; private set; }
     public Rigidbody2D body { get; private set; }
     public Animator anim { get; private set; }
@@ -32,6 +33,7 @@ public class PlayerActions : MonoBehaviour
         playerAttack = GetComponent<PlayerAttack>();
 
         //Grab references 
+        spriteRenderer = GetComponent<SpriteRenderer>();
         boxCollider = GetComponent<BoxCollider2D>();
         body = GetComponent<Rigidbody2D>();
         //anim = GetComponent<Animator>();
@@ -52,12 +54,12 @@ public class PlayerActions : MonoBehaviour
             //Flipping Character Model
             if (leftJoystick.x > 0.01f)
             {
-                transform.localScale = new Vector2(1, 1);
+                spriteRenderer.flipX = false;
                 facingRight = true;
             }
             else if (leftJoystick.x < -0.01f)
             {
-                transform.localScale = new Vector2(-1, 1);
+                spriteRenderer.flipX = true;
                 facingRight = false;
             }
 

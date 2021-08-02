@@ -14,7 +14,6 @@ public class PlayerAttack : MonoBehaviour
     private PlayerActions playerActions;
     private LayerMask enemyLayer;
 
-    private float attackTimer = 0f;
     private float attackCooldownTimer = 0f;
 
     private bool attackPressed;
@@ -36,17 +35,10 @@ public class PlayerAttack : MonoBehaviour
     {
         bool hasControl = false;
 
-        if (attackTimer > 0)
-        {
-            attackTimer -= Time.deltaTime;
-        }
-        else
-        {
-            if (attackCooldownTimer > 0)
+        if (attackCooldownTimer > 0)
                 attackCooldownTimer -= Time.deltaTime;
 
-            hasControl = true;
-        }
+        hasControl = true;
 
         return hasControl;
     }
@@ -57,10 +49,9 @@ public class PlayerAttack : MonoBehaviour
         {
             attackInputUsed = true;
             sideAttack.Attack();
-            attackTimer = attackTime;
 
-            playerActions.body.velocity = Vector2.zero;
-            playerActions.body.gravityScale = 0;
+            //playerActions.body.velocity = Vector2.zero;
+            //playerActions.body.gravityScale = 0;
 
             Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, attackRadius, enemyLayer);
 
@@ -75,7 +66,6 @@ public class PlayerAttack : MonoBehaviour
     {
         sideAttack.EndAttack();
         attackCooldownTimer = attackCooldown;
-        playerActions.body.gravityScale = playerActions.defaultGravity;
     }
 
     private void OnAttack(InputValue value)
