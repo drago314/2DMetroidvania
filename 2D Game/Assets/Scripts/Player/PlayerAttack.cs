@@ -10,8 +10,10 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private int damage;
     [SerializeField] private float sideAttackRadius;
     [SerializeField] private float upAttackRadius;
+    [SerializeField] private float downAttackRadius;
     [SerializeField] private SideAttackToggle sideAttack;
     [SerializeField] private UpAttackToggle upAttack;
+    [SerializeField] private UpAttackToggle downAttack;
 
     private PlayerActions playerActions;
     private LayerMask enemyLayer;
@@ -62,9 +64,16 @@ public class PlayerAttack : MonoBehaviour
 
                 Invoke("EndUpAttack", attackTime);
             }
-            else if (playerActions.leftJoystick.y < -0.2 )
+            else if (playerActions.leftJoystick.y < -0.2 && !playerActions.isGrounded)
             {
+                downAttack.Attack();
 
+                Collider2D[] enemies = Physics2D.OverlapCircleAll(downAttack.transform.position, downAttackRadius, enemyLayer);
+
+                foreach (Collider2D enemy in enemies)
+                    enemy.GetComponent<Health>().Damage(damage);
+
+                Invoke("EndDownAttack", attackTime);
             }
             else
             {
@@ -89,6 +98,12 @@ public class PlayerAttack : MonoBehaviour
     private void EndUpAttack()
     {
         upAttack.EndAttack();
+        attackCooldownTimer = attackCooldown;
+    }
+
+    private void EndDownAttack()
+    {
+        downAttack.EndAttack();
         attackCooldownTimer = attackCooldown;
     }
 
