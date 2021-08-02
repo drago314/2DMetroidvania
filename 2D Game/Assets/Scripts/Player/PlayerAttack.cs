@@ -9,6 +9,8 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private float attackCooldown;
     [SerializeField] private int damage;
     [SerializeField] private float sideAttackKnockback;
+    [SerializeField] private float upAttackKnockback;
+    [SerializeField] private float downAttackKnockback;
     [SerializeField] private float sideAttackRadius;
     [SerializeField] private float upAttackRadius;
     [SerializeField] private float downAttackRadius;
@@ -80,7 +82,7 @@ public class PlayerAttack : MonoBehaviour
 
                 if (hit)
                 {
-
+                    body.velocity = new Vector2(body.velocity.x, -upAttackKnockback);
                 }
 
                 Invoke("EndUpAttack", attackTime);
@@ -101,7 +103,7 @@ public class PlayerAttack : MonoBehaviour
 
                 if (hit)
                 {
-
+                    body.velocity = new Vector2(body.velocity.x, downAttackKnockback);
                 }
 
                 Invoke("EndDownAttack", attackTime);
