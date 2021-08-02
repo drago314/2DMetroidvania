@@ -8,6 +8,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private float attackTime;
     [SerializeField] private float attackCooldown;
     [SerializeField] private int damage;
+    [SerializeField] private float sideAttackKnockback;
     [SerializeField] private float sideAttackRadius;
     [SerializeField] private float upAttackRadius;
     [SerializeField] private float downAttackRadius;
@@ -16,8 +17,10 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private UpAttackToggle downAttack;
 
     private PlayerActions playerActions;
+    private Rigidbody2D body;
     private LayerMask enemyLayer;
 
+    private float attackTimer = 0f;
     private float attackCooldownTimer = 0f;
 
     private bool attackPressed;
@@ -27,6 +30,7 @@ public class PlayerAttack : MonoBehaviour
     {
         playerActions = GetComponent<PlayerActions>();
 
+        body = playerActions.body;
         enemyLayer = playerActions.GetEnemyLayer();
     }
 
@@ -39,10 +43,17 @@ public class PlayerAttack : MonoBehaviour
     {
         bool hasControl = false;
 
-        if (attackCooldownTimer > 0)
+        if (attackTimer > 0)
+        {
+            attackTimer -= Time.deltaTime;
+        }
+        else
+        { 
+            if (attackCooldownTimer > 0)
                 attackCooldownTimer -= Time.deltaTime;
 
-        hasControl = true;
+            hasControl = true;
+        }
 
         return hasControl;
     }
@@ -59,10 +70,17 @@ public class PlayerAttack : MonoBehaviour
 
                 Collider2D[] enemies = Physics2D.OverlapCircleAll(upAttack.transform.position, upAttackRadius, enemyLayer);
 
+                bool hit = false;
                 foreach (Collider2D enemy in enemies)
                 {
                     enemy.GetComponent<Health>().Damage(damage);
                     enemy.GetComponent<EnemyKnockback>().Knockback(Vector2.up);
+                    hit = true;
+                }
+
+                if (hit)
+                {
+
                 }
 
                 Invoke("EndUpAttack", attackTime);
@@ -73,10 +91,17 @@ public class PlayerAttack : MonoBehaviour
 
                 Collider2D[] enemies = Physics2D.OverlapCircleAll(downAttack.transform.position, downAttackRadius, enemyLayer);
 
+                bool hit = false;
                 foreach (Collider2D enemy in enemies)
                 {
                     enemy.GetComponent<Health>().Damage(damage);
                     enemy.GetComponent<EnemyKnockback>().Knockback(Vector2.down);
+                    hit = true;
+                }
+
+                if (hit)
+                {
+
                 }
 
                 Invoke("EndDownAttack", attackTime);
@@ -87,6 +112,7 @@ public class PlayerAttack : MonoBehaviour
 
                 Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, sideAttackRadius, enemyLayer);
 
+                bool hit = false;
                 foreach (Collider2D enemy in enemies)
                 {
                     enemy.GetComponent<Health>().Damage(damage);
@@ -94,6 +120,16 @@ public class PlayerAttack : MonoBehaviour
                         enemy.GetComponent<EnemyKnockback>().Knockback(Vector2.right);
                     else
                         enemy.GetComponent<EnemyKnockback>().Knockback(Vector2.left);
+                    hit = true;
+                }
+
+                if(hit)
+                {
+                    if (playerActions.facingRight)
+                        body.velocity = new Vector2(-sideAttackKnockback, body.velocity.y);
+                    else
+                        body.velocity = new Vector2(sideAttackKnockback, body.velocity.y);
+                    attackTimer = attackTime;
                 }
 
                 Invoke("EndSideAttack", attackTime);
