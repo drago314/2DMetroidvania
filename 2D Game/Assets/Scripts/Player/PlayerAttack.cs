@@ -60,7 +60,10 @@ public class PlayerAttack : MonoBehaviour
                 Collider2D[] enemies = Physics2D.OverlapCircleAll(upAttack.transform.position, upAttackRadius, enemyLayer);
 
                 foreach (Collider2D enemy in enemies)
+                {
                     enemy.GetComponent<Health>().Damage(damage);
+                    enemy.GetComponent<EnemyKnockback>().Knockback(Vector2.up);
+                }
 
                 Invoke("EndUpAttack", attackTime);
             }
@@ -71,7 +74,10 @@ public class PlayerAttack : MonoBehaviour
                 Collider2D[] enemies = Physics2D.OverlapCircleAll(downAttack.transform.position, downAttackRadius, enemyLayer);
 
                 foreach (Collider2D enemy in enemies)
+                {
                     enemy.GetComponent<Health>().Damage(damage);
+                    enemy.GetComponent<EnemyKnockback>().Knockback(Vector2.down);
+                }
 
                 Invoke("EndDownAttack", attackTime);
             }
@@ -82,7 +88,13 @@ public class PlayerAttack : MonoBehaviour
                 Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, sideAttackRadius, enemyLayer);
 
                 foreach (Collider2D enemy in enemies)
+                {
                     enemy.GetComponent<Health>().Damage(damage);
+                    if (playerActions.facingRight)
+                        enemy.GetComponent<EnemyKnockback>().Knockback(Vector2.right);
+                    else
+                        enemy.GetComponent<EnemyKnockback>().Knockback(Vector2.left);
+                }
 
                 Invoke("EndSideAttack", attackTime);
             }
