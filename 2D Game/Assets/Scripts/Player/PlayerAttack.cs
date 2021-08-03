@@ -29,6 +29,8 @@ public class PlayerAttack : MonoBehaviour
     private PlayerMovement playerMovement;
     private Rigidbody2D body;
     private LayerMask enemyLayer;
+    private LayerMask groundLayer;
+    private LayerMask playerLayer;
     private float defaultGravity;
 
     private bool attackPressed;
@@ -53,6 +55,8 @@ public class PlayerAttack : MonoBehaviour
         body = playerActions.body;
         defaultGravity = playerActions.defaultGravity;
         enemyLayer = playerActions.GetEnemyLayer();
+        groundLayer = playerActions.GetGroundLayer();
+        playerLayer = playerActions.GetPlayerLayer();
     }
 
     public void Attack()
@@ -211,30 +215,36 @@ public class PlayerAttack : MonoBehaviour
             Collider2D[] possibleTargets = Physics2D.OverlapCircleAll(body.position, animeDashRange, enemyLayer);
             if (possibleTargets.Length > 0)
             {
-                playerActions.iFrame.Invincible(true);
-
-                body.gravityScale = 0;
-                animeDashing = true;
-                reachedTarget = false;
-
                 animeDashTarget = possibleTargets[0].gameObject;
-                DashToPosition(animeDashTarget.transform.position);
+
+                Vector2 player = transform.position;
+                Vector2 enemy = animeDashTarget.transform.position;
+                Vector2 direction = enemy - player;
+                direction.Normalize();
+                animeDashDirection = direction * animeDashForce;
+
+                RaycastHit2D raycastHit = Physics2D.Raycast(player, enemy, Vector2.Distance(player, enemy), groundLayer);
+
+                if (!raycastHit)
+                {
+                    playerActions.iFrame.Invincible(true);
+                    Debug.Log(playerLayer.value);
+                    Physics2D.IgnoreLayerCollision(10, 8, true);
+
+                    body.gravityScale = 0;
+                    animeDashing = true;
+                    reachedTarget = false;
+
+                    body.velocity = animeDashDirection;
+                }
             }
         }
-    }
-
-    private void DashToPosition(Vector2 target)
-    {
-        Vector2 player = transform.position; ;
-        Vector2 direction = target - player;
-        direction.Normalize();
-        animeDashDirection = direction * animeDashForce;
-        body.velocity = animeDashDirection;
     }
 
     private void RemoveInvincibility()
     {
         playerActions.iFrame.Invincible(false);
+        Physics2D.IgnoreLayerCollision(10, 8, false);
     }
 
     private void OnAttack(InputValue value)

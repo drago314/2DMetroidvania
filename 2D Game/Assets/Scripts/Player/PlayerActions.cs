@@ -9,6 +9,8 @@ public class PlayerActions : MonoBehaviour
     public LayerMask GetGroundLayer() { return groundLayer; }
     [SerializeField] private LayerMask enemyLayer;
     public LayerMask GetEnemyLayer() { return enemyLayer; }
+    [SerializeField] private LayerMask playerLayer;
+    public LayerMask GetPlayerLayer() { return playerLayer; }
 
     public SpriteRenderer spriteRenderer { get; private set; }
     public BoxCollider2D boxCollider { get; private set; }
