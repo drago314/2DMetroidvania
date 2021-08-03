@@ -26,17 +26,19 @@ public class PlayerActions : MonoBehaviour
 
     private PlayerMovement playerMovement;
     private PlayerAttack playerAttack;
+    private PlayerDamaged playerDamaged;
 
     private void Awake()
     {
-        playerMovement = GetComponent<PlayerMovement>();
-        playerAttack = GetComponent<PlayerAttack>();
+        playerMovement = gameObject.GetComponent<PlayerMovement>();
+        playerAttack = gameObject.GetComponent<PlayerAttack>();
+        playerDamaged = gameObject.GetComponent<PlayerDamaged>();
 
         //Grab references 
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        boxCollider = GetComponent<BoxCollider2D>();
-        body = GetComponent<Rigidbody2D>();
-        //anim = GetComponent<Animator>();
+        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        boxCollider = gameObject.GetComponent<BoxCollider2D>();
+        body = gameObject.GetComponent<Rigidbody2D>();
+        //anim = gameObject.GetComponent<Animator>();
         iFrame = gameObject.GetComponent<InvFrame>();
 
         defaultGravity = body.gravityScale;
@@ -49,7 +51,7 @@ public class PlayerActions : MonoBehaviour
 
         playerMovement.CheckMovement();
 
-        if (playerMovement.CheckControl() && playerAttack.CheckControl())
+        if (playerMovement.CheckControl() && playerAttack.CheckControl() && playerDamaged.CheckControl())
         {
             //Flipping Character Model
             if (leftJoystick.x > 0.01f)

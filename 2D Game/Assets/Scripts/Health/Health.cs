@@ -22,7 +22,7 @@ public class Health : MonoBehaviour
     {
         foreach (IHealthCallback listener in listeners)
         {
-            listener.OnHealthChanged(currentHealth, maxHealth);
+            listener.OnHealthChanged(this);
         }
     }
 
@@ -43,6 +43,11 @@ public class Health : MonoBehaviour
         return this.currentHealth;
     }
 
+    public float GetMaxHealth()
+    {
+        return this.maxHealth;
+    }
+
     /// <param name="value">the new max health amount.</param>
     public void SetMaxHealth(int value)
     {
@@ -53,26 +58,25 @@ public class Health : MonoBehaviour
         }
     }
 
-    /// <param name="damage">the damage amount.</param>
-    public void Damage(int damage)
+    public void Damage(Damage damage)
     {
-        this.currentHealth = Mathf.Clamp(currentHealth - damage, MIN_HEALTH, this.maxHealth);
+        this.currentHealth = Mathf.Clamp(currentHealth - damage.damage, MIN_HEALTH, this.maxHealth);
         if (currentHealth <= MIN_HEALTH)
         {
             this.isDead = true;
             this.currentHealth = MIN_HEALTH;
             foreach (IHealthCallback listener in listeners)
             {
-                listener.OnDeath();
-                listener.OnHealthChanged(currentHealth, maxHealth);
+                listener.OnDeath(damage);
+                listener.OnHealthChanged(this);
             }
         }
         else
         {
             foreach (IHealthCallback listener in listeners)
             {
-                listener.OnHit();
-                listener.OnHealthChanged(currentHealth, maxHealth);
+                listener.OnHit(damage);
+                listener.OnHealthChanged(this);
             }
         }
     }
@@ -86,7 +90,7 @@ public class Health : MonoBehaviour
             foreach (IHealthCallback listener in listeners)
             {
                 listener.OnHeal();
-                listener.OnHealthChanged(currentHealth, maxHealth);
+                listener.OnHealthChanged(this);
             }
         }
     }
@@ -103,7 +107,7 @@ public class Health : MonoBehaviour
             foreach (IHealthCallback listener in listeners)
             {
                 listener.OnHeal();
-                listener.OnHealthChanged(currentHealth, maxHealth);
+                listener.OnHealthChanged(this);
             }
         }
     }

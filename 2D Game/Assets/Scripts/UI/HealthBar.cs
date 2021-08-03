@@ -14,7 +14,7 @@ public class HealthBar : MonoBehaviour, IHealthCallback
         health.SetCallbackListener(this);
     }
 
-    public void OnDeath()
+    public void OnDeath(Damage damage)
     {
     }
 
@@ -22,14 +22,14 @@ public class HealthBar : MonoBehaviour, IHealthCallback
     {
     }
 
-    public void OnHit()
+    public void OnHit(Damage damage)
     {
     }
 
-    public void OnHealthChanged(int currentHealth, int MaxHealth)
+    public void OnHealthChanged(Health health)
     {
-        currentHealthBar.fillAmount = currentHealth / 5f;
-        totalHealthBar.fillAmount = MaxHealth / 5f; 
+        currentHealthBar.fillAmount = health.GetHealth() / 5f;
+        totalHealthBar.fillAmount = health.GetMaxHealth() / 5f; 
     }
 }
 

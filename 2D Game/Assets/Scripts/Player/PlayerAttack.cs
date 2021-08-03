@@ -75,7 +75,7 @@ public class PlayerAttack : MonoBehaviour
                 bool hit = false;
                 foreach (Collider2D enemy in enemies)
                 {
-                    enemy.GetComponent<Health>().Damage(damage);
+                    enemy.GetComponent<Health>().Damage(new Damage(damage, gameObject, Damage.PLAYER));
                     enemy.GetComponent<EnemyKnockback>().Knockback(Vector2.up);
                     hit = true;
                 }
@@ -96,7 +96,7 @@ public class PlayerAttack : MonoBehaviour
                 bool hit = false;
                 foreach (Collider2D enemy in enemies)
                 {
-                    enemy.GetComponent<Health>().Damage(damage);
+                    enemy.GetComponent<Health>().Damage(new Damage(damage, gameObject, Damage.PLAYER));
                     enemy.GetComponent<EnemyKnockback>().Knockback(Vector2.down);
                     hit = true;
                 }
@@ -117,7 +117,7 @@ public class PlayerAttack : MonoBehaviour
                 bool hit = false;
                 foreach (Collider2D enemy in enemies)
                 {
-                    enemy.GetComponent<Health>().Damage(damage);
+                    enemy.GetComponent<Health>().Damage(new Damage(damage, gameObject, Damage.PLAYER));
                     if (playerActions.facingRight)
                         enemy.GetComponent<EnemyKnockback>().Knockback(Vector2.right);
                     else

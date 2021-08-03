@@ -10,7 +10,7 @@ public class Spike : MonoBehaviour
     {
         if (collision.collider.tag == "Player")
         {
-            collision.collider.GetComponent<Health>().Damage(damage);
+            collision.collider.GetComponent<Health>().Damage(new Damage(damage, Damage.ENVIRONMENT));
         }
     }
 }
