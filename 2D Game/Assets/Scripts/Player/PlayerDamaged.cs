@@ -54,8 +54,8 @@ public class PlayerDamaged : MonoBehaviour, IHealthCallback
         knockbackTimer = knockbackTime;
         Vector2 player = transform.position;
         Vector2 enemy = damage.source.transform.position;
-        
-
-        body.velocity = new Vector2();
+        Vector2 direction = player - enemy;
+        direction.Normalize();
+        body.velocity = direction * knockbackForce;
     }
 }
