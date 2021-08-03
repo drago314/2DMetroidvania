@@ -52,10 +52,13 @@ public class PlayerDamaged : MonoBehaviour, IHealthCallback
     public void OnHit(Damage damage)
     {
         knockbackTimer = knockbackTime;
+
         Vector2 player = transform.position;
         Vector2 enemy = damage.source.transform.position;
         Vector2 direction = player - enemy;
         direction.Normalize();
         body.velocity = direction * knockbackForce;
+
+        CinemachineEffects.instance.Punch();
     }
 }
