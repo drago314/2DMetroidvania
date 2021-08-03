@@ -17,7 +17,7 @@ public class PlayerTrackingBehaviour : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        float distance = Vector2.Distance(animator.transform.position, FindObjectOfType<PlayerMovement>().transform.position);
+        float distance = Vector2.Distance(animator.transform.position, FindObjectOfType<PlayerActions>().transform.position);
         if (distance > viewRadius)
         {
             animator.SetBool("PlayerInSight", false);

@@ -9,7 +9,7 @@ public class HealthBar : MonoBehaviour, IHealthCallback
     [SerializeField] private Image totalHealthBar;
     [SerializeField] private Image currentHealthBar;
 
-    private void Start()
+    private void Awake()
     {
         health.SetCallbackListener(this);
     }
