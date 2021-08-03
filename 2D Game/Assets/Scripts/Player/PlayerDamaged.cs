@@ -51,6 +51,19 @@ public class PlayerDamaged : MonoBehaviour, IHealthCallback
 
     public void OnHit(Damage damage)
     {
+        if (damage.damageType == Damage.ENVIRONMENT)
+            OnEnvironmentHit(damage);
+        else if (damage.damageType == Damage.ENEMY)
+            OnEnemyHit(damage);
+    }
+
+    private void OnEnvironmentHit(Damage damage)
+    {
+
+    }
+
+    private void OnEnemyHit(Damage damage)
+    {
         knockbackTimer = knockbackTime;
 
         Vector2 player = transform.position;
