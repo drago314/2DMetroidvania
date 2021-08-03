@@ -24,6 +24,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private float animeDashInvincibilityTime;
     [SerializeField] private float animeDashTime;
     [SerializeField] private float animeDashCooldown;
+    [SerializeField] private float maxTargetDegreeError;
 
     private PlayerActions playerActions;
     private PlayerMovement playerMovement;
@@ -215,20 +216,47 @@ public class PlayerAttack : MonoBehaviour
             Collider2D[] possibleTargets = Physics2D.OverlapCircleAll(body.position, animeDashRange, enemyLayer);
             if (possibleTargets.Length > 0)
             {
-                animeDashTarget = possibleTargets[0].gameObject;
-
                 Vector2 player = transform.position;
-                Vector2 enemy = animeDashTarget.transform.position;
-                Vector2 direction = enemy - player;
+                float joystickDegree = RadianFromPosition(playerActions.leftJoystick.x, playerActions.leftJoystick.y);
+                joystickDegree = joystickDegree * 180 / Mathf.PI;
+                float targetDegreeError = 360;
+                float targetDistance = animeDashRange + 1;
+
+                foreach (Collider2D possibleTarget in possibleTargets)
+                {
+                    Vector2 enemy = possibleTarget.transform.position;
+                    float enemyRadian = RadianFromPosition(enemy.x - player.x, enemy.y - player.y);
+                    float enemyDegreeError = Mathf.Abs((enemyRadian * 180 / Mathf.PI) - (joystickDegree));
+                    if (enemyDegreeError > 180)
+                        enemyDegreeError = (360 - enemyDegreeError);
+                    Debug.Log(enemyDegreeError + ", " + possibleTarget.name);
+
+                    float enemyDistance = Vector2.Distance(player, enemy);
+
+                    if (enemyDegreeError <= maxTargetDegreeError / 2 && enemyDistance < targetDistance)
+                    {
+                        animeDashTarget = possibleTarget.gameObject;
+                        targetDegreeError = enemyDegreeError;
+                        targetDistance = enemyDistance;
+                    }
+                    else if(targetDegreeError > maxTargetDegreeError && enemyDegreeError < targetDegreeError)
+                    {
+                        animeDashTarget = possibleTarget.gameObject;
+                        targetDegreeError = enemyDegreeError;
+                        targetDistance = enemyDistance;
+                    }
+                }
+
+                Vector2 target = animeDashTarget.transform.position;
+                Vector2 direction = target - player;
                 direction.Normalize();
                 animeDashDirection = direction * animeDashForce;
 
-                RaycastHit2D raycastHit = Physics2D.Raycast(player, enemy, Vector2.Distance(player, enemy), groundLayer);
+                RaycastHit2D raycastHit = Physics2D.Raycast(player, target, Vector2.Distance(player, target), groundLayer);
 
                 if (!raycastHit)
                 {
                     playerActions.iFrame.Invincible(true);
-                    Debug.Log(playerLayer.value);
                     Physics2D.IgnoreLayerCollision(10, 8, true);
 
                     body.gravityScale = 0;
@@ -239,6 +267,34 @@ public class PlayerAttack : MonoBehaviour
                 }
             }
         }
+    }
+
+    private float RadianFromPosition(float x, float y)
+    {
+        float radian = Mathf.Atan(Mathf.Abs(y / x));
+        return CheckRadian(x, y, radian);
+    }
+
+    private float CheckRadian(float x, float y, float radianPrime)
+    {
+        if (y < 0 && x < 0)
+            return radianPrime + Mathf.PI;
+        else if (y < 0 && x != 0)
+            return 2 * Mathf.PI - radianPrime;
+        else if (x < 0 && y != 0)
+            return Mathf.PI - radianPrime;
+        else if (x > 0 && y > 0)
+            return radianPrime;
+        else if (y == 0 && x > 0)
+            return 0;
+        else if (y == 0 && x < 0)
+            return Mathf.PI;
+        else if (y > 0)
+            return Mathf.PI / 2f;
+        else if (y < 0)
+            return 3 * Mathf.PI / 2f;
+        else
+            return 0;
     }
 
     private void RemoveInvincibility()
