@@ -25,12 +25,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float dashTime;
     [SerializeField] private float dashCooldown;
 
-    [SerializeField] private float animeDashForce;
-    [SerializeField] private float animeDashRange;
-    [SerializeField] private float animeDashInvincibilityTime;
-    [SerializeField] private float animeDashTime;
-    [SerializeField] private float animeDashCooldown;
-
     private PlayerActions playerActions;
 
     private Rigidbody2D body;
@@ -58,15 +52,6 @@ public class PlayerMovement : MonoBehaviour
     private float dashTimer;
     private float dashCooldownTimer = 0f;
 
-    private bool animeDashPressed;
-    private bool animeDashInputUsed;
-    private bool animeDashing = false;
-    private bool reachedTarget;
-    private float animeDashTimer = 0f;
-    private float animeDashCooldownTimer = 0f;
-    private Vector2 animeDashTarget;
-    private Vector2 animeDashDirection;
-
     private void Start()
     {
         playerActions = gameObject.GetComponent<PlayerActions>();
@@ -85,7 +70,6 @@ public class PlayerMovement : MonoBehaviour
         WallMovement();
         Glide();
         Dash();
-        AnimeDash();
     }
 
     public bool CheckControl()
@@ -100,21 +84,12 @@ public class PlayerMovement : MonoBehaviour
         {
             dashTimer -= Time.deltaTime;
         }
-        else if (animeDashing)
-        {
-            AnimeDash();
-            if (animeDashTimer > 0)
-                animeDashTimer -= Time.deltaTime;
-        }
         else
         {
             hasControl = true;
 
             if (dashCooldownTimer > 0)
                 dashCooldownTimer -= Time.deltaTime;
-
-            if (animeDashCooldownTimer > 0)
-                animeDashCooldownTimer -= Time.deltaTime;
         }
 
         return hasControl;
@@ -132,11 +107,12 @@ public class PlayerMovement : MonoBehaviour
             jumpCounter = 1;
             canDash = true;
         }
-        else if (animeDashing)
-        {
-            jumpCounter = 1;
-            canDash = true;
-        }
+    }
+
+    public void AirResetMovement()
+    {
+        jumpCounter = 1;
+        canDash = true;
     }
 
     private void Move()
@@ -275,54 +251,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void AnimeDash()
-    {
-        if (animeDashing && !reachedTarget && Vector2.Distance(body.position, animeDashTarget) < 0.2f)
-        {
-            Invoke("RemoveInvincibility", animeDashInvincibilityTime);
-            reachedTarget = true;
-            animeDashCooldownTimer = animeDashCooldown;
-            animeDashTimer = animeDashTime;
-            body.velocity = animeDashDirection;
-        }
-        else if (animeDashing && reachedTarget && animeDashTimer <= 0)
-        {
-            body.gravityScale = defaultGravity;
-            body.velocity = Vector2.zero;
-            animeDashing = false;
-        }
-        else if (animeDashPressed && !animeDashInputUsed && animeDashCooldownTimer <= 0)
-        {
-            animeDashInputUsed = true;
-            Collider2D[] possibleTargets = Physics2D.OverlapCircleAll(body.position, animeDashRange, enemyLayer);
-            if (possibleTargets.Length > 0)
-            {
-                playerActions.iFrame.Invincible(true);
-
-                body.gravityScale = 0;
-                animeDashing = true;
-                reachedTarget = false;
-
-                animeDashTarget = possibleTargets[0].transform.position;
-                DashToPosition(animeDashTarget);
-            }
-        }
-    }
-
-    private void DashToPosition(Vector2 target)
-    {
-        Vector2 player = transform.position;;
-        Vector2 direction = target - player;
-        direction.Normalize();
-        animeDashDirection = direction * animeDashForce;
-        body.velocity = animeDashDirection;
-    }
-
-    private void RemoveInvincibility()
-    {
-        playerActions.iFrame.Invincible(false);
-    }
-
     private void OnJump(InputValue value)
     {
         jumpPressed = value.isPressed;
@@ -343,15 +271,6 @@ public class PlayerMovement : MonoBehaviour
         if (dashPressed)
         {
             dashInputUsed = false;
-        }
-    }
-
-    private void OnAnimeDash(InputValue value)
-    {
-        animeDashPressed = value.isPressed;
-        if (animeDashPressed)
-        {
-            animeDashInputUsed = false;
         }
     }
 }

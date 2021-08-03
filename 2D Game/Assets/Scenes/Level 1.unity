@@ -364,6 +364,11 @@ MonoBehaviour:
   sideAttack: {fileID: 1282286908}
   upAttack: {fileID: 337078493}
   downAttack: {fileID: 2073882268}
+  animeDashForce: 20
+  animeDashRange: 10
+  animeDashInvincibilityTime: 0.1
+  animeDashTime: 0.1
+  animeDashCooldown: 0.5
 --- !u!114 &177300799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -450,11 +455,6 @@ MonoBehaviour:
   dashForce: 15
   dashTime: 0.3
   dashCooldown: 0.3
-  animeDashForce: 20
-  animeDashRange: 10
-  animeDashInvincibilityTime: 0.1
-  animeDashTime: 0.1
-  animeDashCooldown: 0.5
 --- !u!114 &177300803
 MonoBehaviour:
   m_ObjectHideFlags: 0
