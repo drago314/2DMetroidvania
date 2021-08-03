@@ -12,17 +12,21 @@ public class Damage
     public GameObject source;
     public int damageType;
 
-    public Damage(int d, int dt)
+    /// <param name="damage">the amout of damage taken.</param>
+    /// <param name="damageType">the type of damage, found in const variables in damage class.</param>
+    public Damage(int damage, int damageType)
     {
-        damage = d;
-        source = null;
-        damageType = dt;
+        this.damage = damage;
+        this.damageType = damageType;
     }
 
-    public Damage(int d, GameObject s, int dt)
+    /// <param name="damage">the amout of damage taken.</param>
+    /// <param name="source">the source gameObject of the damage.</param>
+    /// <param name="damageType">the type of damage, found in const variables in damage class.</param>
+    public Damage(int damage, GameObject source, int damageType)
     {
-        damage = d;
-        source = s;
-        damageType = dt;
+        this.damage = damage;
+        this.source = source;
+        this.damageType = damageType;
     }
 }
