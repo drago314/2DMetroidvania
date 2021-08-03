@@ -311,37 +311,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void DashToPosition(Vector2 target)
     {
-        Vector2 current = body.position;
-        float slope = (target.y - current.y) / (target.x - current.x);
-        float radian = Mathf.Atan(Mathf.Abs(slope));
-        radian = CheckRadian(target.x - current.x, target.y - current.y, radian);
-        float xForce = Mathf.Cos(radian);
-        float yForce = Mathf.Sin(radian);
-        animeDashDirection = new Vector2(xForce * animeDashForce, yForce * animeDashForce);
+        Vector2 player = transform.position;;
+        Vector2 direction = target - player;
+        direction.Normalize();
+        animeDashDirection = direction * animeDashForce;
         body.velocity = animeDashDirection;
-    }
-
-    private float CheckRadian(float x, float y, float radianPrime)
-    {
-        //don't yell at me my trig is dum and bad and idk the good way to do it
-        if (y < 0 && x < 0)
-            return radianPrime + Mathf.PI;
-        else if (y < 0 && x != 0)
-            return 2 * Mathf.PI - radianPrime;
-        else if (x < 0 && y != 0)
-            return Mathf.PI - radianPrime;
-        else if (x > 0 && y > 0)
-            return radianPrime;
-        else if (y == 0 && x > 0)
-            return 0;
-        else if (y == 0 && x < 0)
-            return Mathf.PI;
-        else if (y > 0)
-            return Mathf.PI / 2f;
-        else if (y < 0)
-            return 3 * Mathf.PI / 2f;
-        else
-            return 0;
     }
 
     private void RemoveInvincibility()
