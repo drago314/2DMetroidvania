@@ -352,9 +352,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c0fb8c8eca07ad4ca132b2c433789e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  basicAttackDamage: 1
   attackTime: 0.2
   attackCooldown: 0.2
-  damage: 1
   sideAttackKnockback: 3
   upAttackKnockback: 5
   downAttackKnockback: 10
@@ -364,6 +364,7 @@ MonoBehaviour:
   sideAttack: {fileID: 1282286908}
   upAttack: {fileID: 337078493}
   downAttack: {fileID: 2073882268}
+  animeDashDamage: 5
   animeDashForce: 20
   animeDashRange: 10
   animeDashInvincibilityTime: 0.1

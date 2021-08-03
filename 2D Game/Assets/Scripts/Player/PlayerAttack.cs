@@ -5,9 +5,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerAttack : MonoBehaviour
 {
+    [SerializeField] private int basicAttackDamage;
     [SerializeField] private float attackTime;
     [SerializeField] private float attackCooldown;
-    [SerializeField] private int damage;
     [SerializeField] private float sideAttackKnockback;
     [SerializeField] private float upAttackKnockback;
     [SerializeField] private float downAttackKnockback;
@@ -18,6 +18,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private UpAttackToggle upAttack;
     [SerializeField] private UpAttackToggle downAttack;
 
+    [SerializeField] private int animeDashDamage;
     [SerializeField] private float animeDashForce;
     [SerializeField] private float animeDashRange;
     [SerializeField] private float animeDashInvincibilityTime;
@@ -41,7 +42,7 @@ public class PlayerAttack : MonoBehaviour
     private bool reachedTarget;
     private float animeDashTimer = 0f;
     private float animeDashCooldownTimer = 0f;
-    private Vector2 animeDashTarget;
+    private GameObject animeDashTarget;
     private Vector2 animeDashDirection;
 
     private void Start()
@@ -103,7 +104,7 @@ public class PlayerAttack : MonoBehaviour
                 bool hit = false;
                 foreach (Collider2D enemy in enemies)
                 {
-                    enemy.GetComponent<Health>().Damage(new Damage(damage, gameObject, Damage.PLAYER));
+                    enemy.GetComponent<Health>().Damage(new Damage(basicAttackDamage, gameObject, Damage.PLAYER));
                     enemy.GetComponent<EnemyKnockback>().Knockback(Vector2.up);
                     hit = true;
                 }
@@ -124,7 +125,7 @@ public class PlayerAttack : MonoBehaviour
                 bool hit = false;
                 foreach (Collider2D enemy in enemies)
                 {
-                    enemy.GetComponent<Health>().Damage(new Damage(damage, gameObject, Damage.PLAYER));
+                    enemy.GetComponent<Health>().Damage(new Damage(basicAttackDamage, gameObject, Damage.PLAYER));
                     enemy.GetComponent<EnemyKnockback>().Knockback(Vector2.down);
                     hit = true;
                 }
@@ -145,7 +146,7 @@ public class PlayerAttack : MonoBehaviour
                 bool hit = false;
                 foreach (Collider2D enemy in enemies)
                 {
-                    enemy.GetComponent<Health>().Damage(new Damage(damage, gameObject, Damage.PLAYER));
+                    enemy.GetComponent<Health>().Damage(new Damage(basicAttackDamage, gameObject, Damage.PLAYER));
                     if (playerActions.facingRight)
                         enemy.GetComponent<EnemyKnockback>().Knockback(Vector2.right);
                     else
@@ -187,9 +188,11 @@ public class PlayerAttack : MonoBehaviour
 
     private void AnimeDash()
     {
-        if (animeDashing && !reachedTarget && Vector2.Distance(body.position, animeDashTarget) < 0.2f)
+        if (animeDashing && !reachedTarget && Vector2.Distance(body.position, animeDashTarget.transform.position) < 0.2f)
         {
             Invoke("RemoveInvincibility", animeDashInvincibilityTime);
+            animeDashTarget.GetComponent<Health>().Damage(new Damage(animeDashDamage, gameObject, Damage.PLAYER));
+
             reachedTarget = true;
             animeDashCooldownTimer = animeDashCooldown;
             animeDashTimer = animeDashTime;
@@ -214,8 +217,8 @@ public class PlayerAttack : MonoBehaviour
                 animeDashing = true;
                 reachedTarget = false;
 
-                animeDashTarget = possibleTargets[0].transform.position;
-                DashToPosition(animeDashTarget);
+                animeDashTarget = possibleTargets[0].gameObject;
+                DashToPosition(animeDashTarget.transform.position);
             }
         }
     }
