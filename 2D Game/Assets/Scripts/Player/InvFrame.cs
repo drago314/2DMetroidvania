@@ -20,16 +20,16 @@ public class InvFrame : MonoBehaviour, IHealthCallback
         health.SetCallbackListener(this);
     }
 
-    public void OnDeath()
+    public void OnDeath(Damage damage)
     {}
 
     public void OnHeal()
     {}
 
-    public void OnHealthChanged(int currentHealth, int MaxHealth)
+    public void OnHealthChanged(Health health)
     {}
 
-    public void OnHit()
+    public void OnHit(Damage damage)
     {
         InvForTime(iFrameDuration);
     }

@@ -11,7 +11,7 @@ public class EnemyDeath : MonoBehaviour, IHealthCallback
         health.SetCallbackListener(this);
     }
 
-    public void OnDeath()
+    public void OnDeath(Damage damage)
     {
         Destroy(gameObject);
     }
@@ -20,11 +20,11 @@ public class EnemyDeath : MonoBehaviour, IHealthCallback
     {
     }
 
-    public void OnHealthChanged(int currentHealth, int MaxHealth)
+    public void OnHealthChanged(Health health)
     {
     }
 
-    public void OnHit()
+    public void OnHit(Damage damage)
     {
     }
 }

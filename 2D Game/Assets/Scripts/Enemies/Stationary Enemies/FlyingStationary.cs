@@ -10,7 +10,7 @@ public class FlyingStationary : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            collision.GetComponent<Health>().Damage(damage);
+            collision.GetComponent<Health>().Damage(new Damage(damage, this.gameObject, Damage.ENEMY));
         }
     }
 }

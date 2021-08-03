@@ -4,8 +4,8 @@ using UnityEngine;
 
 public interface IHealthCallback
 {
-    void OnHit();
-    void OnDeath();
+    void OnHit(Damage damage);
+    void OnDeath(Damage damage);
     void OnHeal();
-    void OnHealthChanged(int currentHealth, int MaxHealth);
+    void OnHealthChanged(Health health);
 }
