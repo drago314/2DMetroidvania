@@ -229,7 +229,6 @@ public class PlayerAttack : MonoBehaviour
                     float enemyDegreeError = Mathf.Abs((enemyRadian * 180 / Mathf.PI) - (joystickDegree));
                     if (enemyDegreeError > 180)
                         enemyDegreeError = (360 - enemyDegreeError);
-                    Debug.Log(enemyDegreeError + ", " + possibleTarget.name);
 
                     float enemyDistance = Vector2.Distance(player, enemy);
 
