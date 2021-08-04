@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FlyingStationary : MonoBehaviour
+public class FlyingStationary : Enemy
 {
     [SerializeField] private int damage;
 
