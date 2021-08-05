@@ -5,18 +5,26 @@ using UnityEngine;
 
 public class EnemyDamaged : MonoBehaviour
 {
+    [SerializeField] protected float iFrameDuration;
+
+    private InvFrame iFrame;
+
     protected void Start()
     {
+        iFrame = gameObject.GetComponent<InvFrame>();
+
         Health health = gameObject.GetComponent<Health>();
         health.OnHit += OnHit;
         health.OnDeath += OnDeath;
     }
 
-    protected virtual void OnHit(object sender, EventArgs e)
+    protected void OnHit(object sender, EventArgs e)
     {
+        iFrame.InvForTime(iFrameDuration);
     }
 
-    protected virtual void OnDeath(object sender, EventArgs e)
+    protected void OnDeath(object sender, EventArgs e)
     {
+        Destroy(gameObject);
     }
 }

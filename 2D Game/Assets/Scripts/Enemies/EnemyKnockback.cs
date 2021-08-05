@@ -8,18 +8,17 @@ public class EnemyKnockback : EnemyDamaged
     [SerializeField] private float knockbackTime;
     [SerializeField] private float knockbackForce;
 
-    [SerializeField] private float iFrameDuration;
-
-    private InvFrame iFrame;
-
     private Vector2 direction;
     private float knockbackTimer;
     private bool knocked;
 
-    private new void Start()
+    protected  new void Start()
     {
         base.Start();
-        iFrame = gameObject.GetComponent<InvFrame>();
+
+        Health health = gameObject.GetComponent<Health>();
+        health.OnHit += OnHit;
+        health.OnDeath += OnDeath;
     }
 
     private void Update()
@@ -35,10 +34,8 @@ public class EnemyKnockback : EnemyDamaged
         }
     }
 
-    protected virtual void OnHit(object sender, Health.OnHitEventArg e)
+    protected void OnHit(object sender, Health.OnHitEventArg e)
     {
-        iFrame.InvForTime(iFrameDuration);
-
         int damageType = e.damage.damageType;
         if (damageType == Damage.PLAYER_BASIC_ATTACK)
         {
@@ -48,8 +45,7 @@ public class EnemyKnockback : EnemyDamaged
         }
     }
 
-    protected virtual new void OnDeath(object sender, EventArgs e)
+    protected new void OnDeath(object sender, EventArgs e)
     {
-        Destroy(gameObject);
     }
 }
