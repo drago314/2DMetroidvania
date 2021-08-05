@@ -109,8 +109,7 @@ public class PlayerAttack : MonoBehaviour
                 bool hit = false;
                 foreach (Collider2D enemy in enemies)
                 {
-                    enemy.GetComponent<Health>().Damage(new Damage(basicAttackDamage, gameObject, Damage.PLAYER));
-                    enemy.GetComponent<EnemyKnockback>().Knockback(Vector2.up);
+                    enemy.GetComponent<Health>().Damage(new Damage(basicAttackDamage, gameObject, Damage.PLAYER_BASIC_ATTACK));
                     hit = true;
                 }
 
@@ -130,8 +129,7 @@ public class PlayerAttack : MonoBehaviour
                 bool hit = false;
                 foreach (Collider2D enemy in enemies)
                 {
-                    enemy.GetComponent<Health>().Damage(new Damage(basicAttackDamage, gameObject, Damage.PLAYER));
-                    enemy.GetComponent<EnemyKnockback>().Knockback(Vector2.down);
+                    enemy.GetComponent<Health>().Damage(new Damage(basicAttackDamage, gameObject, Damage.PLAYER_BASIC_ATTACK));
                     hit = true;
                 }
 
@@ -151,11 +149,7 @@ public class PlayerAttack : MonoBehaviour
                 bool hit = false;
                 foreach (Collider2D enemy in enemies)
                 {
-                    enemy.GetComponent<Health>().Damage(new Damage(basicAttackDamage, gameObject, Damage.PLAYER));
-                    if (playerActions.facingRight)
-                        enemy.GetComponent<EnemyKnockback>().Knockback(Vector2.right);
-                    else
-                        enemy.GetComponent<EnemyKnockback>().Knockback(Vector2.left);
+                    enemy.GetComponent<Health>().Damage(new Damage(basicAttackDamage, gameObject, Damage.PLAYER_BASIC_ATTACK));
                     hit = true;
                 }
 
@@ -196,7 +190,7 @@ public class PlayerAttack : MonoBehaviour
         if (animeDashing && !reachedTarget && Vector2.Distance(body.position, animeDashTarget.transform.position) < 0.2f)
         {
             Invoke("RemoveInvincibility", animeDashInvincibilityTime);
-            animeDashTarget.GetComponent<Health>().Damage(new Damage(animeDashDamage, gameObject, Damage.PLAYER));
+            animeDashTarget.GetComponent<Health>().Damage(new Damage(animeDashDamage, gameObject, Damage.PLAYER_ANIME_DASH));
 
             reachedTarget = true;
             animeDashCooldownTimer = animeDashCooldown;

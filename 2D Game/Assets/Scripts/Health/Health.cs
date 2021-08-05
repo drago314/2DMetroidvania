@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,16 @@ public class Health : MonoBehaviour
     [SerializeField] private int currentHealth;
     private bool isDead;
     private const int MIN_HEALTH = 0;
-    private ArrayList listeners = new ArrayList();
+
+    public event EventHandler<OnHitEventArg> OnHit;
+    public event EventHandler OnDeath;
+    public event EventHandler OnHeal;
+    public event EventHandler OnHealthChanged;
+
+    public class OnHitEventArg : EventArgs
+    {
+        public Damage damage;
+    }
 
     private void Awake()
     {
@@ -16,19 +26,6 @@ public class Health : MonoBehaviour
         {
             this.currentHealth = maxHealth;
         }
-    }
-
-    private void Start()
-    {
-        foreach (IHealthCallback listener in listeners)
-        {
-            listener.OnHealthChanged(this);
-        }
-    }
-
-    public void SetCallbackListener(IHealthCallback listener)
-    {
-        this.listeners.Add(listener);
     }
 
     /// <returns>A boolean of the current deathstate.</returns>
@@ -65,19 +62,14 @@ public class Health : MonoBehaviour
         {
             this.isDead = true;
             this.currentHealth = MIN_HEALTH;
-            foreach (IHealthCallback listener in listeners)
-            {
-                listener.OnDeath(damage);
-                listener.OnHealthChanged(this);
-            }
+
+            OnDeath?.Invoke(this, EventArgs.Empty);
+            OnHealthChanged?.Invoke(this, EventArgs.Empty);
         }
         else
         {
-            foreach (IHealthCallback listener in listeners)
-            {
-                listener.OnHit(damage);
-                listener.OnHealthChanged(this);
-            }
+            OnHit?.Invoke(this, new OnHitEventArg { damage = damage});
+            OnHealthChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 
@@ -87,11 +79,8 @@ public class Health : MonoBehaviour
         if (currentHealth != MIN_HEALTH && !isDead)
         {
             this.currentHealth = Mathf.Clamp(currentHealth + heal, MIN_HEALTH, this.maxHealth);
-            foreach (IHealthCallback listener in listeners)
-            {
-                listener.OnHeal();
-                listener.OnHealthChanged(this);
-            }
+            OnHeal?.Invoke(this, EventArgs.Empty);
+            OnHealthChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 
@@ -104,11 +93,8 @@ public class Health : MonoBehaviour
         if (currentHealth != MIN_HEALTH && revive)
         {
             this.isDead = false;
-            foreach (IHealthCallback listener in listeners)
-            {
-                listener.OnHeal();
-                listener.OnHealthChanged(this);
-            }
+            OnHeal?.Invoke(this, EventArgs.Empty);
+            OnHealthChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

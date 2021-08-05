@@ -2,23 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDamaged : MonoBehaviour, IHealthCallback
+public class PlayerDamaged : MonoBehaviour
 {
     [SerializeField] private float knockbackTime;
     [SerializeField] private float knockbackForce;
+    [SerializeField] private float invincibilityTime;
     
     private PlayerActions playerActions;
     private Rigidbody2D body;
+    private InvFrame iFrame;
 
     private float knockbackTimer = 0f;
 
     private void Start()
     {
         playerActions = gameObject.GetComponent<PlayerActions>();
-
+        iFrame = gameObject.GetComponent<InvFrame>();
         body = playerActions.body;
 
-        gameObject.GetComponent<Health>().SetCallbackListener(this);
+        Health health = gameObject.GetComponent<Health>();
+        health.OnHit += OnHit;
     }
 
     public bool CheckControl()
@@ -37,24 +40,12 @@ public class PlayerDamaged : MonoBehaviour, IHealthCallback
         return hasControl;
     }
 
-    public void OnDeath(Damage damage)
+    private void OnHit(object sender, Health.OnHitEventArg e)
     {
-    }
-
-    public void OnHeal()
-    {
-    }
-
-    public void OnHealthChanged(Health health)
-    {
-    }
-
-    public void OnHit(Damage damage)
-    {
-        if (damage.damageType == Damage.ENVIRONMENT)
-            OnEnvironmentHit(damage);
-        else if (damage.damageType == Damage.ENEMY)
-            OnEnemyHit(damage);
+        if (e.damage.damageType == Damage.ENVIRONMENT)
+            OnEnvironmentHit(e.damage);
+        else if (e.damage.damageType == Damage.ENEMY)
+            OnEnemyHit(e.damage);
     }
 
     private void OnEnvironmentHit(Damage damage)
@@ -73,5 +64,7 @@ public class PlayerDamaged : MonoBehaviour, IHealthCallback
         body.velocity = direction * knockbackForce;
 
         CinemachineEffects.instance.Punch();
+
+        iFrame.InvForTime(invincibilityTime);
     }
 }

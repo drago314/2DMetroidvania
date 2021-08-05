@@ -1,15 +1,26 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyKnockback : MonoBehaviour
+public class EnemyKnockback : EnemyDamaged
 {
     [SerializeField] private float knockbackTime;
     [SerializeField] private float knockbackForce;
 
+    [SerializeField] private float iFrameDuration;
+
+    private InvFrame iFrame;
+
     private Vector2 direction;
     private float knockbackTimer;
     private bool knocked;
+
+    private new void Start()
+    {
+        base.Start();
+        iFrame = gameObject.GetComponent<InvFrame>();
+    }
 
     private void Update()
     {
@@ -24,10 +35,21 @@ public class EnemyKnockback : MonoBehaviour
         }
     }
 
-    public void Knockback(Vector2 d)
+    protected virtual void OnHit(object sender, Health.OnHitEventArg e)
     {
-        direction = d;
-        knockbackTimer = knockbackTime;
-        knocked = true;
+        iFrame.InvForTime(iFrameDuration);
+
+        int damageType = e.damage.damageType;
+        if (damageType == Damage.PLAYER_BASIC_ATTACK)
+        {
+            direction = Vector2.down;
+            knockbackTimer = knockbackTime;
+            knocked = true;
+        }
+    }
+
+    protected virtual new void OnDeath(object sender, EventArgs e)
+    {
+        Destroy(gameObject);
     }
 }

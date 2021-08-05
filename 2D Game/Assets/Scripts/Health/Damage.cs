@@ -6,7 +6,8 @@ public class Damage
 {
     public const int ENVIRONMENT = 0;
     public const int ENEMY = 1;
-    public const int PLAYER = 2;
+    public const int PLAYER_BASIC_ATTACK = 2;
+    public const int PLAYER_ANIME_DASH = 3;
 
     public int damage;
     public GameObject source;
