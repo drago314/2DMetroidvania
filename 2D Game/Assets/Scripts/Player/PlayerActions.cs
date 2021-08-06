@@ -80,9 +80,10 @@ public class PlayerActions : MonoBehaviour
 
     private void CheckOnWall()
     {
-        Vector2 center = new Vector2(boxCollider.bounds.center.x, boxCollider.bounds.center.y + 0.5f);
-        RaycastHit2D raycastHitRight = Physics2D.BoxCast(center, boxCollider.bounds.size, 0, Vector2.right, 0.05f, groundLayer);
-        RaycastHit2D raycastHitLeft = Physics2D.BoxCast(center, boxCollider.bounds.size, 0, Vector2.left, 0.05f, groundLayer);
+        Vector2 center = new Vector2(boxCollider.bounds.center.x, boxCollider.bounds.center.y);
+        Vector2 size = new Vector2(boxCollider.bounds.size.x, boxCollider.bounds.size.y - 0.5f);
+        RaycastHit2D raycastHitRight = Physics2D.BoxCast(center, size, 0, Vector2.right, 0.05f, groundLayer);
+        RaycastHit2D raycastHitLeft = Physics2D.BoxCast(center, size, 0, Vector2.left, 0.05f, groundLayer);
         onLeftWall = raycastHitLeft.collider != null;
         onRightWall = raycastHitRight.collider != null;
     }
@@ -98,5 +99,4 @@ public class PlayerActions : MonoBehaviour
         //GUI.Label(new Rect(1100, 10, 100, 100), "isGrounded: " + isGrounded);
         //GUI.Label(new Rect(1200, 50, 100, 100), "onWall: " + (onLeftWall || onRightWall));
     }
-
 }
