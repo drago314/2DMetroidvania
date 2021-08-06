@@ -211,7 +211,7 @@ public class PlayerAttack : MonoBehaviour
             if (possibleTargets.Length > 0)
             {
                 Vector2 player = transform.position;
-                float joystickDegree = RadianFromPosition(playerActions.leftJoystick.x, playerActions.leftJoystick.y);
+                float joystickDegree = Trigonometry.RadianFromPosition(playerActions.leftJoystick.x, playerActions.leftJoystick.y);
                 joystickDegree = joystickDegree * 180 / Mathf.PI;
                 float targetDegreeError = 360;
                 float targetDistance = animeDashRange + 1;
@@ -219,7 +219,6 @@ public class PlayerAttack : MonoBehaviour
                 List<Enemy> enemyTargets = new List<Enemy>();
                 foreach (Collider2D possibleTarget in possibleTargets)
                 {
-                    Debug.Log(possibleTarget.GetComponent<Enemy>().IsShadow());
                     if (possibleTarget.GetComponent<Enemy>() != null && !possibleTarget.GetComponent<Enemy>().IsShadow())
                         enemyTargets.Add(possibleTarget.GetComponent<Enemy>());
                 }
@@ -227,7 +226,7 @@ public class PlayerAttack : MonoBehaviour
                 foreach (Enemy possibleTarget in enemyTargets)
                 {
                     Vector2 enemy = possibleTarget.transform.position;
-                    float enemyRadian = RadianFromPosition(enemy.x - player.x, enemy.y - player.y);
+                    float enemyRadian = Trigonometry.RadianFromPosition(enemy.x - player.x, enemy.y - player.y);
                     float enemyDegreeError = Mathf.Abs((enemyRadian * 180 / Mathf.PI) - (joystickDegree));
                     if (enemyDegreeError > 180)
                         enemyDegreeError = (360 - enemyDegreeError);
@@ -273,34 +272,6 @@ public class PlayerAttack : MonoBehaviour
                 }
             }
         }
-    }
-
-    private float RadianFromPosition(float x, float y)
-    {
-        float radian = Mathf.Atan(Mathf.Abs(y / x));
-        return CheckRadian(x, y, radian);
-    }
-
-    private float CheckRadian(float x, float y, float radianPrime)
-    {
-        if (y < 0 && x < 0)
-            return radianPrime + Mathf.PI;
-        else if (y < 0 && x != 0)
-            return 2 * Mathf.PI - radianPrime;
-        else if (x < 0 && y != 0)
-            return Mathf.PI - radianPrime;
-        else if (x > 0 && y > 0)
-            return radianPrime;
-        else if (y == 0 && x > 0)
-            return 0;
-        else if (y == 0 && x < 0)
-            return Mathf.PI;
-        else if (y > 0)
-            return Mathf.PI / 2f;
-        else if (y < 0)
-            return 3 * Mathf.PI / 2f;
-        else
-            return 0;
     }
 
     private void RemoveInvincibility()
