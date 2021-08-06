@@ -39,7 +39,11 @@ public class EnemyKnockback : EnemyDamaged
         int damageType = e.damage.damageType;
         if (damageType == Damage.PLAYER_BASIC_ATTACK)
         {
-            direction = Vector2.down;
+            Vector2 player = e.damage.source.transform.position;
+            Vector2 enemy = gameObject.transform.position;
+            direction = enemy - player;
+            direction.Normalize();
+
             knockbackTimer = knockbackTime;
             knocked = true;
         }
