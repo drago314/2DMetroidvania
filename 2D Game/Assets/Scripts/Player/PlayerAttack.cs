@@ -45,7 +45,7 @@ public class PlayerAttack : MonoBehaviour
     private bool reachedTarget;
     private float animeDashTimer = 0f;
     private float animeDashCooldownTimer = 0f;
-    private GameObject animeDashTarget;
+    private Enemy animeDashTarget;
     private Vector2 animeDashDirection;
 
     private void Start()
@@ -109,8 +109,7 @@ public class PlayerAttack : MonoBehaviour
                 bool hit = false;
                 foreach (Collider2D enemy in enemies)
                 {
-                    enemy.GetComponent<Health>().Damage(new Damage(basicAttackDamage, gameObject, Damage.PLAYER));
-                    enemy.GetComponent<EnemyKnockback>().Knockback(Vector2.up);
+                    enemy.GetComponent<Health>().Damage(new Damage(basicAttackDamage, gameObject, Damage.PLAYER_BASIC_ATTACK));
                     hit = true;
                 }
 
@@ -130,8 +129,7 @@ public class PlayerAttack : MonoBehaviour
                 bool hit = false;
                 foreach (Collider2D enemy in enemies)
                 {
-                    enemy.GetComponent<Health>().Damage(new Damage(basicAttackDamage, gameObject, Damage.PLAYER));
-                    enemy.GetComponent<EnemyKnockback>().Knockback(Vector2.down);
+                    enemy.GetComponent<Health>().Damage(new Damage(basicAttackDamage, gameObject, Damage.PLAYER_BASIC_ATTACK));
                     hit = true;
                 }
 
@@ -151,11 +149,7 @@ public class PlayerAttack : MonoBehaviour
                 bool hit = false;
                 foreach (Collider2D enemy in enemies)
                 {
-                    enemy.GetComponent<Health>().Damage(new Damage(basicAttackDamage, gameObject, Damage.PLAYER));
-                    if (playerActions.facingRight)
-                        enemy.GetComponent<EnemyKnockback>().Knockback(Vector2.right);
-                    else
-                        enemy.GetComponent<EnemyKnockback>().Knockback(Vector2.left);
+                    enemy.GetComponent<Health>().Damage(new Damage(basicAttackDamage, gameObject, Damage.PLAYER_BASIC_ATTACK));
                     hit = true;
                 }
 
@@ -196,7 +190,7 @@ public class PlayerAttack : MonoBehaviour
         if (animeDashing && !reachedTarget && Vector2.Distance(body.position, animeDashTarget.transform.position) < 0.2f)
         {
             Invoke("RemoveInvincibility", animeDashInvincibilityTime);
-            animeDashTarget.GetComponent<Health>().Damage(new Damage(animeDashDamage, gameObject, Damage.PLAYER));
+            animeDashTarget.GetComponent<Health>().Damage(new Damage(animeDashDamage, gameObject, Damage.PLAYER_ANIME_DASH));
 
             reachedTarget = true;
             animeDashCooldownTimer = animeDashCooldown;
@@ -222,7 +216,15 @@ public class PlayerAttack : MonoBehaviour
                 float targetDegreeError = 360;
                 float targetDistance = animeDashRange + 1;
 
+                List<Enemy> enemyTargets = new List<Enemy>();
                 foreach (Collider2D possibleTarget in possibleTargets)
+                {
+                    Debug.Log(possibleTarget.GetComponent<Enemy>().IsShadow());
+                    if (possibleTarget.GetComponent<Enemy>() != null && !possibleTarget.GetComponent<Enemy>().IsShadow())
+                        enemyTargets.Add(possibleTarget.GetComponent<Enemy>());
+                }
+
+                foreach (Enemy possibleTarget in enemyTargets)
                 {
                     Vector2 enemy = possibleTarget.transform.position;
                     float enemyRadian = RadianFromPosition(enemy.x - player.x, enemy.y - player.y);
@@ -234,35 +236,40 @@ public class PlayerAttack : MonoBehaviour
 
                     if (enemyDegreeError <= maxTargetDegreeError / 2 && enemyDistance < targetDistance)
                     {
-                        animeDashTarget = possibleTarget.gameObject;
+                        animeDashTarget = possibleTarget;
                         targetDegreeError = enemyDegreeError;
                         targetDistance = enemyDistance;
                     }
                     else if(targetDegreeError > maxTargetDegreeError && enemyDegreeError < targetDegreeError)
                     {
-                        animeDashTarget = possibleTarget.gameObject;
+                        animeDashTarget = possibleTarget;
                         targetDegreeError = enemyDegreeError;
                         targetDistance = enemyDistance;
                     }
                 }
 
-                Vector2 target = animeDashTarget.transform.position;
-                Vector2 direction = target - player;
-                direction.Normalize();
-                animeDashDirection = direction * animeDashForce;
-
-                RaycastHit2D raycastHit = Physics2D.Raycast(player, target, Vector2.Distance(player, target), groundLayer);
-
-                if (!raycastHit)
+                if (enemyTargets.Count != 0)
                 {
-                    playerActions.iFrame.Invincible(true);
-                    Physics2D.IgnoreLayerCollision(10, 8, true);
+                    Vector2 target = animeDashTarget.transform.position;
+                    Vector2 direction = target - player;
+                    direction.Normalize();
+                    animeDashDirection = direction * animeDashForce;
 
-                    body.gravityScale = 0;
-                    animeDashing = true;
-                    reachedTarget = false;
+                    RaycastHit2D raycastHit = Physics2D.Raycast(player, target, Vector2.Distance(player, target), groundLayer);
 
-                    body.velocity = animeDashDirection;
+                    if (!raycastHit)
+                    {
+                        playerActions.iFrame.Invincible(true);
+                        Physics2D.IgnoreLayerCollision(10, 8, true);
+
+                        animeDashTarget.hitsUntilShadow -= 1;
+
+                        body.gravityScale = 0;
+                        animeDashing = true;
+                        reachedTarget = false;
+
+                        body.velocity = animeDashDirection;
+                    }
                 }
             }
         }

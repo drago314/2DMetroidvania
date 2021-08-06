@@ -2,36 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InvFrame : MonoBehaviour, IHealthCallback
+public class InvFrame : MonoBehaviour
 {
     [SerializeField] private float iFrameDuration;
     [SerializeField] private int numberOfFlashes;
-    [SerializeField] private Health health;
 
     private SpriteRenderer spriteRend;
 
-    private void Awake()
-    {
-        spriteRend = gameObject.GetComponent<SpriteRenderer>();
-    }
-
     private void Start()
     {
-        health.SetCallbackListener(this);
-    }
-
-    public void OnDeath(Damage damage)
-    {}
-
-    public void OnHeal()
-    {}
-
-    public void OnHealthChanged(Health health)
-    {}
-
-    public void OnHit(Damage damage)
-    {
-        InvForTime(iFrameDuration);
+        spriteRend = gameObject.GetComponent<SpriteRenderer>();
     }
 
     public void InvForTime(float duration)

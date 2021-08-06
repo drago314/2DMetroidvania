@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyKnockback : MonoBehaviour
+public class EnemyKnockback : EnemyDamaged
 {
     [SerializeField] private float knockbackTime;
     [SerializeField] private float knockbackForce;
@@ -10,6 +11,15 @@ public class EnemyKnockback : MonoBehaviour
     private Vector2 direction;
     private float knockbackTimer;
     private bool knocked;
+
+    protected  new void Start()
+    {
+        base.Start();
+
+        Health health = gameObject.GetComponent<Health>();
+        health.OnHit += OnHit;
+        health.OnDeath += OnDeath;
+    }
 
     private void Update()
     {
@@ -24,10 +34,22 @@ public class EnemyKnockback : MonoBehaviour
         }
     }
 
-    public void Knockback(Vector2 d)
+    protected void OnHit(object sender, Health.OnHitEventArg e)
     {
-        direction = d;
-        knockbackTimer = knockbackTime;
-        knocked = true;
+        int damageType = e.damage.damageType;
+        if (damageType == Damage.PLAYER_BASIC_ATTACK)
+        {
+            Vector2 player = e.damage.source.transform.position;
+            Vector2 enemy = gameObject.transform.position;
+            direction = enemy - player;
+            direction.Normalize();
+
+            knockbackTimer = knockbackTime;
+            knocked = true;
+        }
+    }
+
+    protected new void OnDeath(object sender, EventArgs e)
+    {
     }
 }
