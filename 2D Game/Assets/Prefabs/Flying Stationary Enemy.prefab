@@ -99,7 +99,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b799416a4d2b44146b08b082406ae05e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitsUntilShadow: 1
   damage: 1
+  hitsUntilTurnsToShadow: 1
 --- !u!114 &8952840703359651768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,9 +114,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb7fbacd2d410574684650887ac7f906, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  iFrameDuration: 1
   knockbackTime: 1
   knockbackForce: 5
-  iFrameDuration: 1
 --- !u!114 &5764851132626533462
 MonoBehaviour:
   m_ObjectHideFlags: 0
