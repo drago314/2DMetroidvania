@@ -19,6 +19,7 @@ public class PlayerActions : MonoBehaviour
 
     public float defaultGravity { get; private set; }
     public Vector2 leftJoystick { get; private set; }
+    public Vector2 lastLeftJoystick { get; private set; }
     public InvFrame iFrame { get; private set; }
 
     public bool isGrounded { get; private set; }
@@ -52,6 +53,7 @@ public class PlayerActions : MonoBehaviour
         CheckOnWall();
 
         playerMovement.CheckMovement();
+        playerAttack.CheckAttack();
 
         if (playerMovement.CheckControl() && playerAttack.CheckControl() && playerDamaged.CheckControl())
         {
@@ -90,6 +92,7 @@ public class PlayerActions : MonoBehaviour
 
     private void OnMove(InputValue value)
     {
+        lastLeftJoystick = leftJoystick;
         leftJoystick = value.Get<Vector2>();
     }
 

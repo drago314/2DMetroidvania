@@ -30,7 +30,7 @@ public class InvFrame : MonoBehaviour
 
     public IEnumerator Invulnerability(float time, int amountOfFlashes, SpriteRenderer spriteRend)
     {
-        Physics2D.IgnoreLayerCollision(10, 9, true);
+        Invincible(true);
         for (int i = 0; i < amountOfFlashes; i++)
         {
             spriteRend.color = new Color(1, 0, 0, 0.5f);
@@ -38,6 +38,6 @@ public class InvFrame : MonoBehaviour
             spriteRend.color = Color.white;
             yield return new WaitForSeconds(time / (amountOfFlashes * 2));
         }
-        Physics2D.IgnoreLayerCollision(10, 9, false);
+        Invincible(false);
     }
 }

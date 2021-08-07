@@ -99,9 +99,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b799416a4d2b44146b08b082406ae05e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitsUntilShadow: 1
+  hitsUntilShadow: 100
   damage: 1
-  hitsUntilTurnsToShadow: 1
 --- !u!114 &8952840703359651768
 MonoBehaviour:
   m_ObjectHideFlags: 0
