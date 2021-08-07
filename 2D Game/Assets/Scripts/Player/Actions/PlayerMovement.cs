@@ -277,7 +277,7 @@ public class PlayerMovement : MonoBehaviour
     //displays text for debugging
     private void OnGUI()
     {
-        GUI.Label(new Rect(1100, 10, 100, 100), "isGrounded: " + grabbingWall);
+        //GUI.Label(new Rect(1100, 10, 100, 100), "isGrounded: " + grabbingWall);
         //GUI.Label(new Rect(1200, 50, 100, 100), "onWall: " + (onLeftWall || onRightWall));
     }
 }

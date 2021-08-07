@@ -338,7 +338,7 @@ Transform:
   - {fileID: 337078492}
   - {fileID: 2073882266}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &177300798
 MonoBehaviour:
@@ -367,10 +367,11 @@ MonoBehaviour:
   animeDashDamage: 0
   animeDashForce: 20
   animeDashRange: 10
-  animeDashInvincibilityTime: 0.1
+  animeDashInvincibilityTime: 0.2
   animeDashTime: 0.1
   animeDashCooldown: 0.5
   maxTargetDegreeError: 90
+  animeDashPointerPrefab: {fileID: 4181865149095317607, guid: 3e63049c547af6446a204d2291cf8ab2, type: 3}
 --- !u!114 &177300799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -413,8 +414,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dea80ce27058f14a9a2e2879133f6b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 5
-  currentHealth: 5
+  maxHealth: 20
+  currentHealth: 20
 --- !u!114 &177300801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1324,7 +1325,7 @@ RectTransform:
   m_Children:
   - {fileID: 1427318992}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1419,7 +1420,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5764851132626533460, guid: 8876221ff3a07b84981966581287d85d, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5764851132626533460, guid: 8876221ff3a07b84981966581287d85d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1707,7 +1708,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5764851132626533460, guid: 8876221ff3a07b84981966581287d85d, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5764851132626533460, guid: 8876221ff3a07b84981966581287d85d, type: 3}
       propertyPath: m_LocalPosition.x

@@ -9,8 +9,7 @@ public class PointArrowTowardsPlayer : MonoBehaviour
 
     private void Start()
     {
-        GameObject player = FindObjectOfType<PlayerActions>().gameObject;
-        PointToPlayer(player);
+        player = FindObjectOfType<PlayerActions>().gameObject;
     }
 
     private void Update()
@@ -18,12 +17,7 @@ public class PointArrowTowardsPlayer : MonoBehaviour
         Vector2 playerPosition = player.transform.position;
         Vector2 currentPos = transform.position;
         float pointDirection = Trigonometry.RadianFromPosition(playerPosition.x - currentPos.x, playerPosition.y - currentPos.y);
-        gameObject.transform.rotation = Quaternion.Euler(0, 0, Trigonometry.RadianToDegree(pointDirection));
-    }
-
-    public void PointToPlayer(GameObject player)
-    {
-        this.player = player;
+        gameObject.transform.rotation = Quaternion.Euler(0, 0, Trigonometry.RadianToDegree(pointDirection) + 180);
     }
 
     public void StopPointingToPlayer()

@@ -25,6 +25,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private float animeDashTime;
     [SerializeField] private float animeDashCooldown;
     [SerializeField] private float maxTargetDegreeError;
+    [SerializeField] private GameObject animeDashPointerPrefab;
 
     private PlayerActions playerActions;
     private PlayerMovement playerMovement;
@@ -47,6 +48,7 @@ public class PlayerAttack : MonoBehaviour
     private float animeDashCooldownTimer = 0f;
     private Enemy animeDashTarget;
     private Vector2 animeDashDirection;
+    private GameObject currentPointer;
 
     private void Start()
     {
@@ -92,6 +94,11 @@ public class PlayerAttack : MonoBehaviour
         }
 
         return hasControl;
+    }
+
+    public void CheckAttack()
+    {
+        FindAnimeDashTarget();
     }
 
     private void BasicAttack()
@@ -185,6 +192,70 @@ public class PlayerAttack : MonoBehaviour
         attackCooldownTimer = attackCooldown;
     }
 
+    private void FindAnimeDashTarget()
+    {
+        if (!animeDashing)
+        {
+            Collider2D[] possibleTargets = Physics2D.OverlapCircleAll(body.position, animeDashRange, enemyLayer);
+
+            List<Enemy> enemyTargets = new List<Enemy>();
+            foreach (Collider2D possibleTarget in possibleTargets)
+            {
+                if (possibleTarget.GetComponent<Enemy>() != null && !possibleTarget.GetComponent<Enemy>().IsShadow())
+                    enemyTargets.Add(possibleTarget.GetComponent<Enemy>());
+            }
+
+            Vector2 player = transform.position;
+            float targetDegreeError = 360;
+            float targetDistance = animeDashRange + 1;
+
+            float joystickDegree = Trigonometry.RadianFromPosition(playerActions.leftJoystick.x, playerActions.leftJoystick.y);
+            joystickDegree = joystickDegree * 180 / Mathf.PI;
+            if (playerActions.leftJoystick == Vector2.zero)
+                joystickDegree = Trigonometry.RadianToDegree(Trigonometry.RadianFromPosition(playerActions.lastLeftJoystick));
+
+            Enemy possibleAnimeDashTarget = null;
+
+            foreach (Enemy possibleTarget in enemyTargets)
+            {
+                Vector2 enemy = possibleTarget.transform.position;
+                float enemyRadian = Trigonometry.RadianFromPosition(enemy.x - player.x, enemy.y - player.y);
+                float enemyDegreeError = Mathf.Abs((enemyRadian * 180 / Mathf.PI) - (joystickDegree));
+                if (enemyDegreeError > 180)
+                    enemyDegreeError = (360 - enemyDegreeError);
+
+                float enemyDistance = Vector2.Distance(player, enemy);
+
+                if (enemyDegreeError <= maxTargetDegreeError / 2 && enemyDistance < targetDistance)
+                {
+                    possibleAnimeDashTarget = possibleTarget;
+                    targetDegreeError = enemyDegreeError;
+                    targetDistance = enemyDistance;
+                }
+                else if (targetDegreeError > maxTargetDegreeError && enemyDegreeError < targetDegreeError)
+                {
+                    possibleAnimeDashTarget = possibleTarget;
+                    targetDegreeError = enemyDegreeError;
+                    targetDistance = enemyDistance;
+                }
+            }
+
+            if (possibleAnimeDashTarget == null)
+            {
+                if (animeDashTarget != null)
+                    Destroy(currentPointer);
+                animeDashTarget = null;
+            }
+            else if (possibleAnimeDashTarget != animeDashTarget)
+            {
+                if (animeDashTarget != null)
+                    Destroy(currentPointer);
+                animeDashTarget = possibleAnimeDashTarget;
+                currentPointer = Instantiate(animeDashPointerPrefab, animeDashTarget.transform);
+            }
+        }
+    }
+
     private void AnimeDash()
     {
         if (animeDashing && !reachedTarget && Vector2.Distance(body.position, animeDashTarget.transform.position) < 0.2f)
@@ -197,6 +268,10 @@ public class PlayerAttack : MonoBehaviour
             animeDashTimer = animeDashTime;
             body.velocity = animeDashDirection;
         }
+        else if (animeDashing && !reachedTarget)
+        {
+            playerActions.iFrame.Invincible(true);
+        }
         else if (animeDashing && reachedTarget && animeDashTimer <= 0)
         {
             body.gravityScale = defaultGravity;
@@ -207,68 +282,29 @@ public class PlayerAttack : MonoBehaviour
         else if (animeDashPressed && !animeDashInputUsed && animeDashCooldownTimer <= 0)
         {
             animeDashInputUsed = true;
-            Collider2D[] possibleTargets = Physics2D.OverlapCircleAll(body.position, animeDashRange, enemyLayer);
-            if (possibleTargets.Length > 0)
+
+            if(animeDashTarget != null)
             {
                 Vector2 player = transform.position;
-                float joystickDegree = Trigonometry.RadianFromPosition(playerActions.leftJoystick.x, playerActions.leftJoystick.y);
-                joystickDegree = joystickDegree * 180 / Mathf.PI;
-                float targetDegreeError = 360;
-                float targetDistance = animeDashRange + 1;
+                Vector2 target = animeDashTarget.transform.position;
+                Vector2 direction = target - player;
+                direction.Normalize();
+                animeDashDirection = direction * animeDashForce;
 
-                List<Enemy> enemyTargets = new List<Enemy>();
-                foreach (Collider2D possibleTarget in possibleTargets)
+                RaycastHit2D raycastHit = Physics2D.Raycast(player, target, Vector2.Distance(player, target), groundLayer);
+
+                if (!raycastHit)
                 {
-                    if (possibleTarget.GetComponent<Enemy>() != null && !possibleTarget.GetComponent<Enemy>().IsShadow())
-                        enemyTargets.Add(possibleTarget.GetComponent<Enemy>());
-                }
+                    playerActions.iFrame.Invincible(true);
+                    Physics2D.IgnoreLayerCollision(10, 8, true);
 
-                foreach (Enemy possibleTarget in enemyTargets)
-                {
-                    Vector2 enemy = possibleTarget.transform.position;
-                    float enemyRadian = Trigonometry.RadianFromPosition(enemy.x - player.x, enemy.y - player.y);
-                    float enemyDegreeError = Mathf.Abs((enemyRadian * 180 / Mathf.PI) - (joystickDegree));
-                    if (enemyDegreeError > 180)
-                        enemyDegreeError = (360 - enemyDegreeError);
+                    animeDashTarget.hitsUntilShadow -= 1;
 
-                    float enemyDistance = Vector2.Distance(player, enemy);
+                    body.gravityScale = 0;
+                    animeDashing = true;
+                    reachedTarget = false;
 
-                    if (enemyDegreeError <= maxTargetDegreeError / 2 && enemyDistance < targetDistance)
-                    {
-                        animeDashTarget = possibleTarget;
-                        targetDegreeError = enemyDegreeError;
-                        targetDistance = enemyDistance;
-                    }
-                    else if(targetDegreeError > maxTargetDegreeError && enemyDegreeError < targetDegreeError)
-                    {
-                        animeDashTarget = possibleTarget;
-                        targetDegreeError = enemyDegreeError;
-                        targetDistance = enemyDistance;
-                    }
-                }
-
-                if (enemyTargets.Count != 0)
-                {
-                    Vector2 target = animeDashTarget.transform.position;
-                    Vector2 direction = target - player;
-                    direction.Normalize();
-                    animeDashDirection = direction * animeDashForce;
-
-                    RaycastHit2D raycastHit = Physics2D.Raycast(player, target, Vector2.Distance(player, target), groundLayer);
-
-                    if (!raycastHit)
-                    {
-                        playerActions.iFrame.Invincible(true);
-                        Physics2D.IgnoreLayerCollision(10, 8, true);
-
-                        animeDashTarget.hitsUntilShadow -= 1;
-
-                        body.gravityScale = 0;
-                        animeDashing = true;
-                        reachedTarget = false;
-
-                        body.velocity = animeDashDirection;
-                    }
+                    body.velocity = animeDashDirection;
                 }
             }
         }
@@ -296,5 +332,10 @@ public class PlayerAttack : MonoBehaviour
         {
             animeDashInputUsed = false;
         }
+    }
+
+    private void OnGUI()
+    {
+        GUI.Label(new Rect(1100, 10, 1000, 1000), "animeDashTarget: " + animeDashTarget.name);
     }
 }
