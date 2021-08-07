@@ -15,7 +15,7 @@ public class EnemyKnockback : EnemyDamaged
     protected  new void Start()
     {
         base.Start();
-
+        
         Health health = gameObject.GetComponent<Health>();
         health.OnHit += OnHit;
         health.OnDeath += OnDeath;
@@ -39,13 +39,18 @@ public class EnemyKnockback : EnemyDamaged
         int damageType = e.damage.damageType;
         if (damageType == Damage.PLAYER_BASIC_ATTACK)
         {
-            Vector2 player = e.damage.source.transform.position;
-            Vector2 enemy = gameObject.transform.position;
-            direction = enemy - player;
-            direction.Normalize();
-
             knockbackTimer = knockbackTime;
             knocked = true;
+
+            PlayerAttack playerAttack = e.damage.source.GetComponent<PlayerAttack>();
+            if (playerAttack.upAttacking)
+                direction = Vector2.up;
+            else if (playerAttack.downAttacking)
+                direction = Vector2.down;
+            else if (playerAttack.rightAttacking)
+                direction = Vector2.right;
+            else if (playerAttack.leftAttacking)
+                direction = Vector2.left;
         }
     }
 

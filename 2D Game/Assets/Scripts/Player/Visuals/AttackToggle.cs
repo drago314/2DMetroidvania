@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UpAttackToggle : MonoBehaviour
+public class AttackToggle : MonoBehaviour
 {
     public void Attack()
     {
