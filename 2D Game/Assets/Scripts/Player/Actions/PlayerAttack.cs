@@ -14,9 +14,10 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private float sideAttackRadius;
     [SerializeField] private float upAttackRadius;
     [SerializeField] private float downAttackRadius;
-    [SerializeField] private SideAttackToggle sideAttack;
-    [SerializeField] private UpAttackToggle upAttack;
-    [SerializeField] private UpAttackToggle downAttack;
+    [SerializeField] private AttackToggle rightAttack;
+    [SerializeField] private AttackToggle leftAttack;
+    [SerializeField] private AttackToggle upAttack;
+    [SerializeField] private AttackToggle downAttack;
 
     [SerializeField] private int animeDashDamage;
     [SerializeField] private float animeDashForce;
@@ -35,6 +36,10 @@ public class PlayerAttack : MonoBehaviour
     private LayerMask playerLayer;
     private float defaultGravity;
 
+    public bool rightAttacking { get; private set; } = false;
+    public bool leftAttacking { get; private set; } = false;
+    public bool upAttacking { get; private set; } = false;
+    public bool downAttacking { get; private set; } = false;
     private bool attackPressed;
     private bool attackInputUsed;
     private float attackTimer = 0f;
@@ -110,6 +115,7 @@ public class PlayerAttack : MonoBehaviour
             if (playerActions.leftJoystick.y > 0.2)
             {
                 upAttack.Attack();
+                upAttacking = true;
 
                 Collider2D[] enemies = Physics2D.OverlapCircleAll(upAttack.transform.position, upAttackRadius, enemyLayer);
 
@@ -130,6 +136,7 @@ public class PlayerAttack : MonoBehaviour
             else if (playerActions.leftJoystick.y < -0.2 && !playerActions.isGrounded)
             {
                 downAttack.Attack();
+                downAttacking = true;
 
                 Collider2D[] enemies = Physics2D.OverlapCircleAll(downAttack.transform.position, downAttackRadius, enemyLayer);
 
@@ -147,9 +154,10 @@ public class PlayerAttack : MonoBehaviour
 
                 Invoke("EndDownAttack", attackTime);
             }
-            else
+            else if (playerActions.facingRight)
             {
-                sideAttack.Attack(playerActions.facingRight);
+                rightAttack.Attack();
+                rightAttacking = true;
 
                 Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, sideAttackRadius, enemyLayer);
 
@@ -162,34 +170,61 @@ public class PlayerAttack : MonoBehaviour
 
                 if(hit)
                 {
-                    if (playerActions.facingRight)
-                        body.velocity = new Vector2(-sideAttackKnockback, body.velocity.y);
-                    else
-                        body.velocity = new Vector2(sideAttackKnockback, body.velocity.y);
-                    attackTimer = attackTime;
+                    body.velocity = new Vector2(-sideAttackKnockback, body.velocity.y);
                 }
 
-                Invoke("EndSideAttack", attackTime);
+                Invoke("EndRightAttack", attackTime);
+            }
+            else
+            {
+                leftAttack.Attack();
+                leftAttacking = true;
+
+                Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, sideAttackRadius, enemyLayer);
+
+                bool hit = false;
+                foreach (Collider2D enemy in enemies)
+                {
+                    enemy.GetComponent<Health>().Damage(new Damage(basicAttackDamage, gameObject, Damage.PLAYER_BASIC_ATTACK));
+                    hit = true;
+                }
+
+                if (hit)
+                {
+                    body.velocity = new Vector2(-sideAttackKnockback, body.velocity.y);
+                }
+
+                Invoke("EndLeftAttack", attackTime);
             }
         }
     }
 
-    private void EndSideAttack()
+    private void EndRightAttack()
     {
-        sideAttack.EndAttack();
+        rightAttack.EndAttack();
         attackCooldownTimer = attackCooldown;
+        rightAttacking = false;
+    }
+
+    private void EndLeftAttack()
+    {
+        leftAttack.EndAttack();
+        attackCooldownTimer = attackCooldown;
+        leftAttacking = false;
     }
 
     private void EndUpAttack()
     {
         upAttack.EndAttack();
         attackCooldownTimer = attackCooldown;
+        upAttacking = false;
     }
 
     private void EndDownAttack()
     {
         downAttack.EndAttack();
         attackCooldownTimer = attackCooldown;
+        downAttacking = false;
     }
 
     private void FindAnimeDashTarget()
@@ -216,7 +251,16 @@ public class PlayerAttack : MonoBehaviour
 
             Enemy possibleAnimeDashTarget = null;
 
+            List<Enemy> viewableTargets = new List<Enemy>();
             foreach (Enemy possibleTarget in enemyTargets)
+            {
+                Vector2 target = possibleTarget.transform.position;
+                RaycastHit2D raycastHit = Physics2D.Raycast(player, target, Vector2.Distance(player, target), groundLayer);
+                if (!raycastHit)
+                    viewableTargets.Add(possibleTarget);
+            }
+
+            foreach (Enemy possibleTarget in viewableTargets)
             {
                 Vector2 enemy = possibleTarget.transform.position;
                 float enemyRadian = Trigonometry.RadianFromPosition(enemy.x - player.x, enemy.y - player.y);
@@ -267,6 +311,7 @@ public class PlayerAttack : MonoBehaviour
             animeDashCooldownTimer = animeDashCooldown;
             animeDashTimer = animeDashTime;
             body.velocity = animeDashDirection;
+            Physics2D.IgnoreLayerCollision(10, 8, false);
         }
         else if (animeDashing && !reachedTarget)
         {
@@ -291,21 +336,16 @@ public class PlayerAttack : MonoBehaviour
                 direction.Normalize();
                 animeDashDirection = direction * animeDashForce;
 
-                RaycastHit2D raycastHit = Physics2D.Raycast(player, target, Vector2.Distance(player, target), groundLayer);
+                playerActions.iFrame.Invincible(true);
+                Physics2D.IgnoreLayerCollision(10, 8, true);
 
-                if (!raycastHit)
-                {
-                    playerActions.iFrame.Invincible(true);
-                    Physics2D.IgnoreLayerCollision(10, 8, true);
+                animeDashTarget.hitsUntilShadow -= 1;
 
-                    animeDashTarget.hitsUntilShadow -= 1;
+                body.gravityScale = 0;
+                animeDashing = true;
+                reachedTarget = false;
 
-                    body.gravityScale = 0;
-                    animeDashing = true;
-                    reachedTarget = false;
-
-                    body.velocity = animeDashDirection;
-                }
+                body.velocity = animeDashDirection;
             }
         }
     }
@@ -313,7 +353,6 @@ public class PlayerAttack : MonoBehaviour
     private void RemoveInvincibility()
     {
         playerActions.iFrame.Invincible(false);
-        Physics2D.IgnoreLayerCollision(10, 8, false);
     }
 
     private void OnAttack(InputValue value)
@@ -336,6 +375,6 @@ public class PlayerAttack : MonoBehaviour
 
     private void OnGUI()
     {
-        GUI.Label(new Rect(1100, 10, 1000, 1000), "animeDashTarget: " + animeDashTarget.name);
+        //GUI.Label(new Rect(1100, 10, 1000, 1000), "animeDashTarget: " + animeDashTarget.name);
     }
 }
