@@ -4,20 +4,9 @@ using UnityEngine;
 
 public class InvFrame : MonoBehaviour
 {
-    [SerializeField] private float iFrameDuration;
-    [SerializeField] private int numberOfFlashes;
-
-    private SpriteRenderer spriteRend;
-
-    private void Start()
-    {
-        spriteRend = gameObject.GetComponent<SpriteRenderer>();
-    }
-
     public void InvForTime(float duration)
     {
-        int numFlashes = (int) (numberOfFlashes / iFrameDuration * duration);
-        StartCoroutine(Invulnerability(duration, numFlashes, spriteRend));
+        StartCoroutine(Invulnerability(duration));
     }
 
     public void Invincible(bool inv)
@@ -28,16 +17,10 @@ public class InvFrame : MonoBehaviour
             Physics2D.IgnoreLayerCollision(10, 9, false);
     }
 
-    public IEnumerator Invulnerability(float time, int amountOfFlashes, SpriteRenderer spriteRend)
+    public IEnumerator Invulnerability(float time)
     {
         Invincible(true);
-        for (int i = 0; i < amountOfFlashes; i++)
-        {
-            spriteRend.color = new Color(1, 0, 0, 0.5f);
-            yield return new WaitForSeconds(time / (amountOfFlashes * 2));
-            spriteRend.color = Color.white;
-            yield return new WaitForSeconds(time / (amountOfFlashes * 2));
-        }
+        yield return new WaitForSeconds(time);
         Invincible(false);
     }
 }
