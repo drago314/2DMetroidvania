@@ -6,6 +6,7 @@ using UnityEngine;
 public class EnemyDamaged : MonoBehaviour
 {
     [SerializeField] protected float iFrameDuration;
+    [SerializeField] protected Animator animator;
 
     private InvFrame iFrame;
 
@@ -20,11 +21,13 @@ public class EnemyDamaged : MonoBehaviour
 
     protected void OnHit(object sender, EventArgs e)
     {
+        animator.SetTrigger("OnDamage");
         iFrame.InvForTime(iFrameDuration);
     }
 
     protected void OnDeath(object sender, EventArgs e)
     {
+        animator.SetTrigger("OnDeath");
         Destroy(gameObject);
     }
 }

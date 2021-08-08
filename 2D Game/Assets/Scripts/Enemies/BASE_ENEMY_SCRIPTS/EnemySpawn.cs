@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemySpawn : MonoBehaviour
 {
+    [SerializeField] private Animator animator;
     [SerializeField] private bool spawnOnSceneLoad;
     [SerializeField] private float spawnIFrameTime;
 

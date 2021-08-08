@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 7698858591240765999}
   - component: {fileID: 7698858591240765996}
   - component: {fileID: 7563885503096512586}
+  - component: {fileID: 3080974190907782025}
   m_Layer: 9
   m_Name: Flying Stationary Enemy Arena
   m_TagString: Untagged
@@ -116,6 +117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iFrameDuration: 1
+  animator: {fileID: 3080974190907782025}
   knockbackTime: 1
   knockbackForce: 5
 --- !u!114 &-4595547279056266104
@@ -130,6 +132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 451d8703d69ee7548a0140c8592ddcad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 3080974190907782025}
   spawnOnSceneLoad: 0
   spawnIFrameTime: 1
 --- !u!114 &7698858591240765998
@@ -158,8 +161,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4dd10708418ee145a6a906764875a89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iFrameDuration: 1
-  numberOfFlashes: 2
 --- !u!61 &7698858591240765996
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -198,5 +199,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 451d8703d69ee7548a0140c8592ddcad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
   spawnOnSceneLoad: 0
   spawnIFrameTime: 0
+--- !u!95 &3080974190907782025
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7698858591240765994}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b0dec169f5508e34382b89a572e6ab94, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
