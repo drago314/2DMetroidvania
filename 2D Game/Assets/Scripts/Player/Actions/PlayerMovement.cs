@@ -132,11 +132,11 @@ public class PlayerMovement : MonoBehaviour
             parachute.Close();
         }
         //Making holding jump jump higher, may need rewrite since I think it effects every time you fall.
-        if (body.velocity.y < 0)
+        if (body.velocity.y < 0 && !playerActions.isGrounded)
         {
             body.velocity += Vector2.up * Physics2D.gravity * (fallMultiplier - 1) * Time.deltaTime;
         }
-        else if (body.velocity.y > 0 && !jumpPressed)
+        else if (body.velocity.y > 0 && !jumpPressed && !playerActions.isGrounded)
         {
             body.velocity += Vector2.up * Physics2D.gravity * (lowJumpMultiplier - 1) * Time.deltaTime;
         }
