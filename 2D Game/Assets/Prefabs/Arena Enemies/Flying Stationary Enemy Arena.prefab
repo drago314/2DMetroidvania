@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 7698858591240765998}
   - component: {fileID: 7698858591240765999}
   - component: {fileID: 7698858591240765996}
-  - component: {fileID: 7563885503096512586}
   - component: {fileID: 3080974190907782025}
   m_Layer: 9
   m_Name: Flying Stationary Enemy Arena
@@ -103,6 +102,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitsUntilShadow: 100
+  health: {fileID: 7698858591240765998}
+  enemyDamaged: {fileID: 7698858591240765984}
+  enemySpawn: {fileID: -4595547279056266104}
   damage: 1
 --- !u!114 &7698858591240765984
 MonoBehaviour:
@@ -118,6 +120,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   iFrameDuration: 1
   animator: {fileID: 3080974190907782025}
+  isDamaged: 0
   knockbackTime: 1
   knockbackForce: 5
 --- !u!114 &-4595547279056266104
@@ -187,21 +190,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.9}
   m_EdgeRadius: 0
---- !u!114 &7563885503096512586
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7698858591240765994}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 451d8703d69ee7548a0140c8592ddcad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  spawnOnSceneLoad: 0
-  spawnIFrameTime: 0
 --- !u!95 &3080974190907782025
 Animator:
   serializedVersion: 3

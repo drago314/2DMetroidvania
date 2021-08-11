@@ -8,6 +8,8 @@ public class EnemyDamaged : MonoBehaviour
     [SerializeField] protected float iFrameDuration;
     [SerializeField] protected Animator animator;
 
+    public bool isDamaged = false;
+
     private InvFrame iFrame;
 
     protected void Start()
@@ -21,8 +23,16 @@ public class EnemyDamaged : MonoBehaviour
 
     protected void OnHit(object sender, EventArgs e)
     {
+        isDamaged = true;
         animator.SetTrigger("OnDamage");
         iFrame.InvForTime(iFrameDuration);
+        StartCoroutine(NotDamaged());
+    }
+
+    private IEnumerator NotDamaged()
+    {
+        yield return new WaitForSeconds(iFrameDuration);
+        isDamaged = false;
     }
 
     protected void OnDeath(object sender, EventArgs e)
