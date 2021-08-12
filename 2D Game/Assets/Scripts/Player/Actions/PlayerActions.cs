@@ -27,9 +27,9 @@ public class PlayerActions : MonoBehaviour
     public bool onRightWall { get; private set; }
     public bool facingRight { get; private set; }
 
-    private PlayerMovement playerMovement;
-    private PlayerAttack playerAttack;
-    private PlayerDamaged playerDamaged;
+    public PlayerMovement playerMovement { get; private set; }
+    public PlayerAttack playerAttack { get; private set; }
+    public PlayerDamaged playerDamaged { get; private set; }
 
     private void Awake()
     {

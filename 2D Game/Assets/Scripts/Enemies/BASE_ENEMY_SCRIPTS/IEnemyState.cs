@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IEnemyState 
 {
-    IEnemyState DoState(Enemy enemy);
+    IEnemyState DoState(Enemy enemy, EnemyStateManager enemyStateManager, PlayerActions player);
 }

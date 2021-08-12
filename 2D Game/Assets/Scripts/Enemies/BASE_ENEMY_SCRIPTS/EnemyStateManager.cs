@@ -2,19 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyStateManager : Enemy
+public class EnemyStateManager : MonoBehaviour
 {
-    protected IEnemyState currentState;
+    [SerializeField] protected IEnemyState baseState;
+    protected IEnemyState currentState = null;
 
-    protected State baseState;
+    public Dictionary<string, IEnemyState> stateDict = new Dictionary<string, IEnemyState>();
 
-    protected void OnEnable()
+    public void OnEnable()
     {
         currentState = baseState;
     }
 
-    protected void Update()
+    public void CallState(Enemy enemy, PlayerActions playerActions)
     {
-        currentState = currentState.DoState(this);
+        if (currentState != null)
+            currentState = currentState.DoState(enemy, this, playerActions);
+        else
+            currentState = baseState.DoState(enemy, this, playerActions);
     }
 }
