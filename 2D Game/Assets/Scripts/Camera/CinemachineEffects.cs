@@ -14,11 +14,28 @@ public class CinemachineEffects : MonoBehaviour
     private CinemachineVirtualCamera cinemachineVirtualCamera;
     private float defaultOrthographicSize;
 
-    void Awake()
+    private float shakeTimer;
+
+    private void Awake()
     {
         instance = this;
         cinemachineVirtualCamera = GetComponent<CinemachineVirtualCamera>();
         defaultOrthographicSize = cinemachineVirtualCamera.m_Lens.OrthographicSize;
+    }
+
+    private void Update()
+    {
+        if (shakeTimer > 0)
+        {
+            shakeTimer -= Time.deltaTime;
+            if (shakeTimer <= 0f)
+            {
+                CinemachineBasicMultiChannelPerlin cBMCP =
+                    cinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+
+                cBMCP.m_AmplitudeGain = 0;
+            }
+        }
     }
 
     public void Punch()
@@ -37,5 +54,14 @@ public class CinemachineEffects : MonoBehaviour
                 cinemachineVirtualCamera.m_Lens.OrthographicSize = orthographicSize;
             });
         });
+    }
+
+    public void Shake(float intensity, float time)
+    {
+        CinemachineBasicMultiChannelPerlin cBMCP =
+            cinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+
+        cBMCP.m_AmplitudeGain = intensity;
+        shakeTimer = time;
     }
 }

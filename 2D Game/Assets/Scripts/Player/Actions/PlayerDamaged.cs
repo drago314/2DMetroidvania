@@ -7,6 +7,8 @@ public class PlayerDamaged : MonoBehaviour
     [SerializeField] private float knockbackTime;
     [SerializeField] private float knockbackForce;
     [SerializeField] private float invincibilityTime;
+    [SerializeField] private float screenShakeTime;
+    [SerializeField] private float screenShakeIntensity;
     
     private PlayerActions playerActions;
     private Rigidbody2D body;
@@ -63,7 +65,7 @@ public class PlayerDamaged : MonoBehaviour
         direction.Normalize();
         body.velocity = direction * knockbackForce;
 
-        CinemachineEffects.instance.Punch();
+        CinemachineEffects.instance.Shake(screenShakeIntensity, screenShakeTime);
 
         iFrame.InvForTime(invincibilityTime);
     }
