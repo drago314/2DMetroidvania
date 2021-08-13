@@ -72,6 +72,11 @@ public class PlayerActions : MonoBehaviour
             playerMovement.Movement();
             playerAttack.Attack();
         }
+        else
+        {
+            Debug.Log("Here");
+            playerMovement.isJumping = false;
+        }
     }
 
     private void CheckGrounded()

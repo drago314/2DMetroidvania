@@ -139,8 +139,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   knockbackTime: 0.1
-  knockbackForce: 10
+  knockbackForce: 7
   invincibilityTime: 1
+  screenShakeTime: 0.25
+  screenShakeIntensity: 4
 --- !u!114 &7354739304318160210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,8 +169,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4dd10708418ee145a6a906764875a89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iFrameDuration: 1
-  numberOfFlashes: 2
 --- !u!212 &7354739304318160174
 SpriteRenderer:
   m_ObjectHideFlags: 0

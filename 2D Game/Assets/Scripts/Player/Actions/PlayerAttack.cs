@@ -128,6 +128,7 @@ public class PlayerAttack : MonoBehaviour
 
                 if (hit)
                 {
+                    attackTimer = attackTime;
                     body.velocity = new Vector2(body.velocity.x, -upAttackKnockback);
                 }
 
@@ -149,6 +150,7 @@ public class PlayerAttack : MonoBehaviour
 
                 if (hit)
                 {
+                    attackTimer = attackTime;
                     body.velocity = new Vector2(body.velocity.x, downAttackKnockback);
                 }
 
@@ -170,6 +172,7 @@ public class PlayerAttack : MonoBehaviour
 
                 if(hit)
                 {
+                    attackTimer = attackTime;
                     body.velocity = new Vector2(-sideAttackKnockback, body.velocity.y);
                 }
 
@@ -191,6 +194,7 @@ public class PlayerAttack : MonoBehaviour
 
                 if (hit)
                 {
+                    attackTimer = attackTime;
                     body.velocity = new Vector2(-sideAttackKnockback, body.velocity.y);
                 }
 

@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpForce;
     [SerializeField] private float fallMultiplier;
     [SerializeField] private float lowJumpMultiplier;
+    [SerializeField] private float jumpTime;
 
     [SerializeField] private float climbSpeed;
     [SerializeField] private float wallJumpSideForce;
@@ -35,6 +36,8 @@ public class PlayerMovement : MonoBehaviour
 
     private bool jumpPressed;
     private bool jumpInputUsed;
+    public bool isJumping;
+    private float jumpTimer;
     private int jumpCounter;
 
     private bool grabbingWall;
@@ -128,23 +131,30 @@ public class PlayerMovement : MonoBehaviour
             Invoke("AddJump", 0.1f);
             body.velocity = new Vector2(body.velocity.x, jumpForce);
             //anim.SetTrigger("Jump");
+            jumpTimer = jumpTime;
             jumpInputUsed = true;
             parachute.Close();
         }
-        //Making holding jump jump higher, may need rewrite since I think it effects every time you fall.
         if (body.velocity.y < 0 && !playerActions.isGrounded)
         {
             body.velocity += Vector2.up * Physics2D.gravity * (fallMultiplier - 1) * Time.deltaTime;
         }
-        else if (body.velocity.y > 0 && !jumpPressed && !playerActions.isGrounded)
+        if (isJumping && body.velocity.y > 0 && !jumpPressed && !playerActions.isGrounded)
         {
             body.velocity += Vector2.up * Physics2D.gravity * (lowJumpMultiplier - 1) * Time.deltaTime;
+        }
+        if (jumpTimer > 0)
+        {
+            jumpTimer -= Time.deltaTime;
+            if (jumpTimer <= 0)
+                isJumping = false;
         }
     }
 
     private void AddJump()
     {
         jumpCounter += 1;
+        isJumping = true;
     }
 
     private void WallMovement()
@@ -277,7 +287,7 @@ public class PlayerMovement : MonoBehaviour
     //displays text for debugging
     private void OnGUI()
     {
-        //GUI.Label(new Rect(1100, 10, 100, 100), "isGrounded: " + grabbingWall);
+        GUI.Label(new Rect(1100, 10, 100, 100), "isJumping: " + isJumping);
         //GUI.Label(new Rect(1200, 50, 100, 100), "onWall: " + (onLeftWall || onRightWall));
     }
 }
