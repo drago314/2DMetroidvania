@@ -1396,6 +1396,8 @@ GameObject:
   - component: {fileID: 1397688770}
   - component: {fileID: 1397688769}
   - component: {fileID: 1397688771}
+  - component: {fileID: 1397688772}
+  - component: {fileID: 1397688773}
   m_Layer: 0
   m_Name: ArenaEnemySpawner
   m_TagString: Untagged
@@ -1415,8 +1417,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1634c2714e3530a46b1d46a034207cf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waveList:
+  enemiesAddedPerWave: 1
+  enemySpeedAddedPerWave: 1
+  waveArray:
   - {fileID: 1397688771}
+  - {fileID: 1397688772}
 --- !u!4 &1397688770
 Transform:
   m_ObjectHideFlags: 0
@@ -1443,7 +1448,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec1ba2aaf22b98f48be1b0ffdb701a19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseEnemy: {fileID: 7698858591240765994, guid: e44e6d4b7ab7ff74e86055f3ebbdb965, type: 3}
+  enemies:
+  - {fileID: 7698858591240765994, guid: e44e6d4b7ab7ff74e86055f3ebbdb965, type: 3}
+--- !u!114 &1397688772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1397688768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec1ba2aaf22b98f48be1b0ffdb701a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemies:
+  - {fileID: 7698858591240765994, guid: e44e6d4b7ab7ff74e86055f3ebbdb965, type: 3}
+  - {fileID: 7698858591240765994, guid: e44e6d4b7ab7ff74e86055f3ebbdb965, type: 3}
+  - {fileID: 7698858591240765994, guid: e44e6d4b7ab7ff74e86055f3ebbdb965, type: 3}
+--- !u!114 &1397688773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1397688768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 594b5107d2147834d813a7e7e5ae4bec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyList:
+  - {fileID: 7698858591240765994, guid: e44e6d4b7ab7ff74e86055f3ebbdb965, type: 3}
 --- !u!114 &1476024046 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7354739304318160210, guid: 00fe62a9b8f907a45ad32090cda97d7f, type: 3}
@@ -1566,18 +1602,6 @@ PrefabInstance:
     - target: {fileID: 7354739304318160171, guid: 00fe62a9b8f907a45ad32090cda97d7f, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 7354739304318160172, guid: 00fe62a9b8f907a45ad32090cda97d7f, type: 3}
-      propertyPath: animeDashRange
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 7354739304318160172, guid: 00fe62a9b8f907a45ad32090cda97d7f, type: 3}
-      propertyPath: animeDashDamage
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7354739304318160172, guid: 00fe62a9b8f907a45ad32090cda97d7f, type: 3}
-      propertyPath: downAttackKnockback
-      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7354739304318160175, guid: 00fe62a9b8f907a45ad32090cda97d7f, type: 3}
       propertyPath: m_RootOrder

@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class Enemy : MonoBehaviour
 {
     public int hitsUntilShadow;
+    public float speed;
     public Health health;
     public EnemyDamaged enemyDamaged;
     public EnemySpawn enemySpawn;

@@ -6,9 +6,8 @@ using UnityEngine;
 public class FlyingTowardsPlayerEnemy : Enemy
 {
     [SerializeField] private int damage;
-    [SerializeField] private float speed;
     [SerializeField] private EnemyStateManager enemyStateManager;
-
+    
     private new void Start()
     {
         base.Start();
@@ -35,5 +34,10 @@ public class FlyingTowardsPlayerEnemy : Enemy
         {
             transform.position = Vector2.MoveTowards(transform.position, playerActions.transform.position, speed * (Time.deltaTime));
         }
+    }
+
+    public void SetSpeed(float speed)
+    {
+        this.speed = speed;
     }
 }

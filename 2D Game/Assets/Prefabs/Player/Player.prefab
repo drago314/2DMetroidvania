@@ -82,6 +82,7 @@ MonoBehaviour:
   jumpForce: 5
   fallMultiplier: 2.5
   lowJumpMultiplier: 4
+  jumpTime: 0
   climbSpeed: 3
   wallJumpSideForce: 5
   wallJumpUpForce: 5
@@ -93,6 +94,7 @@ MonoBehaviour:
   dashForce: 15
   dashTime: 0.3
   dashCooldown: 0.3
+  isJumping: 0
 --- !u!114 &7354739304318160172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,7 +112,7 @@ MonoBehaviour:
   attackCooldown: 0.2
   sideAttackKnockback: 3
   upAttackKnockback: 5
-  downAttackKnockback: 10
+  downAttackKnockback: 5
   sideAttackRadius: 1
   upAttackRadius: 1
   downAttackRadius: 1
@@ -118,9 +120,9 @@ MonoBehaviour:
   leftAttack: {fileID: 7354739304613001271}
   upAttack: {fileID: 7354739304829731023}
   downAttack: {fileID: 7354739305105933966}
-  animeDashDamage: 0
+  animeDashDamage: 1
   animeDashForce: 20
-  animeDashRange: 10
+  animeDashRange: 20
   animeDashInvincibilityTime: 0.2
   animeDashTime: 0.1
   animeDashCooldown: 0.5

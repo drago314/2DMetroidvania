@@ -4,32 +4,46 @@ using UnityEngine;
 
 public class ArenaEnemySpawner : MonoBehaviour
 {
-    [SerializeField] private List<EnemeyWave> waveList;
+    [SerializeField] private float enemiesAddedPerWave;
+    [SerializeField] private float enemySpeedAddedPerWave;
+    [SerializeField] private EnemeyWave[] waveArray;
 
-    private float currentWave = 0;
+    private float currentEnemies = 1;
+    private float currentEnemySpeed = 2;
     private bool waveSpawned = false;
+    private int currentWave;
+    private ScriptGeneratedWave currentGeneratedWave;
+
+    private void Start()
+    {
+        currentGeneratedWave = gameObject.GetComponent<ScriptGeneratedWave>();
+    }
 
     private void Update()
     {
-        if (currentWave == 0 && !waveSpawned)
+        if (currentWave >= waveArray.Length && !waveSpawned)
         {
-            waveList[0].SpawnWave();
+            currentGeneratedWave.SpawnWave((int) currentEnemies, currentEnemySpeed);
             waveSpawned = true;
         }
-        else if (currentWave == 0 && waveList[0].WaveComplete())
+        else if(currentWave >= waveArray.Length)
         {
-            currentWave += 1;
-            waveSpawned = false;
+            if (currentGeneratedWave.WaveComplete())
+            {
+                waveSpawned = false;
+                currentEnemies += enemiesAddedPerWave;
+                currentEnemySpeed += enemySpeedAddedPerWave;
+            }
         }
-        else if (currentWave == 1 && !waveSpawned)
+        else if (!waveSpawned)
         {
-            waveList[0].SpawnWave();
+            waveArray[currentWave].SpawnWave();
             waveSpawned = true;
         }
-        else if (currentWave == 1 && waveList[0].WaveComplete())
+        else if (waveArray[currentWave].WaveComplete())
         {
-            currentWave += 1;
             waveSpawned = false;
+            currentWave += 1;
         }
     }
-}
+}   
