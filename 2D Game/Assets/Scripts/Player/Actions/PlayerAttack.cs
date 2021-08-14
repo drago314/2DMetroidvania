@@ -195,7 +195,7 @@ public class PlayerAttack : MonoBehaviour
                 if (hit)
                 {
                     attackTimer = attackTime;
-                    body.velocity = new Vector2(-sideAttackKnockback, body.velocity.y);
+                    body.velocity = new Vector2(sideAttackKnockback, body.velocity.y);
                 }
 
                 Invoke("EndLeftAttack", attackTime);
@@ -241,7 +241,9 @@ public class PlayerAttack : MonoBehaviour
             foreach (Collider2D possibleTarget in possibleTargets)
             {
                 if (possibleTarget.GetComponent<Enemy>() != null && !possibleTarget.GetComponent<Enemy>().IsShadow())
+                {
                     enemyTargets.Add(possibleTarget.GetComponent<Enemy>());
+                }
             }
 
             Vector2 player = transform.position;
@@ -259,7 +261,7 @@ public class PlayerAttack : MonoBehaviour
             foreach (Enemy possibleTarget in enemyTargets)
             {
                 Vector2 target = possibleTarget.transform.position;
-                RaycastHit2D raycastHit = Physics2D.Raycast(player, target, Vector2.Distance(player, target), groundLayer);
+                RaycastHit2D raycastHit = Physics2D.Raycast(player, target - player, Vector2.Distance(player, target) + 2, groundLayer);
                 if (!raycastHit)
                     viewableTargets.Add(possibleTarget);
             }
@@ -285,6 +287,10 @@ public class PlayerAttack : MonoBehaviour
                     possibleAnimeDashTarget = possibleTarget;
                     targetDegreeError = enemyDegreeError;
                     targetDistance = enemyDistance;
+                }
+                else if (possibleAnimeDashTarget == null)
+                {
+                    possibleAnimeDashTarget = possibleTarget;
                 }
             }
 

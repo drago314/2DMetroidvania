@@ -74,7 +74,6 @@ public class PlayerActions : MonoBehaviour
         }
         else
         {
-            Debug.Log("Here");
             playerMovement.isJumping = false;
         }
     }

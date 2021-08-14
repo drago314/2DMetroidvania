@@ -244,7 +244,7 @@ Grid:
   m_GameObject: {fileID: 929632777}
   m_Enabled: 1
   m_CellSize: {x: 1, y: 1, z: 0}
-  m_CellGap: {x: 0, y: 0, z: 0}
+  m_CellGap: {x: -0.001, y: -0.001, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
 --- !u!4 &929632779
@@ -1336,32 +1336,32 @@ CompositeCollider2D:
   m_ColliderPaths:
   - m_Collider: {fileID: 1249009266}
     m_ColliderPaths:
-    - - X: 110000000
-        Y: 60000000
-      - X: -130000000
-        Y: 60000000
-      - X: -130000000
-        Y: -50000000
-      - X: 110000000
-        Y: -50000000
-    - - X: -120000000
-        Y: -30000000
-      - X: -120000000
-        Y: 50000000
-      - X: 100000000
-        Y: 50000000
-      - X: 100000000
-        Y: -30000000
+    - - X: 109900000
+        Y: 59950000
+      - X: -129870008
+        Y: 59950000
+      - X: -129870008
+        Y: -49950000
+      - X: 109900000
+        Y: -49950000
+    - - X: -119870008
+        Y: -29960000
+      - X: -119870008
+        Y: 49950000
+      - X: 99900000
+        Y: 49950000
+      - X: 99900000
+        Y: -29960000
   m_CompositePaths:
     m_Paths:
-    - - {x: 10.99997, y: -5}
-      - {x: 10.99997, y: 6}
-      - {x: -13, y: 5.999971}
-      - {x: -12.99997, y: -5}
-    - - {x: 10, y: -2.9999707}
-      - {x: -12, y: -2.9999707}
-      - {x: -11.99997, y: 5}
-      - {x: 10, y: 4.9999704}
+    - - {x: 10.98997, y: -4.995}
+      - {x: 10.98997, y: 5.995}
+      - {x: -12.987001, y: 5.994971}
+      - {x: -12.986971, y: -4.995}
+    - - {x: 9.99, y: -2.9959707}
+      - {x: -11.987, y: -2.9959707}
+      - {x: -11.986971, y: 4.995}
+      - {x: 9.99, y: 4.9949703}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
 --- !u!50 &1249009268
@@ -1566,6 +1566,14 @@ PrefabInstance:
     - target: {fileID: 7354739304318160171, guid: 00fe62a9b8f907a45ad32090cda97d7f, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 7354739304318160172, guid: 00fe62a9b8f907a45ad32090cda97d7f, type: 3}
+      propertyPath: animeDashRange
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7354739304318160172, guid: 00fe62a9b8f907a45ad32090cda97d7f, type: 3}
+      propertyPath: animeDashDamage
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7354739304318160172, guid: 00fe62a9b8f907a45ad32090cda97d7f, type: 3}
       propertyPath: downAttackKnockback
@@ -3645,7 +3653,6 @@ GameObject:
   - component: {fileID: 1803994751}
   - component: {fileID: 1803994750}
   - component: {fileID: 1803994753}
-  - component: {fileID: 1803994754}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3752,23 +3759,3 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1803994754
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1803994749}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a160d838ff8b4b4693ac20007e008c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AssetsPPU: 16
-  m_RefResolutionX: 320
-  m_RefResolutionY: 180
-  m_UpscaleRT: 0
-  m_PixelSnapping: 0
-  m_CropFrameX: 0
-  m_CropFrameY: 0
-  m_StretchFill: 0
