@@ -31,7 +31,7 @@ public class ScriptGeneratedWave : EnemeyWave
 
     protected void SpawnEnemy(GameObject enemy, float enemySpeed)
     {
-        Vector3 position = new Vector3(random.Next(-2, 11), random.Next(-1, 3), 0);
+        Vector3 position = new Vector3(random.Next(-11, 9), random.Next(-1, 3), 0);
         GameObject enemySpawned = Instantiate(enemy, position, Quaternion.identity);
         Health enemyHealth = enemySpawned.GetComponent<Health>();
         Enemy enemyEnemy = enemySpawned.GetComponent<Enemy>();

@@ -1,12 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class ArenaEnemySpawner : MonoBehaviour
 {
+    public static ArenaEnemySpawner instance;
+
     [SerializeField] private float enemiesAddedPerWave;
     [SerializeField] private float enemySpeedAddedPerWave;
     [SerializeField] private EnemeyWave[] waveArray;
+
+    public event EventHandler<OnScoreChangeEventHandler> OnScoreChange;
+    public int score { get; private set; }
+
+    public class OnScoreChangeEventHandler : EventArgs
+    {
+        public int score;
+    }
 
     private float currentEnemies = 1;
     private float currentEnemySpeed = 2;
@@ -16,6 +27,7 @@ public class ArenaEnemySpawner : MonoBehaviour
 
     private void Start()
     {
+        instance ??= this;
         currentGeneratedWave = gameObject.GetComponent<ScriptGeneratedWave>();
     }
 
@@ -33,6 +45,8 @@ public class ArenaEnemySpawner : MonoBehaviour
                 waveSpawned = false;
                 currentEnemies += enemiesAddedPerWave;
                 currentEnemySpeed += enemySpeedAddedPerWave;
+                score += 1;
+                OnScoreChange?.Invoke(this, new OnScoreChangeEventHandler { score = score });
             }
         }
         else if (!waveSpawned)
@@ -44,6 +58,8 @@ public class ArenaEnemySpawner : MonoBehaviour
         {
             waveSpawned = false;
             currentWave += 1;
+            score += 1;
+            OnScoreChange?.Invoke(this, new OnScoreChangeEventHandler { score = score });
         }
     }
 }   
