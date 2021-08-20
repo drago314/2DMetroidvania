@@ -25,9 +25,14 @@ public class ArenaEnemySpawner : MonoBehaviour
     private int currentWave;
     private ScriptGeneratedWave currentGeneratedWave;
 
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+    }
+
     private void Start()
     {
-        instance ??= this;
         currentGeneratedWave = gameObject.GetComponent<ScriptGeneratedWave>();
     }
 
