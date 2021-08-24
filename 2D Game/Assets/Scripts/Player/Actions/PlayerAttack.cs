@@ -28,6 +28,11 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private float maxTargetDegreeError;
     [SerializeField] private GameObject animeDashPointerPrefab;
 
+    [SerializeField] private float daggerCooldownTime;
+    [SerializeField] private int daggerDamage;
+    [SerializeField] private float daggerSpeed;
+    [SerializeField] private GameObject dagger;
+
     private PlayerActions playerActions;
     private PlayerMovement playerMovement;
     private Rigidbody2D body;
@@ -55,6 +60,10 @@ public class PlayerAttack : MonoBehaviour
     private Vector2 animeDashDirection;
     private GameObject currentPointer;
 
+    private bool launchDaggerPressed;
+    private bool launchDaggerInputUsed;
+    private float daggerCooldownTimer;
+
     private void Start()
     {
         playerActions = gameObject.GetComponent<PlayerActions>();
@@ -71,6 +80,7 @@ public class PlayerAttack : MonoBehaviour
     {
         BasicAttack();
         AnimeDash();
+        LaunchDagger();
     }
 
     public bool CheckControl()
@@ -94,6 +104,9 @@ public class PlayerAttack : MonoBehaviour
 
             if (animeDashCooldownTimer > 0)
                 animeDashCooldownTimer -= Time.deltaTime;
+
+            if (daggerCooldownTimer > 0)
+                daggerCooldownTimer -= Time.deltaTime;
 
             hasControl = true;
         }
@@ -365,6 +378,27 @@ public class PlayerAttack : MonoBehaviour
         playerActions.iFrame.Invincible(false);
     }
 
+    private void LaunchDagger()
+    {
+        if (launchDaggerPressed && !launchDaggerInputUsed && daggerCooldownTimer <= 0)
+        {
+            launchDaggerInputUsed = true;
+            if (playerActions.facingRight)
+            {
+                LaunchDagger dagger = Instantiate(this.dagger, gameObject.transform.position, Quaternion.identity)
+                        .GetComponent<LaunchDagger>();
+                dagger.SetFlyDirection(new Vector2(daggerSpeed, 0));
+            }
+            else
+            {
+                LaunchDagger dagger = Instantiate(this.dagger, gameObject.transform.position, Quaternion.identity)
+                        .GetComponent<LaunchDagger>();
+                dagger.SetFlyDirection(new Vector2(-daggerSpeed, 0));
+            }
+            daggerCooldownTimer = daggerCooldownTime;
+        }
+    }
+
     private void OnAttack(InputValue value)
     {
         attackPressed = value.isPressed;
@@ -380,6 +414,15 @@ public class PlayerAttack : MonoBehaviour
         if (animeDashPressed)
         {
             animeDashInputUsed = false;
+        }
+    }
+
+    private void OnLaunchDagger(InputValue value)
+    {
+        launchDaggerPressed = value.isPressed;
+        if (launchDaggerPressed)
+        {
+            launchDaggerInputUsed = false;
         }
     }
 

@@ -82,7 +82,7 @@ MonoBehaviour:
   jumpForce: 5
   fallMultiplier: 2.5
   lowJumpMultiplier: 4
-  jumpTime: 0
+  jumpTime: 1
   climbSpeed: 3
   wallJumpSideForce: 5
   wallJumpUpForce: 5
@@ -128,6 +128,10 @@ MonoBehaviour:
   animeDashCooldown: 0.5
   maxTargetDegreeError: 90
   animeDashPointerPrefab: {fileID: 4181865149095317607, guid: 3e63049c547af6446a204d2291cf8ab2, type: 3}
+  daggerCooldownTime: 0
+  daggerDamage: 0
+  daggerSpeed: 10
+  dagger: {fileID: 1814826728551375023, guid: a0582a2dfa070da45be88c407bafeccf, type: 3}
 --- !u!114 &7354739304318160214
 MonoBehaviour:
   m_ObjectHideFlags: 0

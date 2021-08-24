@@ -1913,6 +1913,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7354739304318160172, guid: 00fe62a9b8f907a45ad32090cda97d7f, type: 3}
+      propertyPath: daggerSpeed
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7354739304318160172, guid: 00fe62a9b8f907a45ad32090cda97d7f, type: 3}
+      propertyPath: daggerDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7354739304318160172, guid: 00fe62a9b8f907a45ad32090cda97d7f, type: 3}
+      propertyPath: daggerCooldownTime
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7354739304318160175, guid: 00fe62a9b8f907a45ad32090cda97d7f, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -1956,18 +1968,6 @@ PrefabInstance:
     - target: {fileID: 7354739304318160175, guid: 00fe62a9b8f907a45ad32090cda97d7f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7354739304318160208, guid: 00fe62a9b8f907a45ad32090cda97d7f, type: 3}
-      propertyPath: jumpTime
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7354739304318160210, guid: 00fe62a9b8f907a45ad32090cda97d7f, type: 3}
-      propertyPath: maxHealth
-      value: 199
-      objectReference: {fileID: 0}
-    - target: {fileID: 7354739304318160210, guid: 00fe62a9b8f907a45ad32090cda97d7f, type: 3}
-      propertyPath: currentHealth
-      value: 199
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00fe62a9b8f907a45ad32090cda97d7f, type: 3}
@@ -2148,7 +2148,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: ecc31f2cecc76fa44bea5e09f1c785cc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
