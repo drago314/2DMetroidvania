@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 595335689703736572}
   - component: {fileID: 1221888137235990657}
   - component: {fileID: 6104358826754063189}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Box Colider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83,9 +83,9 @@ GameObject:
   - component: {fileID: 8506970850968759771}
   - component: {fileID: 2329516753428466061}
   - component: {fileID: 3578669996344361061}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dagger
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -168,6 +168,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bf174ae3aa49fb4f86bf2fd4546b44c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flyingTowardsEnemy: 0
+  flybackTimer: 0
   body: {fileID: 3578669996344361061}
 --- !u!50 &3578669996344361061
 Rigidbody2D:

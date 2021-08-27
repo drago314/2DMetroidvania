@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerActions : MonoBehaviour
 {
+    public static PlayerActions player;
+
     [SerializeField] private LayerMask groundLayer;
     public LayerMask GetGroundLayer() { return groundLayer; }
     [SerializeField] private LayerMask enemyLayer;
@@ -33,6 +35,11 @@ public class PlayerActions : MonoBehaviour
 
     private void Awake()
     {
+        if (player == null)
+            player = this;
+        else
+            Destroy(gameObject);
+
         playerMovement = gameObject.GetComponent<PlayerMovement>();
         playerAttack = gameObject.GetComponent<PlayerAttack>();
         playerDamaged = gameObject.GetComponent<PlayerDamaged>();

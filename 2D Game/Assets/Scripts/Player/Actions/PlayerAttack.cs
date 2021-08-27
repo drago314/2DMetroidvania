@@ -28,10 +28,14 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private float maxTargetDegreeError;
     [SerializeField] private GameObject animeDashPointerPrefab;
 
+    [SerializeField] private int maxDaggerAmount;
     [SerializeField] private float daggerCooldownTime;
     [SerializeField] private int daggerDamage;
     [SerializeField] private float daggerSpeed;
+    [SerializeField] public float timeBeforeFlyback;
+    [SerializeField] public float daggerFlybackSpeed;
     [SerializeField] private GameObject dagger;
+    [SerializeField] private DaggerBar daggerBar;
 
     private PlayerActions playerActions;
     private PlayerMovement playerMovement;
@@ -62,6 +66,7 @@ public class PlayerAttack : MonoBehaviour
 
     private bool launchDaggerPressed;
     private bool launchDaggerInputUsed;
+    public int daggerAmount;
     private float daggerCooldownTimer;
 
     private void Start()
@@ -74,6 +79,8 @@ public class PlayerAttack : MonoBehaviour
         enemyLayer = playerActions.GetEnemyLayer();
         groundLayer = playerActions.GetGroundLayer();
         playerLayer = playerActions.GetPlayerLayer();
+
+        daggerAmount = maxDaggerAmount;
     }
 
     public void Attack()
@@ -380,9 +387,12 @@ public class PlayerAttack : MonoBehaviour
 
     private void LaunchDagger()
     {
-        if (launchDaggerPressed && !launchDaggerInputUsed && daggerCooldownTimer <= 0)
+        if (launchDaggerPressed && !launchDaggerInputUsed && daggerCooldownTimer <= 0 && daggerAmount > 0)
         {
             launchDaggerInputUsed = true;
+            daggerAmount -= 1;
+            daggerBar.SetDaggerCount(daggerAmount);
+
             if (playerActions.facingRight)
             {
                 LaunchDagger dagger = Instantiate(this.dagger, gameObject.transform.position, Quaternion.identity)
@@ -397,6 +407,12 @@ public class PlayerAttack : MonoBehaviour
             }
             daggerCooldownTimer = daggerCooldownTime;
         }
+    }
+
+    public void AddDagger()
+    {
+        daggerAmount += 1;
+        daggerBar.SetDaggerCount(daggerAmount);
     }
 
     private void OnAttack(InputValue value)
